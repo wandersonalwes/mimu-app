@@ -41,7 +41,15 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={DefaultTheme}>
       <SafeAreaProvider>
-        <Stack />
+        <Stack>
+          <Stack.Screen name="index" options={{ title: '' }} />
+          <Stack.Screen name="settings" options={{ title: 'Configurações' }} />
+          <Stack.Screen name="language" options={{ title: 'Mudar idioma' }} />
+          <Stack.Screen name="theme" options={{ title: 'Mudar tema' }} />
+          <Stack.Screen name="subscription" options={{ title: 'Assinatura' }} />
+          <Stack.Screen name="study/[type]" options={{ title: '' }} />
+          <Stack.Screen name="card/[id]" options={{ title: '' }} />
+        </Stack>
       </SafeAreaProvider>
     </ThemeProvider>
   )
