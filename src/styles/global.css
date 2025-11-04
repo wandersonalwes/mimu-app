@@ -1,0 +1,19 @@
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css";
+ 
+@import "nativewind/theme";
+
+@theme {
+    --color-primary: rgb(76, 201, 240);
+    --color-background: rgb(244, 244, 245);
+    --color-foreground: rgb(0, 0, 0);
+    --color-destructive: rgb(239, 68, 68);
+    --color-card: rgb(255, 255, 255);
+    --color-muted-foreground: rgb(161, 161, 170);
+
+    --font-manrope-regular: 'ManropeRegular';
+    --font-manrope-bold: 'ManropeBold';
+    --font-manrope-semibold: 'ManropeSemiBold';
+    --font-manrope-medium: 'ManropeMedium';
+}
