@@ -41,8 +41,13 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={DefaultTheme}>
       <SafeAreaProvider>
-        <Stack>
-          <Stack.Screen name="index" options={{ title: '' }} />
+        <Stack
+          screenOptions={{
+            headerShadowVisible: false,
+            headerBackground: () => null,
+          }}
+        >
+          <Stack.Screen name="index" options={{ title: 'Mimu', headerShown: false }} />
           <Stack.Screen name="settings" options={{ title: 'Configurações' }} />
           <Stack.Screen name="language" options={{ title: 'Mudar idioma' }} />
           <Stack.Screen name="theme" options={{ title: 'Mudar tema' }} />
