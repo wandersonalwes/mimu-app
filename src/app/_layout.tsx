@@ -1,0 +1,43 @@
+import { DefaultTheme, ThemeProvider } from '@react-navigation/native'
+import { useFonts } from 'expo-font'
+import { Stack } from 'expo-router'
+import * as SplashScreen from 'expo-splash-screen'
+import { useEffect } from 'react'
+import 'react-native-reanimated'
+
+export { ErrorBoundary } from 'expo-router'
+
+SplashScreen.preventAutoHideAsync()
+
+export default function RootLayout() {
+  const [loaded, error] = useFonts({
+    ManropeRegular: require('../../assets/fonts/Manrope-Regular.ttf'),
+    ManropeMedium: require('../../assets/fonts/Manrope-Medium.ttf'),
+    ManropeSemiBold: require('../../assets/fonts/Manrope-SemiBold.ttf'),
+    ManropeBold: require('../../assets/fonts/Manrope-Bold.ttf'),
+  })
+
+  useEffect(() => {
+    if (error) throw error
+  }, [error])
+
+  useEffect(() => {
+    if (loaded) {
+      SplashScreen.hideAsync()
+    }
+  }, [loaded])
+
+  if (!loaded) {
+    return null
+  }
+
+  return <RootLayoutNav />
+}
+
+function RootLayoutNav() {
+  return (
+    <ThemeProvider value={DefaultTheme}>
+      <Stack />
+    </ThemeProvider>
+  )
+}
