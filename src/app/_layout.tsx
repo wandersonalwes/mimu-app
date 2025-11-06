@@ -45,6 +45,7 @@ function RootLayoutNav() {
           screenOptions={{
             headerShadowVisible: false,
             headerBackground: () => null,
+            headerBackTitle: ' ',
           }}
         >
           <Stack.Screen name="index" options={{ title: '', headerShown: false }} />

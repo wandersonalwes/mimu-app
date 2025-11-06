@@ -5,6 +5,7 @@ import {
   ArrowLeftIcon as ArrowLeft,
   CardsIcon as Cards,
   CaretRightIcon as CaretRight,
+  CheckIcon as Check,
   FunnelIcon as Funnel,
   GearSixIcon as GearSix,
   HeartIcon as Heart,
@@ -23,6 +24,7 @@ export const ArrowLeftIcon = styled(ArrowLeft, { className: 'style' })
 export const PlusIcon = styled(Plus, { className: 'style' })
 export const GearSixIcon = styled(GearSix, { className: 'style' })
 export const CaretRightIcon = styled(CaretRight, { className: 'style' })
+export const CheckIcon = styled(Check, { className: 'style' })
 export const CardsIcon = styled(Cards, { className: 'style' })
 export const SealQuestionIcon = styled(SealQuestion, { className: 'style' })
 export const TargetIcon = styled(Target, { className: 'style' })
