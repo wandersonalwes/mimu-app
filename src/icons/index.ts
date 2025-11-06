@@ -35,3 +35,4 @@ export const HeartIcon = styled(Heart, { className: 'style' })
 
 // --- Countries ---
 export { BrazilIcon } from './countries/brazil'
+export { UnitedStatesIcon } from './countries/united-states'
