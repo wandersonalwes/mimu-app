@@ -6,6 +6,7 @@
 
 @theme {
     --color-primary: rgb(76, 201, 240);
+    --color-primary-foreground: rgb(255, 255, 255);
     --color-background: rgb(244, 244, 245);
     --color-foreground: rgb(0, 0, 0);
     --color-destructive: rgb(239, 68, 68);
