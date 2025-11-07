@@ -49,7 +49,7 @@ function RootLayoutNav() {
             headerBackTitle: ' ',
           }}
         >
-          <Stack.Screen name="index" options={{ title: '', headerShown: false }} />
+          <Stack.Screen name="index" options={{ header: () => null, title: '' }} />
           <Stack.Screen name="settings" options={{ title: 'Configurações' }} />
           <Stack.Screen name="language" options={{ title: 'Mudar idioma' }} />
           <Stack.Screen name="theme" options={{ title: 'Mudar tema' }} />
