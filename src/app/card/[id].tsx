@@ -7,28 +7,32 @@ import {
   PuzzlePieceIcon,
   SealQuestionIcon,
   SpeakerHighIcon,
-  TargetIcon,
 } from '@/icons'
+import { useLocalSearchParams, useRouter } from 'expo-router'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 const data = [
   {
     title: 'Flashcards',
+    slug: 'flashcards',
     icon: CardsIcon,
   },
   {
     title: 'Perguntas',
+    slug: 'questions',
     icon: SealQuestionIcon,
   },
-  {
-    title: 'Teste Rápido',
-    icon: TargetIcon,
-  },
+  // {
+  //   title: 'Teste Rápido',
+  //   slug: 'quick-test',
+  //   icon: TargetIcon,
+  // },
   {
     title: 'Combinar',
+    slug: 'combine',
     icon: PuzzlePieceIcon,
   },
-]
+] as const
 
 const cards = [
   {
@@ -50,6 +54,9 @@ const cards = [
 
 export default function CardDetailScreen() {
   const { bottom } = useSafeAreaInsets()
+  const router = useRouter()
+  const { id } = useLocalSearchParams<{ id: string }>()
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -63,6 +70,7 @@ export default function CardDetailScreen() {
           <TouchableOpacity
             key={item.title}
             className="flex-row gap-4 items-center px-5 py-3.5 bg-card rounded-2xl"
+            onPress={() => router.push({ pathname: `/study/${item.slug}`, params: { id } })}
           >
             <item.icon size={24} className="text-foreground" />
             <Text className="text-foreground text-sm">{item.title}</Text>
