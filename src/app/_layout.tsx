@@ -54,7 +54,6 @@ function RootLayoutNav() {
           <Stack.Screen name="language" options={{ title: 'Mudar idioma' }} />
           <Stack.Screen name="theme" options={{ title: 'Mudar tema' }} />
           <Stack.Screen name="subscription" options={{ title: 'Assinatura' }} />
-          <Stack.Screen name="study/[type]" options={{ title: '' }} />
           <Stack.Screen name="card/[id]" options={{ title: '' }} />
         </Stack>
       </SafeAreaProvider>
