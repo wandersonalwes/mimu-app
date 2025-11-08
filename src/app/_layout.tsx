@@ -60,6 +60,7 @@ function RootLayoutNav() {
           <Stack.Screen name="theme" options={{ title: 'Mudar tema' }} />
           <Stack.Screen name="subscription" options={{ title: 'Assinatura' }} />
           <Stack.Screen name="card/[id]" options={{ title: '' }} />
+          <Stack.Screen name="card/create" options={{ title: 'Criar uma lista' }} />
         </Stack>
       </ThemeProvider>
     </SafeAreaProvider>

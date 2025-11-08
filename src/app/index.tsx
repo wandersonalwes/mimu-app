@@ -18,6 +18,10 @@ export default function HomeScreen() {
     router.push(`/card/${cardId}`)
   }
 
+  function handleCreateCardPress() {
+    router.push('/card/create')
+  }
+
   return (
     <View className="flex-1 bg-background dark:bg-background-dark">
       <Image
@@ -52,7 +56,7 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        <Fab>
+        <Fab onPress={handleCreateCardPress}>
           <PlusIcon size={24} className="text-white" />
         </Fab>
       </SafeAreaView>
