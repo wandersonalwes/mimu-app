@@ -10,14 +10,17 @@ export function Switch({ checked, onChange }: SwitchProps) {
   return (
     <Pressable
       className={cn('w-10 h-6 rounded-full bg-gray-400 relative', {
-        'bg-primary': checked,
+        'bg-primary dark:bg-primary-dark': checked,
       })}
       onPress={() => onChange?.(!checked)}
     >
       <View
-        className={cn('w-4 h-4 bg-white rounded-full absolute left-1 top-1/2 -translate-y-1/2', {
-          'right-1 left-auto': checked,
-        })}
+        className={cn(
+          'w-4 h-4 bg-primary-foreground dark:bg-primary-foreground-dark rounded-full absolute left-1 top-1/2 -translate-y-1/2',
+          {
+            'right-1 left-auto': checked,
+          }
+        )}
       />
     </Pressable>
   )

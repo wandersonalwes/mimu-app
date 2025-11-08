@@ -49,50 +49,56 @@ export default function CombineScreen() {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }} edges={['bottom']}>
-      <Stack.Screen options={{ title: `${Object.keys(matches).length} / ${right.length}` }} />
+    <View className="flex-1 p-5 bg-background dark:bg-background-dark">
+      <SafeAreaView style={{ flex: 1 }} edges={['bottom']}>
+        <Stack.Screen options={{ title: `${Object.keys(matches).length} / ${right.length}` }} />
 
-      <View className="flex-1 p-5 gap-6 bg-background">
-        <Progress progress={Object.keys(matches).length / right.length} />
+        <View className="flex-1 gap-6">
+          <Progress progress={Object.keys(matches).length / right.length} />
 
-        <Text className="text-base text-foreground font-manrope-regular">Combine os pares</Text>
-        <View className="flex-1 flex-row gap-4">
-          <View className="flex-1 gap-3">
-            {left.map((t, i) => (
-              <MatchItem
-                key={i}
-                label={t.front}
-                matched={matches[i] !== undefined}
-                selected={i === selectedLeft}
-                onPress={() => selectLeft(i)}
-              />
-            ))}
-          </View>
-          <View className="flex-1 gap-3">
-            {right.map((t, i) => {
-              const matchedIndex = Object.values(matches).findIndex((v) => v === i)
-              const matched = matchedIndex !== -1
-              return (
+          <Text className="text-base text-foreground dark:text-foreground-dark font-manrope-regular">
+            Combine os pares
+          </Text>
+          <View className="flex-1 flex-row gap-4">
+            <View className="flex-1 gap-3">
+              {left.map((t, i) => (
                 <MatchItem
                   key={i}
-                  label={t.back}
-                  matched={matched}
-                  onPress={() => selectRight(i)}
+                  label={t.front}
+                  matched={matches[i] !== undefined}
+                  selected={i === selectedLeft}
+                  onPress={() => selectLeft(i)}
                 />
-              )
-            })}
+              ))}
+            </View>
+            <View className="flex-1 gap-3">
+              {right.map((t, i) => {
+                const matchedIndex = Object.values(matches).findIndex((v) => v === i)
+                const matched = matchedIndex !== -1
+                return (
+                  <MatchItem
+                    key={i}
+                    label={t.back}
+                    matched={matched}
+                    onPress={() => selectRight(i)}
+                  />
+                )
+              })}
+            </View>
+          </View>
+          <View className="items-center">
+            {allMatched ? (
+              <Text className="text-green-500 font-manrope-bold">
+                Todas as combinações corretas!
+              </Text>
+            ) : (
+              <Text className="text-xs text-muted-foreground">
+                Selecione um termo e depois sua tradução
+              </Text>
+            )}
           </View>
         </View>
-        <View className="items-center">
-          {allMatched ? (
-            <Text className="text-green-500 font-manrope-bold">Todas as combinações corretas!</Text>
-          ) : (
-            <Text className="text-xs text-muted-foreground">
-              Selecione um termo e depois sua tradução
-            </Text>
-          )}
-        </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </View>
   )
 }

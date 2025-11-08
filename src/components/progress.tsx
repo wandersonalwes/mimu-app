@@ -11,7 +11,7 @@ type ProgressProps = {
 export function Progress({ progress }: ProgressProps) {
   const { colors } = useTheme()
   return (
-    <View className="w-full h-3 bg-card rounded-full overflow-hidden">
+    <View className="w-full h-3 bg-card dark:bg-card-dark rounded-full overflow-hidden">
       <View
         style={{
           backgroundColor: colors.primary,

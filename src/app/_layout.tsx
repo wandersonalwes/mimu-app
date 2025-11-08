@@ -1,11 +1,13 @@
+import { useThemeStore } from '@/stores/theme'
 import '@/styles/global.css'
-import { theme } from '@/styles/theme'
+import { themes } from '@/styles/theme'
 
 import { ThemeProvider } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
 import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
+import { View } from 'react-native'
 import 'react-native-reanimated'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
@@ -39,13 +41,16 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
+  const theme = useThemeStore((state) => state.theme)
   return (
-    <ThemeProvider value={theme}>
-      <SafeAreaProvider>
+    <SafeAreaProvider style={{ flex: 1 }}>
+      <ThemeProvider value={theme === 'dark' ? themes.dark : themes.light}>
         <Stack
           screenOptions={{
             headerShadowVisible: false,
-            headerBackground: () => null,
+            headerBackground: () => (
+              <View className="bg-background dark:bg-background-dark flex-1" />
+            ),
             headerBackTitle: ' ',
           }}
         >
@@ -56,7 +61,7 @@ function RootLayoutNav() {
           <Stack.Screen name="subscription" options={{ title: 'Assinatura' }} />
           <Stack.Screen name="card/[id]" options={{ title: '' }} />
         </Stack>
-      </SafeAreaProvider>
-    </ThemeProvider>
+      </ThemeProvider>
+    </SafeAreaProvider>
   )
 }

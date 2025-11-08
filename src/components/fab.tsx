@@ -5,7 +5,7 @@ export function Fab({ className, ...props }: TouchableOpacityProps) {
   return (
     <TouchableOpacity
       className={cn(
-        'size-16 rounded-full bg-primary justify-center items-center absolute bottom-8 right-5',
+        'size-16 rounded-full bg-primary dark:bg-primary-dark justify-center items-center absolute bottom-8 right-5',
         className
       )}
       {...props}

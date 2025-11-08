@@ -12,17 +12,21 @@ type Props = {
 export function CardListItem({ title, subtitle, onPress }: Props) {
   return (
     <TouchableOpacity
-      className="bg-card rounded-2xl p-6 flex-row items-center justify-between"
+      className="bg-card dark:bg-card-dark rounded-2xl p-6 flex-row items-center justify-between"
       onPress={onPress}
     >
       <View className="gap-2">
-        <Text className="text-foreground text-sm font-manrope-semibold">{title}</Text>
+        <Text className="text-foreground dark:text-foreground-dark text-sm font-manrope-semibold">
+          {title}
+        </Text>
         {subtitle ? (
-          <Text className="text-muted-foreground text-sm font-manrope-regular">{subtitle}</Text>
+          <Text className="text-muted-foreground dark:text-muted-foreground-dark text-sm font-manrope-regular">
+            {subtitle}
+          </Text>
         ) : null}
       </View>
 
-      <CaretRightIcon size={24} className="text-foreground" />
+      <CaretRightIcon size={24} className="text-foreground dark:text-foreground-dark" />
     </TouchableOpacity>
   )
 }

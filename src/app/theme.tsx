@@ -1,13 +1,11 @@
-import { useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { CheckIcon } from '@/icons'
-
-type Theme = 'light' | 'dark' | 'system'
+import { useThemeStore } from '@/stores/theme'
 
 export default function ThemeScreen() {
-  const [selectedTheme, setSelectedTheme] = useState<Theme>('light')
+  const { theme: selectedTheme, setTheme } = useThemeStore()
 
   const themes = [
     { id: 'light', label: 'Claro' },
@@ -16,23 +14,27 @@ export default function ThemeScreen() {
   ] as const
 
   return (
-    <SafeAreaView edges={['bottom']} style={{ flex: 1 }}>
-      <View className="flex-1 px-5 pt-4">
-        <View className="gap-3">
-          {themes.map((theme) => (
-            <TouchableOpacity
-              key={theme.id}
-              className="flex-row items-center gap-4 px-5 h-12 bg-card rounded-xl"
-              onPress={() => setSelectedTheme(theme.id)}
-            >
-              <Text className="flex-1 text-sm font-manrope-regular leading-5 text-foreground">
-                {theme.label}
-              </Text>
-              {selectedTheme === theme.id && <CheckIcon size={16} className="text-foreground" />}
-            </TouchableOpacity>
-          ))}
+    <View className="flex-1 bg-background dark:bg-background-dark">
+      <SafeAreaView edges={['bottom']} style={{ flex: 1 }}>
+        <View className="flex-1 px-5 pt-4">
+          <View className="gap-3">
+            {themes.map((theme) => (
+              <TouchableOpacity
+                key={theme.id}
+                className="flex-row items-center gap-4 px-5 h-12 bg-card dark:bg-card-dark rounded-xl"
+                onPress={() => setTheme(theme.id)}
+              >
+                <Text className="flex-1 text-sm font-manrope-regular leading-5 text-foreground dark:text-foreground-dark">
+                  {theme.label}
+                </Text>
+                {selectedTheme === theme.id && (
+                  <CheckIcon size={16} className="text-foreground dark:text-foreground-dark" />
+                )}
+              </TouchableOpacity>
+            ))}
+          </View>
         </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </View>
   )
 }

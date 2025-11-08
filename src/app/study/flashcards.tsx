@@ -1,5 +1,6 @@
 import { Progress } from '@/components/progress'
 import { HeartIcon, SpeakerHighIcon } from '@/icons'
+import { useTheme } from '@react-navigation/native'
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
 import { useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
@@ -23,6 +24,8 @@ export default function FlashcardsScreen() {
   const [learningCount, setLearningCount] = useState(0)
   const [understoodCount, setUnderstoodCount] = useState(0)
   const [isCompleted, setIsCompleted] = useState(false)
+
+  const { colors } = useTheme()
 
   const card = sampleCards[index]
   const toggleSide = () => setShowBack((s) => !s)
@@ -134,62 +137,68 @@ export default function FlashcardsScreen() {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }} edges={['bottom']}>
-      <Stack.Screen options={{ title: `${index + 1} / ${sampleCards.length}` }} />
+    <View className="flex-1 bg-background dark:bg-background-dark">
+      <SafeAreaView style={{ flex: 1 }} edges={['bottom']}>
+        <Stack.Screen options={{ title: `${index + 1} / ${sampleCards.length}` }} />
 
-      <View className="flex-1 p-5 gap-6 bg-background">
-        {/* Barra de progresso fina, conforme Figma */}
-        <Progress progress={(index + 1) / sampleCards.length} />
+        <View className="flex-1 p-5 gap-6 bg-background dark:bg-background-dark">
+          {/* Barra de progresso fina, conforme Figma */}
+          <Progress progress={(index + 1) / sampleCards.length} />
 
-        {/* Cartão principal com ícones no topo e termo central */}
-        <View className="flex-1">
-          <TouchableOpacity
-            onPress={toggleSide}
-            className="flex-1 w-full bg-card rounded-xl p-8 justify-center"
-            activeOpacity={0.9}
-          >
-            {/* Ícones posicionados no topo do card */}
-            <View className="absolute left-8 top-8">
-              <SpeakerHighIcon size={24} className="text-foreground" />
-            </View>
+          {/* Cartão principal com ícones no topo e termo central */}
+          <View className="flex-1">
             <TouchableOpacity
-              onPress={toggleFavorite}
-              className="absolute right-8 top-8"
-              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+              onPress={toggleSide}
+              className="flex-1 w-full bg-card dark:bg-card-dark rounded-xl p-8 justify-center"
+              activeOpacity={0.9}
             >
-              <HeartIcon
-                size={24}
-                weight={favorites.has(index) ? 'fill' : 'regular'}
-                className={favorites.has(index) ? 'text-red-500' : 'text-foreground'}
-              />
+              {/* Ícones posicionados no topo do card */}
+              <View className="absolute left-8 top-8">
+                <SpeakerHighIcon size={24} className="text-foreground dark:text-foreground-dark" />
+              </View>
+              <TouchableOpacity
+                onPress={toggleFavorite}
+                className="absolute right-8 top-8"
+                hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+              >
+                <HeartIcon
+                  size={24}
+                  weight={favorites.has(index) ? 'fill' : 'regular'}
+                  className={
+                    favorites.has(index)
+                      ? 'text-red-500'
+                      : 'text-foreground dark:text-foreground-dark'
+                  }
+                />
+              </TouchableOpacity>
+
+              <Text className="text-foreground dark:text-foreground-dark text-xl font-manrope-semibold text-center">
+                {showBack ? card.back : card.front}
+              </Text>
             </TouchableOpacity>
+          </View>
 
-            <Text className="text-foreground text-xl font-manrope-semibold text-center">
-              {showBack ? card.back : card.front}
-            </Text>
-          </TouchableOpacity>
+          {/* Botões inferiores lado a lado conforme Figma */}
+          <View className="flex-row gap-4">
+            <TouchableOpacity
+              onPress={handleLearning}
+              className="flex-1 h-14 rounded-xl items-center justify-center bg-[#EF4444]"
+            >
+              <Text className="text-white text-base font-manrope-medium">
+                Aprendendo ({learningCount})
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={handleUnderstood}
+              className="flex-1 h-14 rounded-xl items-center justify-center bg-primary dark:bg-primary-dark"
+            >
+              <Text className="text-white text-base font-manrope-medium">
+                Entendo bem ({understoodCount})
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
-
-        {/* Botões inferiores lado a lado conforme Figma */}
-        <View className="flex-row gap-4">
-          <TouchableOpacity
-            onPress={handleLearning}
-            className="flex-1 h-14 rounded-xl items-center justify-center bg-[#EF4444]"
-          >
-            <Text className="text-white text-base font-manrope-medium">
-              Aprendendo ({learningCount})
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={handleUnderstood}
-            className="flex-1 h-14 rounded-xl items-center justify-center bg-[#4CC9F0]"
-          >
-            <Text className="text-white text-base font-manrope-medium">
-              Entendo bem ({understoodCount})
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </View>
   )
 }

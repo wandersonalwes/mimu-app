@@ -1,6 +1,25 @@
 import { Theme } from '@react-navigation/native'
 
-export const theme: Theme = {
+const fonts = {
+  regular: {
+    fontFamily: 'Manrope-Regular',
+    fontWeight: '400',
+  },
+  medium: {
+    fontFamily: 'Manrope-Medium',
+    fontWeight: '500',
+  },
+  heavy: {
+    fontFamily: 'Manrope-Bold',
+    fontWeight: '600',
+  },
+  bold: {
+    fontFamily: 'Manrope-Bold',
+    fontWeight: '700',
+  },
+} as const
+
+const light: Theme = {
   dark: false,
   colors: {
     primary: 'rgb(76, 201, 240)',
@@ -10,22 +29,20 @@ export const theme: Theme = {
     border: 'rgb(229, 231, 235)',
     notification: 'rgb(239, 68, 68)',
   },
-  fonts: {
-    regular: {
-      fontFamily: 'Manrope-Regular',
-      fontWeight: '400',
-    },
-    medium: {
-      fontFamily: 'Manrope-Medium',
-      fontWeight: '500',
-    },
-    heavy: {
-      fontFamily: 'Manrope-Bold',
-      fontWeight: '600',
-    },
-    bold: {
-      fontFamily: 'Manrope-Bold',
-      fontWeight: '700',
-    },
-  },
+  fonts,
 }
+
+const dark: Theme = {
+  dark: true,
+  colors: {
+    primary: 'rgb(72, 12, 168)',
+    background: 'rgb(255, 255, 255)',
+    card: 'rgb(24, 24, 27)',
+    text: 'rgb(244, 244, 245)',
+    border: 'rgb(229, 231, 235)',
+    notification: 'rgb(239, 68, 68)',
+  },
+  fonts,
+}
+
+export const themes = { light, dark }

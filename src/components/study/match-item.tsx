@@ -22,13 +22,15 @@ export function MatchItem({
       onPress={onPress}
       disabled={disabled ?? matched}
       className={cn(
-        'px-4 py-4 rounded-2xl bg-card border h-20 justify-center items-center',
+        'px-4 py-4 rounded-2xl bg-card dark:bg-card-dark border h-20 justify-center items-center',
         matched && 'border-green-600 opacity-60',
-        !matched && selected && 'border-primary',
+        !matched && selected && 'border-primary dark:border-primary-dark',
         !matched && !selected && 'border-transparent'
       )}
     >
-      <Text className="text-sm text-foreground font-manrope-medium">{label}</Text>
+      <Text className="text-sm text-foreground dark:text-foreground-dark font-manrope-medium">
+        {label}
+      </Text>
     </TouchableOpacity>
   )
 }
