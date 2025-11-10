@@ -7,7 +7,7 @@ import { useFonts } from 'expo-font'
 import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
-import { View } from 'react-native'
+import { useColorScheme, View } from 'react-native'
 import 'react-native-reanimated'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
@@ -41,10 +41,13 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
+  const colorScheme = useColorScheme()
   const theme = useThemeStore((state) => state.theme)
+
+  const isDarkMode = theme === 'dark' || (theme === 'system' && colorScheme === 'dark')
   return (
     <SafeAreaProvider style={{ flex: 1 }}>
-      <ThemeProvider value={theme === 'dark' ? themes.dark : themes.light}>
+      <ThemeProvider value={isDarkMode ? themes.dark : themes.light}>
         <Stack
           screenOptions={{
             headerShadowVisible: false,
