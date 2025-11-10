@@ -1,33 +1,52 @@
-import { useState } from 'react'
-import { Text, View } from 'react-native'
+import { useMemo, useState } from 'react'
+import { Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-import { Stack, useLocalSearchParams } from 'expo-router'
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
 
 import { Progress } from '@/components/progress'
 import { MatchItem } from '@/components/study/match-item'
+import { useCardsByListId } from '@/hooks/use-cards'
 
 type Term = {
   front: string
   back: string
 }
 
-const base: Term[] = [
-  { front: 'Awesome', back: 'Incrível' },
-  { front: 'Cool', back: 'Legal' },
-  { front: 'Great', back: 'Ótimo' },
-  { front: 'Fun', back: 'Divertido' },
-]
-
 const shuffle = <T,>(arr: T[]): T[] => [...arr].sort(() => Math.random() - 0.5)
 
 export default function CombineScreen() {
+  const router = useRouter()
   const { id } = useLocalSearchParams<{ id?: string }>()
-  console.log('id:', id)
+  const cards = useCardsByListId(id!)
+
+  // Transformar cards em Terms e embaralhar
+  const base = useMemo<Term[]>(() => {
+    if (!cards || cards.length === 0) return []
+    return cards.map((card) => ({ front: card.front, back: card.back }))
+  }, [cards])
+
   const [left] = useState(() => shuffle(base))
   const [right] = useState(() => shuffle(base))
   const [selectedLeft, setSelectedLeft] = useState<number | null>(null)
   const [matches, setMatches] = useState<Record<number, number>>({})
+
+  // Se não há cartões, mostrar mensagem
+  if (!cards || cards.length === 0) {
+    return (
+      <View className="flex-1 bg-background dark:bg-background-dark items-center justify-center p-5">
+        <Text className="text-foreground dark:text-foreground-dark text-lg font-manrope-semibold text-center mb-4">
+          Nenhum cartão encontrado
+        </Text>
+        <TouchableOpacity
+          onPress={() => router.back()}
+          className="h-14 px-8 rounded-xl items-center justify-center bg-primary dark:bg-primary-dark"
+        >
+          <Text className="text-white text-base font-manrope-semibold">Voltar</Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
 
   const allMatched = Object.keys(matches).length === base.length
 

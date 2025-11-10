@@ -1,6 +1,7 @@
 import { Progress } from '@/components/progress'
+import { useCardsByListId } from '@/hooks/use-cards'
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -10,33 +11,53 @@ interface QA {
   options: string[]
 }
 
-const buildQuestions = (): QA[] => {
-  const base = [
-    { front: 'Awesome', back: 'Incrível' },
-    { front: 'Cool', back: 'Legal' },
-    { front: 'Great', back: 'Ótimo' },
-    { front: 'Interesting', back: 'Interessante' },
-    { front: 'Fun', back: 'Divertido' },
-    { front: 'Easy', back: 'Fácil' },
-  ]
-  return base.map((b, i) => {
-    const distractors = base
-      .filter((_, di) => di !== i)
-      .slice(0, 3)
-      .map((d) => d.back)
-    const shuffled = [...distractors, b.back].sort(() => Math.random() - 0.5)
-    return { front: b.front, back: b.back, options: shuffled }
-  })
-}
-
-const questions = buildQuestions()
-
 export default function QuestionsScreen() {
   const router = useRouter()
   const { id } = useLocalSearchParams<{ id?: string }>()
+  const cards = useCardsByListId(id!)
+
+  // Gerar perguntas baseadas nos cartões reais
+  const questions = useMemo<QA[]>(() => {
+    if (!cards || cards.length === 0) return []
+
+    return cards.map((card, i) => {
+      // Pegar 3 opções incorretas aleatórias
+      const distractors = cards
+        .filter((_, di) => di !== i)
+        .slice(0, 3)
+        .map((d) => d.back)
+
+      // Embaralhar as opções
+      const shuffled = [...distractors, card.back].sort(() => Math.random() - 0.5)
+
+      return {
+        front: card.front,
+        back: card.back,
+        options: shuffled,
+      }
+    })
+  }, [cards])
+
   const [qIndex, setQIndex] = useState(0)
   const [selected, setSelected] = useState<string | null>(null)
   const [correctCount, setCorrectCount] = useState(0)
+
+  // Se não há cartões, mostrar mensagem
+  if (!cards || cards.length === 0) {
+    return (
+      <View className="flex-1 bg-background dark:bg-background-dark items-center justify-center p-5">
+        <Text className="text-foreground dark:text-foreground-dark text-lg font-manrope-semibold text-center mb-4">
+          Nenhum cartão encontrado
+        </Text>
+        <TouchableOpacity
+          onPress={() => router.back()}
+          className="h-14 px-8 rounded-xl items-center justify-center bg-primary dark:bg-primary-dark"
+        >
+          <Text className="text-white text-base font-manrope-semibold">Voltar</Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
 
   const q = questions[qIndex]
   const answered = selected !== null

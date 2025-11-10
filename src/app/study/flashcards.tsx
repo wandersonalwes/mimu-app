@@ -1,42 +1,48 @@
 import { Progress } from '@/components/progress'
+import { useCardsByListId } from '@/hooks/use-cards'
 import { HeartIcon, SpeakerHighIcon } from '@/icons'
+import { cardActions } from '@/state/card'
 import { useTheme } from '@react-navigation/native'
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
 import { useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-const sampleCards = [
-  { front: 'Awesome', back: 'Incrível' },
-  { front: 'Cool', back: 'Legal' },
-  { front: 'Great', back: 'Ótimo' },
-  { front: 'Interesting', back: 'Interessante' },
-  { front: 'Fun', back: 'Divertido' },
-  { front: 'Easy', back: 'Fácil' },
-]
-
 export default function FlashcardsScreen() {
   const router = useRouter()
   const { id } = useLocalSearchParams<{ id: string }>()
+  const cards = useCardsByListId(id)
+
   const [index, setIndex] = useState(0)
   const [showBack, setShowBack] = useState(false)
-  const [favorites, setFavorites] = useState<Set<number>>(new Set())
   const [learningCount, setLearningCount] = useState(0)
   const [understoodCount, setUnderstoodCount] = useState(0)
   const [isCompleted, setIsCompleted] = useState(false)
 
   const { colors } = useTheme()
 
-  const card = sampleCards[index]
+  // Se não há cartões, mostrar mensagem
+  if (!cards || cards.length === 0) {
+    return (
+      <View className="flex-1 bg-background dark:bg-background-dark items-center justify-center p-5">
+        <Text className="text-foreground dark:text-foreground-dark text-lg font-manrope-semibold text-center mb-4">
+          Nenhum cartão encontrado
+        </Text>
+        <TouchableOpacity
+          onPress={() => router.back()}
+          className="h-14 px-8 rounded-xl items-center justify-center bg-primary dark:bg-primary-dark"
+        >
+          <Text className="text-white text-base font-manrope-semibold">Voltar</Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
+  const card = cards[index]
   const toggleSide = () => setShowBack((s) => !s)
 
   const toggleFavorite = () => {
-    setFavorites((f) => {
-      const n = new Set(f)
-      if (n.has(index)) n.delete(index)
-      else n.add(index)
-      return n
-    })
+    cardActions.toggleFavorite(card.id)
   }
 
   const handleLearning = () => {
@@ -52,7 +58,7 @@ export default function FlashcardsScreen() {
   const nextCard = () => {
     setShowBack(false)
     const nextIndex = index + 1
-    if (nextIndex >= sampleCards.length) {
+    if (nextIndex >= cards.length) {
       setIsCompleted(true)
     } else {
       setIndex(nextIndex)
@@ -139,11 +145,11 @@ export default function FlashcardsScreen() {
   return (
     <View className="flex-1 bg-background dark:bg-background-dark">
       <SafeAreaView style={{ flex: 1 }} edges={['bottom']}>
-        <Stack.Screen options={{ title: `${index + 1} / ${sampleCards.length}` }} />
+        <Stack.Screen options={{ title: `${index + 1} / ${cards.length}` }} />
 
         <View className="flex-1 p-5 gap-6 bg-background dark:bg-background-dark">
           {/* Barra de progresso fina, conforme Figma */}
-          <Progress progress={(index + 1) / sampleCards.length} />
+          <Progress progress={(index + 1) / cards.length} />
 
           {/* Cartão principal com ícones no topo e termo central */}
           <View className="flex-1">
@@ -163,11 +169,9 @@ export default function FlashcardsScreen() {
               >
                 <HeartIcon
                   size={24}
-                  weight={favorites.has(index) ? 'fill' : 'regular'}
+                  weight={card.isFavorite ? 'fill' : 'regular'}
                   className={
-                    favorites.has(index)
-                      ? 'text-red-500'
-                      : 'text-foreground dark:text-foreground-dark'
+                    card.isFavorite ? 'text-red-500' : 'text-foreground dark:text-foreground-dark'
                   }
                 />
               </TouchableOpacity>
