@@ -7,7 +7,7 @@ import { useFonts } from 'expo-font'
 import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
-import { useColorScheme, View } from 'react-native'
+import { Appearance, useColorScheme, View } from 'react-native'
 import 'react-native-reanimated'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
@@ -45,6 +45,13 @@ function RootLayoutNav() {
   const theme = useThemeStore((state) => state.theme)
 
   const isDarkMode = theme === 'dark' || (theme === 'system' && colorScheme === 'dark')
+
+  useEffect(() => {
+    if (isDarkMode) {
+      Appearance.setColorScheme('dark')
+    }
+  }, [isDarkMode])
+
   return (
     <SafeAreaProvider style={{ flex: 1 }}>
       <ThemeProvider value={isDarkMode ? themes.dark : themes.light}>
