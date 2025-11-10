@@ -7,8 +7,9 @@ import { useValue } from '@legendapp/state/react'
 
 import { Images } from '@/assets/images'
 import { CardListItem } from '@/components/card-list-item'
+import { EmptyState } from '@/components/empty-state'
 import { Fab } from '@/components/fab'
-import { GearSixIcon, MimuIcon, PlusIcon } from '@/icons'
+import { BooksIcon, GearSixIcon, MimuIcon, PlusIcon } from '@/icons'
 import { cardActions } from '@/state/card'
 import { listStore$ } from '@/state/list'
 
@@ -56,17 +57,27 @@ export default function HomeScreen() {
           </Link>
         </View>
 
-        <View className="px-5 py-8">
+        <View className="px-5 py-8 flex-1">
           <Text className="text-base font-manrope-bold mb-3 text-foreground dark:text-foreground-dark">
             Lista de cartões
           </Text>
 
-          <FlatList
-            data={lists}
-            keyExtractor={(item) => item.id}
-            renderItem={renderItem}
-            ItemSeparatorComponent={() => <View className="h-3" />}
-          />
+          {lists.length === 0 ? (
+            <EmptyState
+              icon={BooksIcon}
+              title="Nenhuma lista criada"
+              description="Crie sua primeira lista de cartões para começar a estudar"
+              buttonText="Criar primeira lista"
+              onButtonPress={handleCreateCardPress}
+            />
+          ) : (
+            <FlatList
+              data={lists}
+              keyExtractor={(item) => item.id}
+              renderItem={renderItem}
+              ItemSeparatorComponent={() => <View className="h-3" />}
+            />
+          )}
         </View>
 
         <Fab onPress={handleCreateCardPress}>

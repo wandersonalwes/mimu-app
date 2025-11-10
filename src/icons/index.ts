@@ -3,6 +3,7 @@ import { styled } from 'nativewind'
 
 import {
   ArrowLeftIcon as ArrowLeft,
+  BooksIcon as Books,
   CardsIcon as Cards,
   CaretRightIcon as CaretRight,
   CheckIcon as Check,
@@ -29,6 +30,7 @@ export const GearSixIcon = styled(GearSix, { className: 'style' })
 export const CaretRightIcon = styled(CaretRight, { className: 'style' })
 export const CheckIcon = styled(Check, { className: 'style' })
 export const CardsIcon = styled(Cards, { className: 'style' })
+export const BooksIcon = styled(Books, { className: 'style' })
 export const SealQuestionIcon = styled(SealQuestion, { className: 'style' })
 export const TargetIcon = styled(Target, { className: 'style' })
 export const PuzzlePieceIcon = styled(PuzzlePiece, { className: 'style' })

@@ -1,12 +1,14 @@
 import { useState } from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
+import { Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
 
+import { EmptyState } from '@/components/empty-state'
 import { Progress } from '@/components/progress'
 import { MatchItem } from '@/components/study/match-item'
 import { useCardsByListId } from '@/hooks/use-cards'
+import { PuzzlePieceIcon } from '@/icons'
 
 type Term = {
   front: string
@@ -34,16 +36,14 @@ export default function CombineScreen() {
   // Se não há cartões, mostrar mensagem
   if (!cards || cards.length === 0) {
     return (
-      <View className="flex-1 bg-background dark:bg-background-dark items-center justify-center p-5">
-        <Text className="text-foreground dark:text-foreground-dark text-lg font-manrope-semibold text-center mb-4">
-          Nenhum cartão encontrado
-        </Text>
-        <TouchableOpacity
-          onPress={() => router.back()}
-          className="h-14 px-8 rounded-xl items-center justify-center bg-primary dark:bg-primary-dark"
-        >
-          <Text className="text-white text-base font-manrope-semibold">Voltar</Text>
-        </TouchableOpacity>
+      <View className="flex-1 bg-background dark:bg-background-dark">
+        <EmptyState
+          icon={PuzzlePieceIcon}
+          title="Nenhum cartão encontrado"
+          description="Esta lista não possui cartões para estudar"
+          buttonText="Voltar"
+          onButtonPress={() => router.back()}
+        />
       </View>
     )
   }
