@@ -9,6 +9,7 @@ export type Card = {
   front: string
   back: string
   listId: string
+  isFavorite: boolean
   createdAt: number
   updatedAt: number
 }
@@ -18,10 +19,11 @@ type CardStore = {
 }
 
 type CardActions = {
-  addCard: (card: Omit<Card, 'createdAt' | 'updatedAt'>) => void
-  addCards: (cards: Omit<Card, 'createdAt' | 'updatedAt'>[]) => void
+  addCard: (card: Omit<Card, 'createdAt' | 'updatedAt' | 'isFavorite'>) => void
+  addCards: (cards: Omit<Card, 'createdAt' | 'updatedAt' | 'isFavorite'>[]) => void
   updateCard: (id: string, updates: Partial<Omit<Card, 'id' | 'createdAt'>>) => void
   removeCard: (id: string) => void
+  toggleFavorite: (id: string) => void
   getCardsByListId: (listId: string) => Card[]
   removeAllCardsByListId: (listId: string) => void
 }
@@ -49,20 +51,22 @@ syncObservable(
 
 // Actions
 export const cardActions: CardActions = {
-  addCard: (card: Omit<Card, 'createdAt' | 'updatedAt'>) => {
+  addCard: (card: Omit<Card, 'createdAt' | 'updatedAt' | 'isFavorite'>) => {
     const now = Date.now()
     const newCard: Card = {
       ...card,
+      isFavorite: false,
       createdAt: now,
       updatedAt: now,
     }
     cardStore$.cards.push(newCard)
   },
 
-  addCards: (cards: Omit<Card, 'createdAt' | 'updatedAt'>[]) => {
+  addCards: (cards: Omit<Card, 'createdAt' | 'updatedAt' | 'isFavorite'>[]) => {
     const now = Date.now()
     const newCards: Card[] = cards.map((card) => ({
       ...card,
+      isFavorite: false,
       createdAt: now,
       updatedAt: now,
     }))
@@ -83,6 +87,18 @@ export const cardActions: CardActions = {
 
   removeCard: (id: string) => {
     cardStore$.cards.set(cardStore$.cards.get().filter((card) => card.id !== id))
+  },
+
+  toggleFavorite: (id: string) => {
+    const cards = cardStore$.cards.get()
+    const index = cards.findIndex((card) => card.id === id)
+    if (index !== -1) {
+      cardStore$.cards[index].set({
+        ...cards[index],
+        isFavorite: !cards[index].isFavorite,
+        updatedAt: Date.now(),
+      })
+    }
   },
 
   getCardsByListId: (listId: string): Card[] => {
