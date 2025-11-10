@@ -82,13 +82,13 @@ export default function FlashcardsScreen() {
       <SafeAreaView style={{ flex: 1 }} edges={['bottom']}>
         <Stack.Screen options={{ title: 'Resumo' }} />
 
-        <View className="flex-1 p-5 gap-6 bg-background justify-center">
-          <View className="bg-card rounded-xl p-8 gap-6">
-            <Text className="text-foreground text-2xl font-manrope-bold text-center">
+        <View className="flex-1 p-5 gap-6 bg-background dark:bg-background-dark justify-center">
+          <View className="bg-card dark:bg-card-dark rounded-xl p-8 gap-6">
+            <Text className="text-foreground  dark:text-foreground-dark text-2xl font-manrope-bold text-center">
               Parabéns! 🎉
             </Text>
 
-            <Text className="text-foreground text-base font-manrope-regular text-center">
+            <Text className="text-foreground dark:text-foreground-dark text-base font-manrope-regular text-center">
               Você completou todos os flashcards!
             </Text>
 
@@ -105,14 +105,14 @@ export default function FlashcardsScreen() {
                 </Text>
               </View>
 
-              <View className="bg-[#4CC9F0]/10 rounded-xl p-4">
-                <Text className="text-[#4CC9F0] text-lg font-manrope-semibold text-center">
+              <View className="bg-primary/10 rounded-xl p-4">
+                <Text className="text-primary dark:text-primary-foreground-dark text-lg font-manrope-semibold text-center">
                   Entendo bem
                 </Text>
-                <Text className="text-[#4CC9F0] text-3xl font-manrope-bold text-center mt-2">
+                <Text className="text-primary dark:text-primary-foreground-dark text-3xl font-manrope-bold text-center mt-2">
                   {understoodCount}
                 </Text>
-                <Text className="text-foreground/60 text-sm font-manrope-regular text-center mt-1">
+                <Text className="text-foreground/60 dark:text-foreground-dark/60 text-sm font-manrope-regular text-center mt-1">
                   {understoodCount === 1 ? 'palavra' : 'palavras'}
                 </Text>
               </View>
@@ -122,18 +122,20 @@ export default function FlashcardsScreen() {
           <View className="gap-4">
             <TouchableOpacity
               onPress={handleRestart}
-              className="h-14 rounded-xl items-center justify-center bg-primary"
+              className="h-14 rounded-xl items-center justify-center bg-primary dark:bg-primary-dark"
             >
-              <Text className="text-white text-base font-manrope-semibold">
+              <Text className="text-primary-foreground dark:text-primary-foreground-dark text-base font-manrope-semibold">
                 Reiniciar Flashcards
               </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               onPress={handleGoBack}
-              className="h-14 rounded-xl items-center justify-center bg-card"
+              className="h-14 rounded-xl items-center justify-center bg-card dark:bg-card-dark"
             >
-              <Text className="text-foreground text-base font-manrope-semibold">Voltar</Text>
+              <Text className="text-foreground dark:text-foreground-dark text-base font-manrope-semibold">
+                Voltar
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
