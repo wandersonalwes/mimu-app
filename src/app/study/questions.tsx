@@ -1,7 +1,7 @@
 import { Progress } from '@/components/progress'
 import { useCardsByListId } from '@/hooks/use-cards'
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -17,7 +17,8 @@ export default function QuestionsScreen() {
   const cards = useCardsByListId(id!)
 
   // Gerar perguntas baseadas nos cartões reais
-  const questions = useMemo<QA[]>(() => {
+  // Usar useState ao invés de useMemo para não recalcular quando cards mudar
+  const [questions] = useState<QA[]>(() => {
     if (!cards || cards.length === 0) return []
 
     return cards.map((card, i) => {
@@ -36,7 +37,7 @@ export default function QuestionsScreen() {
         options: shuffled,
       }
     })
-  }, [cards])
+  })
 
   const [qIndex, setQIndex] = useState(0)
   const [selected, setSelected] = useState<string | null>(null)

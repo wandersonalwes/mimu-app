@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -20,11 +20,11 @@ export default function CombineScreen() {
   const { id } = useLocalSearchParams<{ id?: string }>()
   const cards = useCardsByListId(id!)
 
-  // Transformar cards em Terms e embaralhar
-  const base = useMemo<Term[]>(() => {
+  // Transformar cards em Terms - usar useState para não recalcular
+  const [base] = useState<Term[]>(() => {
     if (!cards || cards.length === 0) return []
     return cards.map((card) => ({ front: card.front, back: card.back }))
-  }, [cards])
+  })
 
   const [left] = useState(() => shuffle(base))
   const [right] = useState(() => shuffle(base))
