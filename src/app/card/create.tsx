@@ -1,39 +1,107 @@
 import { useState } from 'react'
-import { ScrollView, Text, TextInput, View } from 'react-native'
+import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 
 import { useRouter } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { Fab } from '@/components/fab'
 import { PlusIcon } from '@/icons'
+import { generateId } from '@/libs/generate-id'
+import { validateCards, validateListTitle } from '@/libs/validation'
+import { cardActions } from '@/state/card'
+import { listActions } from '@/state/list'
 
-type CardTerm = {
+type CardInput = {
   id: string
-  term: string
-  definition: string
+  front: string
+  back: string
 }
 
 export default function CreateCardScreen() {
   const router = useRouter()
   const [title, setTitle] = useState('')
-  const [cards, setCards] = useState<CardTerm[]>([
-    { id: '1', term: '', definition: '' },
-    { id: '2', term: '', definition: '' },
-    { id: '3', term: '', definition: '' },
-    { id: '4', term: '', definition: '' },
-  ])
+  const [cards, setCards] = useState<CardInput[]>([{ id: generateId(), front: '', back: '' }])
+  const [isSaving, setIsSaving] = useState(false)
 
   function handleAddCard() {
-    const newCard: CardTerm = {
-      id: Date.now().toString(),
-      term: '',
-      definition: '',
+    const newCard: CardInput = {
+      id: generateId(),
+      front: '',
+      back: '',
     }
     setCards([...cards, newCard])
   }
 
-  function updateCard(id: string, field: 'term' | 'definition', value: string) {
+  function updateCard(id: string, field: 'front' | 'back', value: string) {
     setCards(cards.map((card) => (card.id === id ? { ...card, [field]: value } : card)))
+  }
+
+  function removeCard(id: string) {
+    if (cards.length <= 1) {
+      Alert.alert('Atenção', 'É necessário ter pelo menos um cartão.')
+      return
+    }
+    setCards(cards.filter((card) => card.id !== id))
+  }
+
+  function validateForm(): { isValid: boolean; message?: string } {
+    // Validar título
+    const titleValidation = validateListTitle(title)
+    if (!titleValidation.isValid) {
+      return titleValidation
+    }
+
+    // Validar cartões
+    const cardsValidation = validateCards(cards)
+    if (!cardsValidation.isValid) {
+      return cardsValidation
+    }
+
+    return { isValid: true }
+  }
+
+  function handleSave() {
+    const validation = validateForm()
+
+    if (!validation.isValid) {
+      Alert.alert('Validação', validation.message || 'Por favor, preencha todos os campos.')
+      return
+    }
+
+    setIsSaving(true)
+
+    try {
+      // Criar a lista
+      const listId = generateId()
+      listActions.addList({
+        id: listId,
+        name: title.trim(),
+      })
+
+      // Filtrar e adicionar apenas cartões válidos
+      const validCards = cards
+        .filter((card) => card.front.trim() && card.back.trim())
+        .map((card) => ({
+          id: generateId(),
+          front: card.front.trim(),
+          back: card.back.trim(),
+          listId,
+        }))
+
+      cardActions.addCards(validCards)
+
+      Alert.alert('Sucesso', 'Lista criada com sucesso!', [
+        {
+          text: 'OK',
+          onPress: () => router.back(),
+        },
+      ])
+    } catch (error) {
+      console.error('Error saving list:', error)
+      Alert.alert('Erro', 'Não foi possível salvar a lista. Tente novamente.')
+    } finally {
+      setIsSaving(false)
+    }
   }
 
   return (
@@ -41,6 +109,22 @@ export default function CreateCardScreen() {
       <SafeAreaView edges={['bottom']} style={{ flex: 1 }}>
         <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
           <View className="px-5 py-6">
+            {/* Header com botão Salvar */}
+            <View className="flex-row items-center justify-between mb-6">
+              <Text className="text-2xl font-manrope-bold text-foreground dark:text-foreground-dark">
+                Nova Lista
+              </Text>
+              <TouchableOpacity
+                onPress={handleSave}
+                disabled={isSaving}
+                className="bg-primary dark:bg-primary-dark px-6 py-2.5 rounded-lg active:opacity-80"
+              >
+                <Text className="text-sm font-manrope-semibold text-white">
+                  {isSaving ? 'Salvando...' : 'Salvar'}
+                </Text>
+              </TouchableOpacity>
+            </View>
+
             <Text className="text-sm font-manrope-semibold text-foreground dark:text-foreground-dark mb-2.5">
               Título
             </Text>
@@ -50,25 +134,50 @@ export default function CreateCardScreen() {
                 onChangeText={setTitle}
                 placeholder="Tema, capítulo, unidade"
                 placeholderTextColor="#9D9D9D"
-                className="text-sm font-manrope-semibold text-foreground"
+                className="text-sm font-manrope-semibold text-foreground dark:text-foreground-dark"
+                editable={!isSaving}
               />
             </View>
 
             {/* Cartões Section */}
-            <Text className="text-sm font-manrope-semibold text-foreground mb-[15px]">Cartões</Text>
+            <View className="flex-row items-center justify-between mb-4">
+              <Text className="text-sm font-manrope-semibold text-foreground dark:text-foreground-dark">
+                Cartões ({cards.length})
+              </Text>
+            </View>
 
             {/* Card List */}
             <View className="gap-5">
               {cards.map((card, index) => (
                 <View key={card.id} className="relative">
+                  {/* Card Number and Remove Button */}
+                  <View className="flex-row items-center justify-between mb-2">
+                    <Text className="text-xs font-manrope-medium text-muted dark:text-muted-dark">
+                      Cartão {index + 1}
+                    </Text>
+                    {cards.length > 1 && (
+                      <TouchableOpacity
+                        onPress={() => removeCard(card.id)}
+                        disabled={isSaving}
+                        className="active:opacity-60"
+                      >
+                        <Text className="text-xs font-manrope-medium text-destructive dark:text-destructive-dark">
+                          Remover
+                        </Text>
+                      </TouchableOpacity>
+                    )}
+                  </View>
+
                   {/* Term Input */}
                   <View className="bg-card dark:bg-card-dark rounded-t-xl px-4 py-4">
                     <TextInput
-                      value={card.term}
-                      onChangeText={(value) => updateCard(card.id, 'term', value)}
-                      placeholder="Termo"
+                      value={card.front}
+                      onChangeText={(value) => updateCard(card.id, 'front', value)}
+                      placeholder="Frente"
                       placeholderTextColor="#9D9D9D"
                       className="text-sm font-manrope-semibold text-foreground dark:text-foreground-dark"
+                      editable={!isSaving}
+                      multiline
                     />
                   </View>
 
@@ -78,11 +187,13 @@ export default function CreateCardScreen() {
                   {/* Definition Input */}
                   <View className="bg-card dark:bg-card-dark rounded-b-xl px-4 py-4">
                     <TextInput
-                      value={card.definition}
-                      onChangeText={(value) => updateCard(card.id, 'definition', value)}
-                      placeholder="Definição"
+                      value={card.back}
+                      onChangeText={(value) => updateCard(card.id, 'back', value)}
+                      placeholder="Verso"
                       placeholderTextColor="#9D9D9D"
                       className="text-sm font-manrope-semibold text-foreground dark:text-foreground-dark"
+                      editable={!isSaving}
+                      multiline
                     />
                   </View>
                 </View>
@@ -95,9 +206,11 @@ export default function CreateCardScreen() {
         </ScrollView>
 
         {/* FAB */}
-        <Fab onPress={handleAddCard}>
-          <PlusIcon size={24} className="text-white" />
-        </Fab>
+        {!isSaving && (
+          <Fab onPress={handleAddCard}>
+            <PlusIcon size={24} className="text-white" />
+          </Fab>
+        )}
       </SafeAreaView>
     </View>
   )

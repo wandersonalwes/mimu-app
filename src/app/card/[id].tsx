@@ -8,6 +8,8 @@ import {
   SealQuestionIcon,
   SpeakerHighIcon,
 } from '@/icons'
+import { cardActions, type Card } from '@/state/card'
+import { listActions } from '@/state/list'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
@@ -57,6 +59,15 @@ export default function CardDetailScreen() {
   const router = useRouter()
   const { id } = useLocalSearchParams<{ id: string }>()
 
+  const list = listActions.getListById(id)
+  const cards = cardActions.getCardsByListId(id)
+
+  const cardsInList = cards.length
+
+  if (!list) {
+    return null
+  }
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -64,9 +75,11 @@ export default function CardDetailScreen() {
       className="bg-background dark:bg-background-dark"
     >
       <Text className="font-manrope-bold mb-1 text-foreground dark:text-foreground-dark">
-        Iniciante
+        {list.name}
       </Text>
-      <Text className="text-sm text-muted-foreground mb-6">3 termos</Text>
+      <Text className="text-sm text-muted-foreground mb-6">
+        {cardsInList} {cardsInList === 1 ? 'termo' : 'termos'}
+      </Text>
 
       <View className="gap-3 mb-8">
         {data.map((item) => (
@@ -94,9 +107,9 @@ export default function CardDetailScreen() {
       </View>
 
       <View className="gap-3">
-        {cards.map((card, index) => (
+        {cards.map((card: Card, index: number) => (
           <TouchableOpacity
-            key={index}
+            key={card.id}
             className="bg-card dark:bg-card-dark rounded-2xl px-5 py-4 flex-row items-start justify-between"
           >
             <View className="gap-2">
@@ -104,6 +117,7 @@ export default function CardDetailScreen() {
                 {card.front}
               </Text>
               <Text className="text-foreground dark:text-foreground-dark text-sm font-manrope-regular">
+                {card.back}
                 {card.back}
               </Text>
             </View>

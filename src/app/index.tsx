@@ -1,15 +1,21 @@
-import { Image, Text, TouchableOpacity, useColorScheme, View } from 'react-native'
+import { FlatList, Image, Text, TouchableOpacity, useColorScheme, View } from 'react-native'
 
 import { Link, useRouter } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
+
+import { useValue } from '@legendapp/state/react'
 
 import { Images } from '@/assets/images'
 import { CardListItem } from '@/components/card-list-item'
 import { Fab } from '@/components/fab'
 import { GearSixIcon, MimuIcon, PlusIcon } from '@/icons'
+import { cardActions } from '@/state/card'
+import { listStore$ } from '@/state/list'
 
 export default function HomeScreen() {
   const router = useRouter()
+
+  const lists = useValue(listStore$.lists)
 
   const colorScheme = useColorScheme()
   const isDark = colorScheme === 'dark'
@@ -20,6 +26,17 @@ export default function HomeScreen() {
 
   function handleCreateCardPress() {
     router.push('/card/create')
+  }
+
+  const renderItem = ({ item }: { item: (typeof lists)[number] }) => {
+    const cardsInList = cardActions.getCardsByListId(item.id).length
+    return (
+      <CardListItem
+        title={item.name}
+        subtitle={`${cardsInList} ${cardsInList === 1 ? 'termo' : 'termos'}`}
+        onPress={() => handleCardPress(item.id)}
+      />
+    )
   }
 
   return (
@@ -44,16 +61,12 @@ export default function HomeScreen() {
             Lista de cartões
           </Text>
 
-          <View className="gap-3">
-            {Array.from({ length: 5 }).map((_, index) => (
-              <CardListItem
-                key={index}
-                title={`Cartão ${index + 1}`}
-                subtitle="25 termos"
-                onPress={() => handleCardPress((index + 1).toString())}
-              />
-            ))}
-          </View>
+          <FlatList
+            data={lists}
+            keyExtractor={(item) => item.id}
+            renderItem={renderItem}
+            ItemSeparatorComponent={() => <View className="h-3" />}
+          />
         </View>
 
         <Fab onPress={handleCreateCardPress}>
