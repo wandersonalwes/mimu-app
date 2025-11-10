@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 
 import { Stack, useRouter } from 'expo-router'
@@ -104,11 +104,10 @@ export default function CreateCardScreen() {
     }
   }
 
-  const headerRight = useCallback(() => {
-    console.log('isSaving', isSaving)
+  function headerRight() {
     return (
       <TouchableOpacity
-        onPress={handleSave}
+        onPressIn={handleSave}
         disabled={isSaving}
         className="bg-primary dark:bg-primary-dark px-6 py-2.5 rounded-lg active:opacity-80"
       >
@@ -117,7 +116,7 @@ export default function CreateCardScreen() {
         </Text>
       </TouchableOpacity>
     )
-  }, [isSaving, handleSave])
+  }
 
   return (
     <>

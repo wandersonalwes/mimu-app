@@ -129,7 +129,7 @@ export default function CardDetailScreen() {
       <Stack.Screen
         options={{
           headerRight: () => (
-            <TouchableOpacity onPress={showListOptions} className="p-2 -mr-2">
+            <TouchableOpacity onPressIn={showListOptions} className="p-2 -mr-2">
               <DotsThreeIcon size={24} className="text-foreground dark:text-foreground-dark" />
             </TouchableOpacity>
           ),
