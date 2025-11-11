@@ -1,10 +1,11 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { Alert, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 
 import BottomSheet from '@gorhom/bottom-sheet'
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
+import { ConfirmDeleteSheet } from '@/components/confirm-delete-sheet'
 import { ListOptionsSheet } from '@/components/list-options-sheet'
 import { useCardsByListId } from '@/hooks/use-cards'
 import { useList } from '@/hooks/use-lists'
@@ -49,6 +50,8 @@ export default function CardDetailScreen() {
   const router = useRouter()
   const { id } = useLocalSearchParams<{ id: string }>()
   const bottomSheetRef = useRef<BottomSheet>(null)
+  const deleteCardSheetRef = useRef<BottomSheet>(null)
+  const [cardToDelete, setCardToDelete] = useState<string | null>(null)
 
   // Usar hooks reativos para atualização em tempo real
   const list = useList(id)
@@ -99,19 +102,15 @@ export default function CardDetailScreen() {
       return
     }
 
-    Alert.alert('Excluir Cartão', 'Tem certeza que deseja excluir este cartão?', [
-      {
-        text: 'Cancelar',
-        style: 'cancel',
-      },
-      {
-        text: 'Excluir',
-        style: 'destructive',
-        onPress: () => {
-          cardActions.removeCard(cardId)
-        },
-      },
-    ])
+    setCardToDelete(cardId)
+    deleteCardSheetRef.current?.expand()
+  }
+
+  function confirmDeleteCard() {
+    if (cardToDelete) {
+      cardActions.removeCard(cardToDelete)
+      setCardToDelete(null)
+    }
   }
 
   function showListOptions() {
@@ -242,6 +241,13 @@ export default function CardDetailScreen() {
         ref={bottomSheetRef}
         onEdit={handleEditList}
         onDelete={handleDeleteListFromSheet}
+      />
+
+      <ConfirmDeleteSheet
+        ref={deleteCardSheetRef}
+        title="Excluir Cartão"
+        message="Tem certeza que deseja excluir este cartão?"
+        onConfirm={confirmDeleteCard}
       />
     </>
   )
