@@ -2,7 +2,7 @@
   "expo": {
     "name": "Mimu",
     "slug": "mimu",
-    "version": "1.0.0",
+    "version": "0.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "mimu",
@@ -18,7 +18,8 @@
       "infoPlist": {
         "UIDesignRequiresCompatibility": true
       },
-      "bundleIdentifier": "com.wandersonalwes.mimu"
+      "bundleIdentifier": "dev.wanderson.mimu",
+      "buildNumber": "1"
     },
     "android": {
       "adaptiveIcon": {
@@ -26,7 +27,9 @@
         "backgroundColor": "#480CA8"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "dev.wanderson.mimu",
+      "versionCode": 1
     },
     "web": {
       "bundler": "metro",
@@ -36,6 +39,12 @@
     "plugins": ["expo-router"],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "0fee4b7e-c695-47e4-806c-d2897ffb2dfd"
+      }
     }
   }
 }
