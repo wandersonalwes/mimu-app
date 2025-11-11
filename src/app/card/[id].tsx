@@ -159,7 +159,7 @@ export default function CardDetailScreen() {
             <Text className="text-foreground text-sm font-manrope-medium dark:text-foreground-dark">
               Ordem original
             </Text>
-            <FunnelIcon size={20} />
+            <FunnelIcon size={20} className="text-foreground dark:text-foreground-dark" />
           </TouchableOpacity>
         </View>
 
