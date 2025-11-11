@@ -1,5 +1,11 @@
+import { useRef } from 'react'
 import { Alert, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 
+import BottomSheet from '@gorhom/bottom-sheet'
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+
+import { ListOptionsSheet } from '@/components/list-options-sheet'
 import { useCardsByListId } from '@/hooks/use-cards'
 import { useList } from '@/hooks/use-lists'
 import {
@@ -14,8 +20,6 @@ import {
 } from '@/icons'
 import { cardActions, type Card } from '@/state/card'
 import { listActions } from '@/state/list'
-import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 const data = [
   {
@@ -44,6 +48,7 @@ export default function CardDetailScreen() {
   const { bottom } = useSafeAreaInsets()
   const router = useRouter()
   const { id } = useLocalSearchParams<{ id: string }>()
+  const bottomSheetRef = useRef<BottomSheet>(null)
 
   // Usar hooks reativos para atualização em tempo real
   const list = useList(id)
@@ -78,7 +83,10 @@ export default function CardDetailScreen() {
   }
 
   function handleEditList() {
-    router.push(`/card/edit/${id}`)
+    bottomSheetRef.current?.close()
+    setTimeout(() => {
+      router.push(`/card/edit/${id}`)
+    }, 300)
   }
 
   function handleToggleFavorite(cardId: string) {
@@ -107,21 +115,32 @@ export default function CardDetailScreen() {
   }
 
   function showListOptions() {
-    Alert.alert('Opções da Lista', '', [
-      {
-        text: 'Editar Lista',
-        onPress: handleEditList,
-      },
-      {
-        text: 'Excluir Lista',
-        style: 'destructive',
-        onPress: handleDeleteList,
-      },
-      {
-        text: 'Cancelar',
-        style: 'cancel',
-      },
-    ])
+    bottomSheetRef.current?.expand()
+  }
+
+  function handleDeleteListFromSheet() {
+    bottomSheetRef.current?.close()
+    setTimeout(() => {
+      Alert.alert(
+        'Excluir Lista',
+        'Tem certeza que deseja excluir esta lista e todos os seus cartões?',
+        [
+          {
+            text: 'Cancelar',
+            style: 'cancel',
+          },
+          {
+            text: 'Excluir',
+            style: 'destructive',
+            onPress: () => {
+              cardActions.removeAllCardsByListId(id)
+              listActions.removeList(id)
+              router.back()
+            },
+          },
+        ]
+      )
+    }, 300)
   }
 
   return (
@@ -218,6 +237,12 @@ export default function CardDetailScreen() {
           ))}
         </View>
       </ScrollView>
+
+      <ListOptionsSheet
+        ref={bottomSheetRef}
+        onEdit={handleEditList}
+        onDelete={handleDeleteListFromSheet}
+      />
     </>
   )
 }

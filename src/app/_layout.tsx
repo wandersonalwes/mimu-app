@@ -8,6 +8,7 @@ import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
 import { Appearance, useColorScheme, View } from 'react-native'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import 'react-native-reanimated'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
@@ -53,27 +54,29 @@ function RootLayoutNav() {
   }, [isDarkMode])
 
   return (
-    <SafeAreaProvider style={{ flex: 1 }}>
-      <ThemeProvider value={isDarkMode ? themes.dark : themes.light}>
-        <Stack
-          screenOptions={{
-            headerShadowVisible: false,
-            headerBackground: () => (
-              <View className="bg-background dark:bg-background-dark flex-1" />
-            ),
-            headerBackTitle: ' ',
-            headerTitleStyle: { fontFamily: 'ManropeSemiBold', fontSize: 16 },
-          }}
-        >
-          <Stack.Screen name="index" options={{ header: () => null, title: '' }} />
-          <Stack.Screen name="settings" options={{ title: 'Configurações' }} />
-          <Stack.Screen name="language" options={{ title: 'Mudar idioma' }} />
-          <Stack.Screen name="theme" options={{ title: 'Mudar tema' }} />
-          <Stack.Screen name="subscription" options={{ title: 'Assinatura' }} />
-          <Stack.Screen name="card/[id]" options={{ title: '' }} />
-          <Stack.Screen name="card/create" options={{ title: 'Criar uma lista' }} />
-        </Stack>
-      </ThemeProvider>
-    </SafeAreaProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider style={{ flex: 1 }}>
+        <ThemeProvider value={isDarkMode ? themes.dark : themes.light}>
+          <Stack
+            screenOptions={{
+              headerShadowVisible: false,
+              headerBackground: () => (
+                <View className="bg-background dark:bg-background-dark flex-1" />
+              ),
+              headerBackTitle: ' ',
+              headerTitleStyle: { fontFamily: 'ManropeSemiBold', fontSize: 16 },
+            }}
+          >
+            <Stack.Screen name="index" options={{ header: () => null, title: '' }} />
+            <Stack.Screen name="settings" options={{ title: 'Configurações' }} />
+            <Stack.Screen name="language" options={{ title: 'Mudar idioma' }} />
+            <Stack.Screen name="theme" options={{ title: 'Mudar tema' }} />
+            <Stack.Screen name="subscription" options={{ title: 'Assinatura' }} />
+            <Stack.Screen name="card/[id]" options={{ title: '' }} />
+            <Stack.Screen name="card/create" options={{ title: 'Criar uma lista' }} />
+          </Stack>
+        </ThemeProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   )
 }
