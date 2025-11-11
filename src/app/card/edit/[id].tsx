@@ -1,10 +1,18 @@
-import { useEffect, useState } from 'react'
-import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { useEffect, useRef, useState } from 'react'
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
-import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { Fab } from '@/components/fab'
+import { useKeyboardHeight } from '@/hooks'
 import { PlusIcon } from '@/icons'
 import { generateId } from '@/libs/generate-id'
 import { toast } from '@/libs/toast'
@@ -22,11 +30,13 @@ type CardInput = {
 export default function EditCardScreen() {
   const router = useRouter()
   const { id } = useLocalSearchParams<{ id: string }>()
+  const scrollRef = useRef<ScrollView>(null)
 
   const [title, setTitle] = useState('')
   const [cards, setCards] = useState<CardInput[]>([])
   const [isSaving, setIsSaving] = useState(false)
   const [deletedCardIds, setDeletedCardIds] = useState<string[]>([])
+  const keyboardHeight = useKeyboardHeight()
 
   useEffect(() => {
     const list = listActions.getListById(id)
@@ -55,6 +65,11 @@ export default function EditCardScreen() {
       isNew: true,
     }
     setCards([...cards, newCard])
+
+    // Scroll para o final após adicionar o card
+    setTimeout(() => {
+      scrollRef.current?.scrollToEnd({ animated: true })
+    }, 100)
   }
 
   function updateCard(id: string, field: 'front' | 'back', value: string) {
@@ -172,8 +187,17 @@ export default function EditCardScreen() {
       />
 
       <View className="flex-1 bg-background dark:bg-background-dark">
-        <SafeAreaView edges={['bottom']} style={{ flex: 1 }}>
-          <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+        <ScrollView
+          ref={scrollRef}
+          className="flex-1"
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={{ paddingBottom: keyboardHeight > 0 ? keyboardHeight + 100 : 100 }}
+        >
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
+          >
             <View className="px-5 py-6">
               <Text className="text-sm font-manrope-semibold text-foreground dark:text-foreground-dark mb-2.5">
                 Título
@@ -254,15 +278,15 @@ export default function EditCardScreen() {
               {/* Bottom spacing for FAB */}
               <View className="h-24" />
             </View>
-          </ScrollView>
+          </KeyboardAvoidingView>
+        </ScrollView>
 
-          {/* FAB */}
-          {!isSaving && (
-            <Fab onPress={handleAddCard}>
-              <PlusIcon size={24} className="text-white" />
-            </Fab>
-          )}
-        </SafeAreaView>
+        {/* FAB */}
+        {!isSaving && (
+          <Fab onPress={handleAddCard} keyboardOffset={keyboardHeight}>
+            <PlusIcon size={24} className="text-white" />
+          </Fab>
+        )}
       </View>
     </>
   )
