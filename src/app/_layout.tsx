@@ -48,9 +48,7 @@ function RootLayoutNav() {
   const isDarkMode = theme === 'dark' || (theme === 'system' && colorScheme === 'dark')
 
   useEffect(() => {
-    if (isDarkMode) {
-      Appearance.setColorScheme('dark')
-    }
+    Appearance.setColorScheme(isDarkMode ? 'dark' : 'light')
   }, [isDarkMode])
 
   return (
