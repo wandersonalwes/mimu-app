@@ -1,9 +1,9 @@
 import { EmptyState } from '@/components/empty-state'
 import { Progress } from '@/components/progress'
 import { useCardsByListId } from '@/hooks/use-cards'
+import { useSpeech } from '@/hooks/use-speech'
 import { CardsIcon, HeartIcon, SpeakerHighIcon } from '@/icons'
 import { cardActions } from '@/state/card'
-import { useTheme } from '@react-navigation/native'
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
 import { useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
@@ -20,7 +20,7 @@ export default function FlashcardsScreen() {
   const [understoodCount, setUnderstoodCount] = useState(0)
   const [isCompleted, setIsCompleted] = useState(false)
 
-  const { colors } = useTheme()
+  const { speak } = useSpeech()
 
   // Se não há cartões, mostrar mensagem
   if (!cards || cards.length === 0) {
@@ -74,6 +74,11 @@ export default function FlashcardsScreen() {
 
   const handleGoBack = () => {
     router.back()
+  }
+
+  const handleSpeak = () => {
+    const textToSpeak = showBack ? card.back : card.front
+    speak(textToSpeak)
   }
 
   // Tela de resumo
@@ -161,7 +166,12 @@ export default function FlashcardsScreen() {
             >
               {/* Ícones posicionados no topo do card */}
               <View className="absolute left-8 top-8">
-                <SpeakerHighIcon size={24} className="text-foreground dark:text-foreground-dark" />
+                <TouchableOpacity onPress={handleSpeak}>
+                  <SpeakerHighIcon
+                    size={24}
+                    className="text-foreground dark:text-foreground-dark"
+                  />
+                </TouchableOpacity>
               </View>
               <TouchableOpacity
                 onPress={toggleFavorite}

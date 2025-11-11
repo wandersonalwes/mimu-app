@@ -9,6 +9,7 @@ import { ConfirmDeleteSheet } from '@/components/confirm-delete-sheet'
 import { ListOptionsSheet } from '@/components/list-options-sheet'
 import { useCardsByListId } from '@/hooks/use-cards'
 import { useList } from '@/hooks/use-lists'
+import { useSpeech } from '@/hooks/use-speech'
 import {
   CardsIcon,
   DotsThreeIcon,
@@ -58,6 +59,7 @@ export default function CardDetailScreen() {
   // Usar hooks reativos para atualização em tempo real
   const list = useList(id)
   const cards = useCardsByListId(id)
+  const { speak, isSpeaking } = useSpeech()
 
   const cardsInList = cards.length
 
@@ -108,6 +110,10 @@ export default function CardDetailScreen() {
     setTimeout(() => {
       deleteListSheetRef.current?.expand()
     }, 300)
+  }
+
+  function handleSpeak(text: string) {
+    speak(text)
   }
 
   return (
@@ -164,7 +170,7 @@ export default function CardDetailScreen() {
         </View>
 
         <View className="gap-3">
-          {cards.map((card: Card, index: number) => (
+          {cards.map((card: Card) => (
             <View
               key={card.id}
               className="bg-card dark:bg-card-dark rounded-2xl px-5 py-4 flex-row items-start justify-between"
@@ -179,7 +185,7 @@ export default function CardDetailScreen() {
               </View>
 
               <View className="flex-row gap-3 items-center">
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => handleSpeak(card.front)}>
                   <SpeakerHighIcon
                     size={20}
                     className="text-foreground dark:text-foreground-dark"
