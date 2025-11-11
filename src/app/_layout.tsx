@@ -1,3 +1,4 @@
+import { toastConfig } from '@/libs/toast'
 import { useThemeStore } from '@/stores/theme'
 import '@/styles/global.css'
 import { themes } from '@/styles/theme'
@@ -11,6 +12,7 @@ import { Appearance, useColorScheme, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import 'react-native-reanimated'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
+import Toast from 'react-native-toast-message'
 
 export { ErrorBoundary } from 'expo-router'
 
@@ -73,6 +75,8 @@ function RootLayoutNav() {
             <Stack.Screen name="card/[id]" options={{ title: '' }} />
             <Stack.Screen name="card/create" options={{ title: 'Criar uma lista' }} />
           </Stack>
+
+          <Toast config={toastConfig} position="top" />
         </ThemeProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>

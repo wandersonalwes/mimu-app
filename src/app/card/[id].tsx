@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { Alert, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
 
 import BottomSheet from '@gorhom/bottom-sheet'
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
@@ -19,6 +19,7 @@ import {
   SpeakerHighIcon,
   TrashIcon,
 } from '@/icons'
+import { toast } from '@/libs/toast'
 import { cardActions, type Card } from '@/state/card'
 import { listActions } from '@/state/list'
 
@@ -83,7 +84,7 @@ export default function CardDetailScreen() {
 
   function handleDeleteCard(cardId: string) {
     if (cards.length <= 1) {
-      Alert.alert('Atenção', 'Não é possível excluir o último cartão. Exclua a lista completa.')
+      toast.warning({ title: 'Não é possível excluir o último cartão. Exclua a lista completa.' })
       return
     }
 

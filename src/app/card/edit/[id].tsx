@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { Fab } from '@/components/fab'
 import { PlusIcon } from '@/icons'
 import { generateId } from '@/libs/generate-id'
+import { toast } from '@/libs/toast'
 import { validateCards, validateListTitle } from '@/libs/validation'
 import { cardActions } from '@/state/card'
 import { listActions } from '@/state/list'
@@ -62,7 +63,7 @@ export default function EditCardScreen() {
 
   function removeCard(id: string) {
     if (cards.length <= 1) {
-      Alert.alert('Atenção', 'É necessário ter pelo menos um cartão.')
+      toast.warning({ title: 'É necessário ter pelo menos um cartão.' })
       return
     }
 
@@ -93,7 +94,9 @@ export default function EditCardScreen() {
     const validation = validateForm()
 
     if (!validation.isValid) {
-      Alert.alert('Validação', validation.message || 'Por favor, preencha todos os campos.')
+      toast.error({
+        title: validation.message || 'Por favor, preencha todos os campos.',
+      })
       return
     }
 
@@ -131,15 +134,15 @@ export default function EditCardScreen() {
         }
       })
 
-      Alert.alert('Sucesso', 'Lista atualizada com sucesso!', [
-        {
-          text: 'OK',
-          onPress: () => router.back(),
-        },
-      ])
+      toast.success({ title: 'Lista atualizada com sucesso!' })
+
+      router.back()
     } catch (error) {
       console.error('Error updating list:', error)
-      Alert.alert('Erro', 'Não foi possível atualizar a lista. Tente novamente.')
+      toast.error({
+        title: 'Erro',
+        description: 'Não foi possível atualizar a lista. Tente novamente.',
+      })
     } finally {
       setIsSaving(false)
     }

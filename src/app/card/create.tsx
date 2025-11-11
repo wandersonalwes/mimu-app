@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react'
 import {
-  Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -16,6 +15,7 @@ import { Fab } from '@/components/fab'
 import { useKeyboardHeight } from '@/hooks'
 import { PlusIcon } from '@/icons'
 import { generateId } from '@/libs/generate-id'
+import { toast } from '@/libs/toast'
 import { validateCards, validateListTitle } from '@/libs/validation'
 import { cardActions } from '@/state/card'
 import { listActions } from '@/state/list'
@@ -54,7 +54,7 @@ export default function CreateCardScreen() {
 
   function removeCard(id: string) {
     if (cards.length <= 1) {
-      Alert.alert('Atenção', 'É necessário ter pelo menos um cartão.')
+      toast.warning({ title: 'Atenção', description: 'É necessário ter pelo menos um cartão.' })
       return
     }
     setCards(cards.filter((card) => card.id !== id))
@@ -80,7 +80,9 @@ export default function CreateCardScreen() {
     const validation = validateForm()
 
     if (!validation.isValid) {
-      Alert.alert('Validação', validation.message || 'Por favor, preencha todos os campos.')
+      toast.error({
+        title: validation.message || 'Por favor, preencha todos os campos.',
+      })
       return
     }
 
@@ -106,15 +108,15 @@ export default function CreateCardScreen() {
 
       cardActions.addCards(validCards)
 
-      Alert.alert('Sucesso', 'Lista criada com sucesso!', [
-        {
-          text: 'OK',
-          onPress: () => router.back(),
-        },
-      ])
+      toast.success({ title: 'Lista criada com sucesso!' })
+
+      router.back()
     } catch (error) {
       console.error('Error saving list:', error)
-      Alert.alert('Erro', 'Não foi possível salvar a lista. Tente novamente.')
+      toast.error({
+        title: 'Erro',
+        description: 'Não foi possível salvar a lista. Tente novamente.',
+      })
     } finally {
       setIsSaving(false)
     }
