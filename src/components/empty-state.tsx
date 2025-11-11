@@ -1,5 +1,6 @@
+import { useTheme } from '@react-navigation/native'
 import type { Icon } from 'phosphor-react-native'
-import { Text, TouchableOpacity, useColorScheme, View } from 'react-native'
+import { Text, TouchableOpacity, View } from 'react-native'
 
 interface EmptyStateProps {
   icon: Icon
@@ -16,14 +17,13 @@ export function EmptyState({
   buttonText,
   onButtonPress,
 }: EmptyStateProps) {
-  const colorScheme = useColorScheme()
-  const iconColor = colorScheme === 'dark' ? '#7C3AED' : '#6D28D9'
+  const { colors } = useTheme()
 
   return (
     <View className="flex-1 items-center justify-center px-8">
       <View className="items-center gap-4 mb-8">
         <View className="w-24 h-24 rounded-full bg-primary/10 dark:bg-primary-dark/10 items-center justify-center mb-2">
-          <Icon size={48} color={iconColor} />
+          <Icon size={48} color={colors.primary} />
         </View>
         <Text className="text-foreground dark:text-foreground-dark text-xl font-manrope-bold text-center">
           {title}
