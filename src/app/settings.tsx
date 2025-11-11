@@ -6,9 +6,18 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { Switch } from '@/components/switch'
 import { BrazilIcon, CaretRightIcon, MimuIcon } from '@/icons'
+import { useThemeStore } from '@/stores/theme'
+
+const THEME_NAME_MAP = {
+  light: 'Claro',
+  dark: 'Escuro',
+  system: 'Sistema',
+} as const
 
 export default function SettingsScreen() {
   const router = useRouter()
+
+  const theme = useThemeStore((state) => state.theme)
 
   const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(true)
 
@@ -84,7 +93,7 @@ export default function SettingsScreen() {
               Esquema de cores
             </Text>
             <Text className="text-xs font-manrope-regular leading-4 text-muted-foreground">
-              Claro
+              {THEME_NAME_MAP[theme]}
             </Text>
           </View>
           <CaretRightIcon size={24} color="#FFFFFF" weight="regular" />
