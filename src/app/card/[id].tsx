@@ -51,6 +51,7 @@ export default function CardDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>()
   const bottomSheetRef = useRef<BottomSheet>(null)
   const deleteCardSheetRef = useRef<BottomSheet>(null)
+  const deleteListSheetRef = useRef<BottomSheet>(null)
   const [cardToDelete, setCardToDelete] = useState<string | null>(null)
 
   // Usar hooks reativos para atualização em tempo real
@@ -63,26 +64,10 @@ export default function CardDetailScreen() {
     return null
   }
 
-  function handleDeleteList() {
-    Alert.alert(
-      'Excluir Lista',
-      'Tem certeza que deseja excluir esta lista e todos os seus cartões?',
-      [
-        {
-          text: 'Cancelar',
-          style: 'cancel',
-        },
-        {
-          text: 'Excluir',
-          style: 'destructive',
-          onPress: () => {
-            cardActions.removeAllCardsByListId(id)
-            listActions.removeList(id)
-            router.back()
-          },
-        },
-      ]
-    )
+  function confirmDeleteList() {
+    cardActions.removeAllCardsByListId(id)
+    listActions.removeList(id)
+    router.back()
   }
 
   function handleEditList() {
@@ -120,25 +105,7 @@ export default function CardDetailScreen() {
   function handleDeleteListFromSheet() {
     bottomSheetRef.current?.close()
     setTimeout(() => {
-      Alert.alert(
-        'Excluir Lista',
-        'Tem certeza que deseja excluir esta lista e todos os seus cartões?',
-        [
-          {
-            text: 'Cancelar',
-            style: 'cancel',
-          },
-          {
-            text: 'Excluir',
-            style: 'destructive',
-            onPress: () => {
-              cardActions.removeAllCardsByListId(id)
-              listActions.removeList(id)
-              router.back()
-            },
-          },
-        ]
-      )
+      deleteListSheetRef.current?.expand()
     }, 300)
   }
 
@@ -248,6 +215,13 @@ export default function CardDetailScreen() {
         title="Excluir Cartão"
         message="Tem certeza que deseja excluir este cartão?"
         onConfirm={confirmDeleteCard}
+      />
+
+      <ConfirmDeleteSheet
+        ref={deleteListSheetRef}
+        title="Excluir Lista"
+        message="Tem certeza que deseja excluir esta lista e todos os seus cartões?"
+        onConfirm={confirmDeleteList}
       />
     </>
   )
