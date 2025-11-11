@@ -62,6 +62,7 @@ function RootLayoutNav() {
               <View className="bg-background dark:bg-background-dark flex-1" />
             ),
             headerBackTitle: ' ',
+            headerTitleStyle: { fontFamily: 'ManropeSemiBold', fontSize: 16 },
           }}
         >
           <Stack.Screen name="index" options={{ header: () => null, title: '' }} />

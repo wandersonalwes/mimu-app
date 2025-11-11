@@ -2,19 +2,19 @@ import { Theme } from '@react-navigation/native'
 
 const fonts = {
   regular: {
-    fontFamily: 'Manrope-Regular',
+    fontFamily: 'ManropeRegular',
     fontWeight: '400',
   },
   medium: {
-    fontFamily: 'Manrope-Medium',
+    fontFamily: 'ManropeMedium',
     fontWeight: '500',
   },
   heavy: {
-    fontFamily: 'Manrope-Bold',
+    fontFamily: 'ManropeBold',
     fontWeight: '600',
   },
   bold: {
-    fontFamily: 'Manrope-Bold',
+    fontFamily: 'ManropeBold',
     fontWeight: '700',
   },
 } as const
