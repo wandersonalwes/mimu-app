@@ -13,7 +13,7 @@ import { useTolgee } from '@tolgee/react'
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
 
 import { Fab } from '@/components/fab'
-import { useKeyboardHeight } from '@/hooks'
+import { useKeyboardHeight } from '@/hooks/use-keyboard-height'
 import { PlusIcon } from '@/icons'
 import { generateId } from '@/libs/generate-id'
 import { toast } from '@/libs/toast'

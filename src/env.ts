@@ -6,6 +6,8 @@ const envSchema = z.object({
   EXPO_PUBLIC_ENTITLEMENT_IDENTIFIER: z.string().min(1),
   EXPO_PUBLIC_TOLGEE_API_URL: z.string().min(1),
   EXPO_PUBLIC_TOLGEE_API_KEY: z.string().min(1),
+  EXPO_PUBLIC_ONESIGNAL_APP_ID: z.string().min(1),
+  EXPO_PUBLIC_CLARITY_ID: z.string().min(1),
 })
 
 export const env = envSchema.parse({
@@ -14,4 +16,6 @@ export const env = envSchema.parse({
   EXPO_PUBLIC_ENTITLEMENT_IDENTIFIER: process.env.EXPO_PUBLIC_ENTITLEMENT_IDENTIFIER,
   EXPO_PUBLIC_TOLGEE_API_URL: process.env.EXPO_PUBLIC_TOLGEE_API_URL,
   EXPO_PUBLIC_TOLGEE_API_KEY: process.env.EXPO_PUBLIC_TOLGEE_API_KEY,
+  EXPO_PUBLIC_ONESIGNAL_APP_ID: process.env.EXPO_PUBLIC_ONESIGNAL_APP_ID,
+  EXPO_PUBLIC_CLARITY_ID: process.env.EXPO_PUBLIC_CLARITY_ID,
 })
