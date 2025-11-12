@@ -5,6 +5,7 @@ import { useRouter } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { Switch } from '@/components/switch'
+import { useIsSubscribed } from '@/hooks/use-is-subscribed'
 import { BrazilIcon, CaretRightIcon, MimuIcon } from '@/icons'
 import { useThemeStore } from '@/stores/theme'
 
@@ -16,6 +17,8 @@ const THEME_NAME_MAP = {
 
 export default function SettingsScreen() {
   const router = useRouter()
+
+  const { isLoading, isSubscribed } = useIsSubscribed()
 
   const theme = useThemeStore((state) => state.theme)
 
@@ -35,21 +38,23 @@ export default function SettingsScreen() {
 
   return (
     <View className="flex-1 bg-background dark:bg-background-dark">
-      <SafeAreaView edges={['bottom']} style={{ flex: 1 }}>
+      <SafeAreaView edges={['bottom']} style={{ flex: 1, paddingTop: 20 }}>
         {/* Banner PRO */}
-        <TouchableOpacity
-          className="mx-5 mt-4 mb-6 flex-row items-center gap-4 px-6 py-4 bg-primary dark:bg-primary-dark rounded-xl"
-          onPress={goToSubscription}
-        >
-          <Text className="text-sm font-manrope-bold leading-5 text-card flex-1">
-            Aprenda mais rápido com o Mimu PRO
-          </Text>
-          <View className="flex-row justify-center items-center px-3 py-2 bg-primary-foreground dark:bg-primary-foreground-dark rounded-[20px]">
-            <Text className="text-xs font-manrope-semibold leading-4 text-primary dark:text-primary-dark">
-              Iniciar avaliação gratuita
+        {!isLoading && !isSubscribed && (
+          <TouchableOpacity
+            className="mx-5 mb-6 flex-row items-center gap-4 px-6 py-4 bg-primary dark:bg-primary-dark rounded-xl"
+            onPress={goToSubscription}
+          >
+            <Text className="text-sm font-manrope-bold leading-5 text-card flex-1">
+              Aprenda mais rápido com o Mimu PRO
             </Text>
-          </View>
-        </TouchableOpacity>
+            <View className="flex-row justify-center items-center px-3 py-2 bg-primary-foreground dark:bg-primary-foreground-dark rounded-[20px]">
+              <Text className="text-xs font-manrope-semibold leading-4 text-primary dark:text-primary-dark">
+                Saiba mais
+              </Text>
+            </View>
+          </TouchableOpacity>
+        )}
 
         {/* Preferências */}
         <Text className="mx-5 mb-[18px] text-sm font-manrope-semibold leading-5 text-foreground dark:text-foreground-dark">

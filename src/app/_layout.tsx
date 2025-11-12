@@ -1,3 +1,4 @@
+import { useConfigurePurchases } from '@/hooks/use-configure-purchases'
 import { toastConfig } from '@/libs/toast'
 import { useThemeStore } from '@/stores/theme'
 import '@/styles/global.css'
@@ -46,6 +47,8 @@ export default function RootLayout() {
 function RootLayoutNav() {
   const colorScheme = useColorScheme()
   const theme = useThemeStore((state) => state.theme)
+
+  useConfigurePurchases()
 
   const isDarkMode = theme === 'dark' || (theme === 'system' && colorScheme === 'dark')
 
