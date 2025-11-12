@@ -4,9 +4,9 @@ import { ActivityIndicator, ScrollView, Text, TouchableOpacity, View } from 'rea
 import Purchases, { PurchasesPackage } from 'react-native-purchases'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-import { env } from '@/env'
 import { useOfferings } from '@/hooks/use-offerings'
 import { CheckIcon } from '@/icons'
+import { checkIsSubscribed } from '@/libs/check-is-subscribed'
 import { cn } from '@/libs/cn'
 import { toast } from '@/libs/toast'
 import { useRouter } from 'expo-router'
@@ -20,6 +20,7 @@ export default function SubscriptionScreen() {
   const router = useRouter()
 
   const [selectedPlan, setSelectedPlan] = useState<PurchasesPackage | null>(null)
+  const [isRestoring, setIsRestoring] = useState(false)
 
   const { offerings, isLoading } = useOfferings()
 
@@ -35,10 +36,10 @@ export default function SubscriptionScreen() {
 
     try {
       const { customerInfo } = await Purchases.purchasePackage(selectedPlan)
-      if (
-        typeof customerInfo.entitlements.active[env.EXPO_PUBLIC_ENTITLEMENT_IDENTIFIER] !==
-        'undefined'
-      ) {
+
+      const isSubscribed = checkIsSubscribed(customerInfo)
+
+      if (isSubscribed) {
         toast.success({ title: 'Parabéns! Sua assinatura foi ativada.' })
 
         router.push('/')
@@ -46,6 +47,28 @@ export default function SubscriptionScreen() {
     } catch (e) {
       toast.error({ title: 'Erro ao processar compra. Tente novamente mais tarde.' })
       console.log('📢 error', e)
+    }
+  }
+
+  const handleRestorePurchases = async () => {
+    setIsRestoring(true)
+
+    try {
+      const customerInfo = await Purchases.restorePurchases()
+
+      const isSubscribed = checkIsSubscribed(customerInfo)
+
+      if (isSubscribed) {
+        toast.success({ title: 'Compras restauradas com sucesso!' })
+        router.push('/')
+      } else {
+        toast.error({ title: 'Nenhuma compra encontrada para restaurar.' })
+      }
+    } catch (e) {
+      toast.error({ title: 'Erro ao restaurar compras. Tente novamente mais tarde.' })
+      console.log('📢 error', e)
+    } finally {
+      setIsRestoring(false)
     }
   }
 
@@ -146,9 +169,13 @@ export default function SubscriptionScreen() {
               </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity className="bg-transparent rounded-xl py-4 items-center">
+            <TouchableOpacity
+              className="bg-transparent rounded-xl py-4 items-center"
+              onPress={handleRestorePurchases}
+              disabled={isRestoring}
+            >
               <Text className="text-base font-manrope-medium text-foreground dark:text-foreground-dark">
-                Restaurar compras
+                {isRestoring ? 'Restaurando...' : 'Restaurar compras'}
               </Text>
             </TouchableOpacity>
           </View>
