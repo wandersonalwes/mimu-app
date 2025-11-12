@@ -11,6 +11,8 @@
         "@react-native-async-storage/async-storage": "2.2.0",
         "@react-native-firebase/analytics": "^23.5.0",
         "@react-native-firebase/app": "^23.5.0",
+        "@react-native-firebase/crashlytics": "^23.5.0",
+        "@react-native-firebase/perf": "^23.5.0",
         "@react-navigation/native": "^7.1.8",
         "@tolgee/format-icu": "^6.2.7",
         "@tolgee/react": "^6.2.7",
@@ -510,6 +512,10 @@
     "@react-native-firebase/analytics": ["@react-native-firebase/analytics@23.5.0", "", { "dependencies": { "superstruct": "^2.0.2" }, "peerDependencies": { "@react-native-firebase/app": "23.5.0" } }, "sha512-tLUVOB1dsrjFrh48OCMxS44MCn5OyOmE0Am1jPFoHsnDF1Rj61zXdn9POQjHAXPxsbZmZSP0opxIpdzfNULn7Q=="],
 
     "@react-native-firebase/app": ["@react-native-firebase/app@23.5.0", "", { "dependencies": { "firebase": "12.4.0" }, "peerDependencies": { "expo": ">=47.0.0", "react": "*", "react-native": "*" }, "optionalPeers": ["expo"] }, "sha512-TOlm6V6fbILwgFP37QZM9Y0nfAW6zqNGVIWlMlepQB6b/BzzFMrCl1FiyknqD5l7i1jgdFQrqX1WH6ZO4ePa/g=="],
+
+    "@react-native-firebase/crashlytics": ["@react-native-firebase/crashlytics@23.5.0", "", { "dependencies": { "stacktrace-js": "^2.0.2" }, "peerDependencies": { "@react-native-firebase/app": "23.5.0", "expo": ">=47.0.0" }, "optionalPeers": ["expo"] }, "sha512-+coTsJZFOkaF/1qVrv0QXr1js0788PCn6DvEgpnoiEy8jWJi5q8Rza5XWOLqRfkcqp1QsrmSxUFN22pWz8zGXw=="],
+
+    "@react-native-firebase/perf": ["@react-native-firebase/perf@23.5.0", "", { "peerDependencies": { "@react-native-firebase/app": "23.5.0", "expo": ">=47.0.0" }, "optionalPeers": ["expo"] }, "sha512-NAOZtEbG28KXMo5pqZGXVGi9Szeb87o3EoKIpF4uaa2nUy+0ZaKsim1KVhCqRC3l6lt/N/ktI8hERO8bM0Lwow=="],
 
     "@react-native/assets-registry": ["@react-native/assets-registry@0.81.5", "", {}, "sha512-705B6x/5Kxm1RKRvSv0ADYWm5JOnoiQ1ufW7h8uu2E6G9Of/eE6hP/Ivw3U5jI16ERqZxiKQwk34VJbB0niX9w=="],
 
@@ -1437,9 +1443,15 @@
 
     "sprintf-js": ["sprintf-js@1.0.3", "", {}, "sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g=="],
 
+    "stack-generator": ["stack-generator@2.0.10", "", { "dependencies": { "stackframe": "^1.3.4" } }, "sha512-mwnua/hkqM6pF4k8SnmZ2zfETsRUpWXREfA/goT8SLCV4iOFa4bzOX2nDipWAZFPTjLvQB82f5yaodMVhK0yJQ=="],
+
     "stack-utils": ["stack-utils@2.0.6", "", { "dependencies": { "escape-string-regexp": "^2.0.0" } }, "sha512-XlkWvfIm6RmsWtNJx+uqtKLS8eqFbxUg0ZzLXqY0caEy9l7hruX8IpiDnjsLavoBgqCCR71TqWO8MaXYheJ3RQ=="],
 
     "stackframe": ["stackframe@1.3.4", "", {}, "sha512-oeVtt7eWQS+Na6F//S4kJ2K2VbRlS9D43mAlMyVpVWovy9o+jfgH8O9agzANzaiLjclA0oYzUXEM4PurhSUChw=="],
+
+    "stacktrace-gps": ["stacktrace-gps@3.1.2", "", { "dependencies": { "source-map": "0.5.6", "stackframe": "^1.3.4" } }, "sha512-GcUgbO4Jsqqg6RxfyTHFiPxdPqF+3LFmQhm7MgCuYQOYuWyqxo5pwRPz5d/u6/WYJdEnWfK4r+jGbyD8TSggXQ=="],
+
+    "stacktrace-js": ["stacktrace-js@2.0.2", "", { "dependencies": { "error-stack-parser": "^2.0.6", "stack-generator": "^2.0.5", "stacktrace-gps": "^3.0.4" } }, "sha512-Je5vBeY4S1r/RnLydLl0TBTi3F2qdfWmYsGvtfZgEI+SCprPppaIhQf5nGcal4gI4cGpCV/duLcAzT1np6sQqg=="],
 
     "stacktrace-parser": ["stacktrace-parser@0.1.11", "", { "dependencies": { "type-fest": "^0.7.1" } }, "sha512-WjlahMgHmCJpqzU8bIBy4qtsZdU9lRlcZE3Lvyej6t4tuOuv1vk57OW3MBrj6hXBFx/nNoC9MPMTcr5YA7NQbg=="],
 
@@ -1866,6 +1878,8 @@
     "source-map-support/source-map": ["source-map@0.6.1", "", {}, "sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g=="],
 
     "stack-utils/escape-string-regexp": ["escape-string-regexp@2.0.0", "", {}, "sha512-UpzcLCXolUWcNu5HtVMHYdXJjArjsF9C0aNnquZYY4uW/Vu0miy5YoWvbV345HauVvcAUnpRuhMMcqTcGOY2+w=="],
+
+    "stacktrace-gps/source-map": ["source-map@0.5.6", "", {}, "sha512-MjZkVp0NHr5+TPihLcadqnlVoGIoWo4IBHptutGh9wI3ttUYvCG26HkSuDi+K6lsZ25syXJXcctwgyVCt//xqA=="],
 
     "string-width/strip-ansi": ["strip-ansi@6.0.1", "", { "dependencies": { "ansi-regex": "^5.0.1" } }, "sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A=="],
 
