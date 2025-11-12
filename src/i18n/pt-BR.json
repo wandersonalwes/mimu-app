@@ -1,0 +1,36 @@
+{
+  "common": {
+    "createList": "Criar uma lista",
+    "language": "Mudar idioma",
+    "settings": "Configurações",
+    "subscription": "Assinatura",
+    "theme": "Mudar tema"
+  },
+  "settings": {
+    "about": {
+      "privacyPolicy": "Política de privacidade",
+      "rateApp": "Avaliar app",
+      "title": "Sobre o Mimu"
+    },
+    "languageName": {
+      "en-US": "Inglês",
+      "es-ES": "Espanhol",
+      "pt-BR": "Português"
+    },
+    "preferences": {
+      "colorScheme": "Esquema de cores",
+      "language": "Idioma",
+      "notifications": "Notificações",
+      "title": "Preferências"
+    },
+    "proBanner": {
+      "button": "Saiba mais",
+      "title": "Aprenda mais rápido com o Mimu PRO"
+    },
+    "theme": {
+      "dark": "Escuro",
+      "light": "Claro",
+      "system": "Sistema"
+    }
+  }
+}

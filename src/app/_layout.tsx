@@ -1,10 +1,7 @@
-import { useConfigurePurchases } from '@/hooks/use-configure-purchases'
-import { toastConfig } from '@/libs/toast'
-import { useThemeStore } from '@/stores/theme'
 import '@/styles/global.css'
-import { themes } from '@/styles/theme'
 
 import { ThemeProvider } from '@react-navigation/native'
+import { TolgeeProvider } from '@tolgee/react'
 import { useFonts } from 'expo-font'
 import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
@@ -16,6 +13,13 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import Toast from 'react-native-toast-message'
 
 export { ErrorBoundary } from 'expo-router'
+
+import { useConfigurePurchases } from '@/hooks/use-configure-purchases'
+import { toastConfig } from '@/libs/toast'
+import { tolgee } from '@/libs/tolgee'
+import { useLanguageStore } from '@/stores/language'
+import { useThemeStore } from '@/stores/theme'
+import { themes } from '@/styles/theme'
 
 SplashScreen.preventAutoHideAsync()
 
@@ -47,6 +51,7 @@ export default function RootLayout() {
 function RootLayoutNav() {
   const colorScheme = useColorScheme()
   const theme = useThemeStore((state) => state.theme)
+  const language = useLanguageStore((state) => state.language)
 
   useConfigurePurchases()
 
@@ -56,28 +61,36 @@ function RootLayoutNav() {
     Appearance.setColorScheme(isDarkMode ? 'dark' : 'light')
   }, [isDarkMode])
 
+  useEffect(() => {
+    if (tolgee.getLanguage() !== language) {
+      tolgee.changeLanguage(language)
+    }
+  }, [language])
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider style={{ flex: 1 }}>
         <ThemeProvider value={isDarkMode ? themes.dark : themes.light}>
-          <Stack
-            screenOptions={{
-              headerShadowVisible: false,
-              headerBackground: () => (
-                <View className="bg-background dark:bg-background-dark flex-1" />
-              ),
-              headerBackTitle: ' ',
-              headerTitleStyle: { fontFamily: 'ManropeSemiBold', fontSize: 16 },
-            }}
-          >
-            <Stack.Screen name="index" options={{ header: () => null, title: '' }} />
-            <Stack.Screen name="settings" options={{ title: 'Configurações' }} />
-            <Stack.Screen name="language" options={{ title: 'Mudar idioma' }} />
-            <Stack.Screen name="theme" options={{ title: 'Mudar tema' }} />
-            <Stack.Screen name="subscription" options={{ title: 'Assinatura' }} />
-            <Stack.Screen name="card/[id]" options={{ title: '' }} />
-            <Stack.Screen name="card/create" options={{ title: 'Criar uma lista' }} />
-          </Stack>
+          <TolgeeProvider tolgee={tolgee}>
+            <Stack
+              screenOptions={{
+                headerShadowVisible: false,
+                headerBackground: () => (
+                  <View className="bg-background dark:bg-background-dark flex-1" />
+                ),
+                headerBackTitle: ' ',
+                headerTitleStyle: { fontFamily: 'ManropeSemiBold', fontSize: 16 },
+              }}
+            >
+              <Stack.Screen name="index" options={{ header: () => null, title: '' }} />
+              <Stack.Screen name="settings" options={{ title: 'Configurações' }} />
+              <Stack.Screen name="language" options={{ title: 'Mudar idioma' }} />
+              <Stack.Screen name="theme" options={{ title: 'Mudar tema' }} />
+              <Stack.Screen name="subscription" options={{ title: 'Assinatura' }} />
+              <Stack.Screen name="card/[id]" options={{ title: '' }} />
+              <Stack.Screen name="card/create" options={{ title: 'Criar uma lista' }} />
+            </Stack>
+          </TolgeeProvider>
 
           <Toast config={toastConfig} position="top" />
         </ThemeProvider>

@@ -1,0 +1,36 @@
+{
+  "common": {
+    "createList": "Create a list",
+    "language": "Change language",
+    "settings": "Settings",
+    "subscription": "Subscription",
+    "theme": "Change theme"
+  },
+  "settings": {
+    "about": {
+      "privacyPolicy": "Privacy policy",
+      "rateApp": "Rate app",
+      "title": "About Mimu"
+    },
+    "languageName": {
+      "en-US": "English",
+      "es-ES": "Spanish",
+      "pt-BR": "Portuguese"
+    },
+    "preferences": {
+      "colorScheme": "Color scheme",
+      "language": "Language",
+      "notifications": "Notifications",
+      "title": "Preferences"
+    },
+    "proBanner": {
+      "button": "Learn more",
+      "title": "Learn faster with Mimu PRO"
+    },
+    "theme": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "System"
+    }
+  }
+}

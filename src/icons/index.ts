@@ -43,4 +43,5 @@ export const DotsThreeIcon = styled(DotsThree, { className: 'style' })
 
 // --- Countries ---
 export { BrazilIcon } from './countries/brazil'
+export { SpainIcon } from './countries/spain'
 export { UnitedStatesIcon } from './countries/united-states'

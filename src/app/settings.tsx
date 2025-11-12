@@ -1,28 +1,41 @@
 import { useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 
+import { useTolgee } from '@tolgee/react'
 import { useRouter } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { Switch } from '@/components/switch'
 import { useIsSubscribed } from '@/hooks/use-is-subscribed'
-import { BrazilIcon, CaretRightIcon, MimuIcon } from '@/icons'
+import { BrazilIcon, CaretRightIcon, MimuIcon, SpainIcon, UnitedStatesIcon } from '@/icons'
+import { useLanguageStore } from '@/stores/language'
 import { useThemeStore } from '@/stores/theme'
 
 const THEME_NAME_MAP = {
-  light: 'Claro',
-  dark: 'Escuro',
-  system: 'Sistema',
+  light: 'settings.theme.light',
+  dark: 'settings.theme.dark',
+  system: 'settings.theme.system',
+} as const
+
+const LANGUAGE_ICON_MAP = {
+  'pt-BR': BrazilIcon,
+  'en-US': UnitedStatesIcon,
+  'es-ES': SpainIcon,
 } as const
 
 export default function SettingsScreen() {
   const router = useRouter()
 
+  const { t } = useTolgee(['language'])
+
   const { isLoading, isSubscribed } = useIsSubscribed()
 
   const theme = useThemeStore((state) => state.theme)
+  const language = useLanguageStore((state) => state.language)
 
   const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(true)
+
+  const LanguageIcon = LANGUAGE_ICON_MAP[language]
 
   function goToLanguageSettings() {
     router.push('/language')
@@ -46,11 +59,11 @@ export default function SettingsScreen() {
             onPress={goToSubscription}
           >
             <Text className="text-sm font-manrope-bold leading-5 text-card flex-1">
-              Aprenda mais rápido com o Mimu PRO
+              {t('settings.proBanner.title')}
             </Text>
             <View className="flex-row justify-center items-center px-3 py-2 bg-primary-foreground dark:bg-primary-foreground-dark rounded-[20px]">
               <Text className="text-xs font-manrope-semibold leading-4 text-primary dark:text-primary-dark">
-                Saiba mais
+                {t('settings.proBanner.button')}
               </Text>
             </View>
           </TouchableOpacity>
@@ -58,13 +71,13 @@ export default function SettingsScreen() {
 
         {/* Preferências */}
         <Text className="mx-5 mb-[18px] text-sm font-manrope-semibold leading-5 text-foreground dark:text-foreground-dark">
-          Preferências
+          {t('settings.preferences.title')}
         </Text>
 
         {/* Notificações */}
         <View className="mx-5 mb-4 flex-row justify-between items-center gap-4 px-5 py-3.5 bg-card dark:bg-card-dark rounded-xl">
           <Text className="text-sm font-manrope-regular leading-5 text-foreground dark:text-foreground-dark">
-            Notificações
+            {t('settings.preferences.notifications')}
           </Text>
           <View className="w-10 h-6 bg-muted-foreground rounded-full">
             <Switch checked={isNotificationsEnabled} onChange={setIsNotificationsEnabled} />
@@ -78,11 +91,13 @@ export default function SettingsScreen() {
         >
           <View className="flex-1 gap-2">
             <Text className="text-sm font-manrope-regular leading-5 text-foreground dark:text-foreground-dark">
-              Idioma
+              {t('settings.preferences.language')}
             </Text>
             <View className="flex-row items-center gap-2">
-              <BrazilIcon width={16} height={12} />
-              <Text className="text-xs font-manrope-regular text-muted-foreground">Português</Text>
+              <LanguageIcon width={16} height={12} />
+              <Text className="text-xs font-manrope-regular text-muted-foreground">
+                {t(`settings.languageName.${language}`)}
+              </Text>
             </View>
           </View>
           <CaretRightIcon size={24} color="#FFFFFF" weight="regular" />
@@ -95,10 +110,10 @@ export default function SettingsScreen() {
         >
           <View className="flex-1 gap-2">
             <Text className="text-sm font-manrope-regular leading-5 text-foreground dark:text-foreground-dark">
-              Esquema de cores
+              {t('settings.preferences.colorScheme')}
             </Text>
             <Text className="text-xs font-manrope-regular leading-4 text-muted-foreground">
-              {THEME_NAME_MAP[theme]}
+              {t(THEME_NAME_MAP[theme])}
             </Text>
           </View>
           <CaretRightIcon size={24} color="#FFFFFF" weight="regular" />
@@ -106,13 +121,13 @@ export default function SettingsScreen() {
 
         {/* Sobre o Mimu */}
         <Text className="mx-5 mb-[18px] mt-5 text-sm font-manrope-semibold leading-5 text-foreground dark:text-foreground-dark">
-          Sobre o Mimu
+          {t('settings.about.title')}
         </Text>
 
         {/* Política de privacidade */}
         <TouchableOpacity className="mx-5 mb-4 flex-row justify-between items-center gap-4 px-5 py-3.5 bg-card dark:bg-card-dark rounded-xl">
           <Text className="text-sm font-manrope-regular leading-5 text-foreground dark:text-foreground-dark">
-            Política de privacidade
+            {t('settings.about.privacyPolicy')}
           </Text>
           <CaretRightIcon size={24} color="#FFFFFF" weight="regular" />
         </TouchableOpacity>
@@ -120,7 +135,7 @@ export default function SettingsScreen() {
         {/* Avaliar app */}
         <TouchableOpacity className="mx-5 flex-row justify-between items-center gap-4 px-5 py-3.5 bg-card dark:bg-card-dark rounded-xl">
           <Text className="text-sm font-manrope-regular leading-5 text-foreground dark:text-foreground-dark">
-            Avaliar app
+            {t('settings.about.rateApp')}
           </Text>
           <CaretRightIcon size={24} color="#FFFFFF" weight="regular" />
         </TouchableOpacity>
