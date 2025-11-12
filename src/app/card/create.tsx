@@ -9,6 +9,7 @@ import {
   View,
 } from 'react-native'
 
+import { useTolgee } from '@tolgee/react'
 import { Stack, useRouter } from 'expo-router'
 
 import { Fab } from '@/components/fab'
@@ -29,6 +30,7 @@ type CardInput = {
 export default function CreateCardScreen() {
   const router = useRouter()
   const scrollRef = useRef<ScrollView>(null)
+  const { t } = useTolgee(['language'])
   const [title, setTitle] = useState('')
   const [cards, setCards] = useState<CardInput[]>([{ id: generateId(), front: '', back: '' }])
   const [isSaving, setIsSaving] = useState(false)
@@ -54,7 +56,7 @@ export default function CreateCardScreen() {
 
   function removeCard(id: string) {
     if (cards.length <= 1) {
-      toast.warning({ title: 'Atenção', description: 'É necessário ter pelo menos um cartão.' })
+      toast.warning({ title: t('cardForm.error.minCards') })
       return
     }
     setCards(cards.filter((card) => card.id !== id))
@@ -81,7 +83,7 @@ export default function CreateCardScreen() {
 
     if (!validation.isValid) {
       toast.error({
-        title: validation.message || 'Por favor, preencha todos os campos.',
+        title: validation.message || t('cardForm.error.fillFields'),
       })
       return
     }
@@ -108,14 +110,13 @@ export default function CreateCardScreen() {
 
       cardActions.addCards(validCards)
 
-      toast.success({ title: 'Lista criada com sucesso!' })
+      toast.success({ title: t('cardForm.success.created') })
 
       router.back()
     } catch (error) {
       console.error('Error saving list:', error)
       toast.error({
-        title: 'Erro',
-        description: 'Não foi possível salvar a lista. Tente novamente.',
+        title: t('cardForm.error.save'),
       })
     } finally {
       setIsSaving(false)
@@ -130,7 +131,7 @@ export default function CreateCardScreen() {
         className="bg-primary dark:bg-primary-dark px-6 py-2.5 rounded-lg active:opacity-80"
       >
         <Text className="text-sm font-manrope-semibold text-white">
-          {isSaving ? 'Salvando...' : 'Salvar'}
+          {isSaving ? t('common.saving') : t('common.save')}
         </Text>
       </TouchableOpacity>
     )
@@ -154,13 +155,13 @@ export default function CreateCardScreen() {
           >
             <View className="px-5 py-6">
               <Text className="text-sm font-manrope-semibold text-foreground dark:text-foreground-dark mb-2.5">
-                Título
+                {t('common.title')}
               </Text>
               <View className="bg-card dark:bg-card-dark rounded-xl px-4 py-4 mb-6">
                 <TextInput
                   value={title}
                   onChangeText={setTitle}
-                  placeholder="Tema, capítulo, unidade"
+                  placeholder={t('cardForm.titlePlaceholder')}
                   placeholderTextColor="#9D9D9D"
                   className="text-sm font-manrope-semibold text-foreground dark:text-foreground-dark"
                   editable={!isSaving}
@@ -170,7 +171,7 @@ export default function CreateCardScreen() {
               {/* Cartões Section */}
               <View className="flex-row items-center justify-between mb-4">
                 <Text className="text-sm font-manrope-semibold text-foreground dark:text-foreground-dark">
-                  Cartões ({cards.length})
+                  {t('common.cards')} ({cards.length})
                 </Text>
               </View>
 
@@ -190,7 +191,7 @@ export default function CreateCardScreen() {
                           className="active:opacity-60"
                         >
                           <Text className="text-xs font-manrope-medium text-destructive dark:text-destructive-dark">
-                            Remover
+                            {t('cardForm.removeCard')}
                           </Text>
                         </TouchableOpacity>
                       )}
@@ -201,7 +202,7 @@ export default function CreateCardScreen() {
                       <TextInput
                         value={card.front}
                         onChangeText={(value) => updateCard(card.id, 'front', value)}
-                        placeholder="Frente"
+                        placeholder={t('cardForm.frontPlaceholder')}
                         placeholderTextColor="#9D9D9D"
                         className="text-sm font-manrope-semibold text-foreground dark:text-foreground-dark"
                         editable={!isSaving}
@@ -217,7 +218,7 @@ export default function CreateCardScreen() {
                       <TextInput
                         value={card.back}
                         onChangeText={(value) => updateCard(card.id, 'back', value)}
-                        placeholder="Verso"
+                        placeholder={t('cardForm.backPlaceholder')}
                         placeholderTextColor="#9D9D9D"
                         className="text-sm font-manrope-semibold text-foreground dark:text-foreground-dark"
                         editable={!isSaving}

@@ -2,6 +2,7 @@ import { ComponentRef } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 
 import BottomSheet from '@gorhom/bottom-sheet'
+import { useTolgee } from '@tolgee/react'
 
 import { BaseBottomSheet } from '@/components/base-bottom-sheet'
 
@@ -20,6 +21,8 @@ export function ConfirmDeleteSheet({
   onConfirm,
   onCancel,
 }: ConfirmDeleteSheetProps) {
+  const { t } = useTolgee(['language'])
+
   const handleConfirm = () => {
     ref.current?.close()
     setTimeout(() => {
@@ -52,7 +55,7 @@ export function ConfirmDeleteSheet({
             className="bg-destructive dark:bg-destructive-dark py-4 rounded-xl items-center"
             activeOpacity={0.8}
           >
-            <Text className="text-base font-manrope-semibold text-white">Excluir</Text>
+            <Text className="text-base font-manrope-semibold text-white">{t('common.delete')}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -61,7 +64,7 @@ export function ConfirmDeleteSheet({
             activeOpacity={0.8}
           >
             <Text className="text-base font-manrope-semibold text-foreground dark:text-foreground-dark">
-              Cancelar
+              {t('common.cancel')}
             </Text>
           </TouchableOpacity>
         </View>

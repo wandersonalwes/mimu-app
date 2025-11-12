@@ -1,5 +1,6 @@
 import { FlatList, Image, Text, TouchableOpacity, useColorScheme, View } from 'react-native'
 
+import { useTolgee } from '@tolgee/react'
 import { Link, useRouter } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -16,6 +17,8 @@ import { listStore$ } from '@/state/list'
 export default function HomeScreen() {
   const router = useRouter()
 
+  const { t } = useTolgee(['language'])
+
   const lists = useValue(listStore$.lists)
 
   const colorScheme = useColorScheme()
@@ -31,10 +34,11 @@ export default function HomeScreen() {
 
   const renderItem = ({ item }: { item: (typeof lists)[number] }) => {
     const cardsInList = cardActions.getCardsByListId(item.id).length
+    const termText = cardsInList === 1 ? t('common.term') : t('common.terms')
     return (
       <CardListItem
         title={item.name}
-        subtitle={`${cardsInList} ${cardsInList === 1 ? 'termo' : 'termos'}`}
+        subtitle={`${cardsInList} ${termText}`}
         onPress={() => handleCardPress(item.id)}
       />
     )
@@ -59,15 +63,15 @@ export default function HomeScreen() {
 
         <View className="px-5 py-8 flex-1">
           <Text className="text-base font-manrope-bold mb-3 text-foreground dark:text-foreground-dark">
-            Lista de cartões
+            {t('home.cardList')}
           </Text>
 
           {lists.length === 0 ? (
             <EmptyState
               icon={BooksIcon}
-              title="Nenhuma lista criada"
-              description="Crie sua primeira lista de cartões para começar a estudar"
-              buttonText="Criar primeira lista"
+              title={t('home.emptyState.title')}
+              description={t('home.emptyState.description')}
+              buttonText={t('home.emptyState.button')}
               onButtonPress={handleCreateCardPress}
             />
           ) : (

@@ -1,10 +1,131 @@
 {
+  "cardDetail": {
+    "delete": {
+      "card": {
+        "lastCard": "No se puede eliminar la última tarjeta. Elimina la lista completa.",
+        "message": "¿Estás seguro de que quieres eliminar esta tarjeta?",
+        "title": "Eliminar Tarjeta"
+      },
+      "list": {
+        "message": "¿Estás seguro de que quieres eliminar esta lista y todas sus tarjetas?",
+        "title": "Eliminar Lista"
+      }
+    },
+    "options": {
+      "delete": "Eliminar",
+      "deleteList": "Eliminar Lista",
+      "edit": "Editar",
+      "editList": "Editar Lista"
+    },
+    "sort": {
+      "original": "Orden original"
+    },
+    "studyModes": {
+      "combine": "Combinar",
+      "flashcards": "Tarjetas",
+      "questions": "Preguntas",
+      "quickTest": "Prueba Rápida"
+    }
+  },
+  "cardForm": {
+    "addCard": "Agregar tarjeta",
+    "backPlaceholder": "Definición",
+    "editTitle": "Editar Lista",
+    "error": {
+      "fillFields": "Por favor, completa todos los campos.",
+      "minCards": "Se requiere al menos una tarjeta.",
+      "save": "No se pudo guardar la lista. Inténtalo de nuevo.",
+      "update": "No se pudo actualizar la lista. Inténtalo de nuevo."
+    },
+    "frontPlaceholder": "Término",
+    "new": "nueva",
+    "removeCard": "Eliminar",
+    "success": {
+      "created": "¡Lista creada con éxito!",
+      "updated": "¡Lista actualizada con éxito!"
+    },
+    "titlePlaceholder": "Tema, capítulo, unidad"
+  },
+  "combine": {
+    "allComplete": "¡Felicidades! ¡Combinaste todos los pares! \uD83C\uDF89",
+    "emptyState": {
+      "description": "Esta lista no tiene tarjetas para estudiar",
+      "title": "No se encontraron tarjetas"
+    },
+    "instruction": "Combina los pares",
+    "nextStep": "Siguiente etapa",
+    "selectInstruction": "Selecciona un término y luego su traducción",
+    "stepComplete": "¡Etapa completada! \uD83C\uDF89",
+    "title": "Combinar"
+  },
   "common": {
+    "back": "Volver",
+    "benefits": "Beneficios",
+    "cancel": "Cancelar",
+    "card": "Tarjeta",
+    "cards": "Tarjetas",
+    "continue": "Continuar",
     "createList": "Crear una lista",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "error": "Error",
+    "finish": "Finalizar",
     "language": "Cambiar idioma",
+    "next": "Siguiente",
+    "restart": "Reiniciar",
+    "restorePurchases": "Restaurar compras",
+    "restoring": "Restaurando...",
+    "save": "Guardar",
+    "saving": "Guardando...",
     "settings": "Configuraciones",
     "subscription": "Suscripción",
-    "theme": "Cambiar tema"
+    "term": "término",
+    "terms": "términos",
+    "theme": "Cambiar tema",
+    "title": "Título"
+  },
+  "flashcards": {
+    "emptyState": {
+      "description": "Esta lista no tiene tarjetas para estudiar",
+      "title": "No se encontraron tarjetas"
+    },
+    "learning": "Todavía estoy aprendiendo",
+    "summary": {
+      "description": "¡Completaste todas las tarjetas!",
+      "learning": "Todavía estoy aprendiendo",
+      "restart": "Reiniciar Tarjetas",
+      "title": "¡Felicidades! \uD83C\uDF89",
+      "understood": "Ya lo sé"
+    },
+    "title": "Tarjetas",
+    "understood": "Ya lo sé"
+  },
+  "home": {
+    "cardList": "Lista de tarjetas",
+    "emptyState": {
+      "button": "Crear primera lista",
+      "description": "Crea tu primera lista de tarjetas para empezar a estudiar",
+      "title": "No hay listas creadas"
+    }
+  },
+  "notFound": {
+    "button": "¡Ir a la pantalla principal!",
+    "title": "¡Esta pantalla ya no existe o nunca existió!"
+  },
+  "questions": {
+    "emptyState": {
+      "description": "Esta lista no tiene tarjetas para estudiar",
+      "title": "No se encontraron tarjetas"
+    },
+    "instruction": "Elige la respuesta correcta",
+    "summary": {
+      "correct": "Correctas",
+      "description": "Completaste todas las preguntas",
+      "restart": "Reiniciar Preguntas",
+      "successRate": "Tasa de acierto",
+      "wrong": "Incorrectas"
+    },
+    "title": "Preguntas"
   },
   "settings": {
     "about": {
@@ -32,5 +153,34 @@
       "light": "Claro",
       "system": "Sistema"
     }
+  },
+  "subscription": {
+    "benefits[0]": "Eliminar anuncios",
+    "benefits[1]": "Crear tarjetas con imágenes y audio",
+    "benefits[2]": "Ocultar el texto de la pregunta en el test",
+    "benefits[3]": "Cambiar el orden de las preguntas",
+    "error": {
+      "noPurchases": "No se encontraron compras para restaurar.",
+      "purchase": "Error al procesar la compra. Inténtalo de nuevo más tarde.",
+      "restore": "Error al restaurar compras. Inténtalo de nuevo más tarde.",
+      "selectPlan": "Selecciona un plan"
+    },
+    "plans": {
+      "annual": "Plan anual",
+      "bestOffer": "Mejor oferta",
+      "monthly": "Plan mensual",
+      "only": "Solo",
+      "perMonth": "por mes",
+      "perYear": "por año"
+    },
+    "success": {
+      "activated": "¡Felicidades! Tu suscripción ha sido activada.",
+      "restored": "¡Compras restauradas con éxito!"
+    }
+  },
+  "theme": {
+    "dark": "Oscuro",
+    "light": "Claro",
+    "system": "Predeterminado del sistema"
   }
 }

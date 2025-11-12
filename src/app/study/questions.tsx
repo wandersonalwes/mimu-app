@@ -2,6 +2,7 @@ import { EmptyState } from '@/components/empty-state'
 import { Progress } from '@/components/progress'
 import { useCardsByListId } from '@/hooks/use-cards'
 import { SealQuestionIcon } from '@/icons'
+import { useTolgee } from '@tolgee/react'
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
 import { useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
@@ -17,6 +18,7 @@ export default function QuestionsScreen() {
   const router = useRouter()
   const { id } = useLocalSearchParams<{ id?: string }>()
   const cards = useCardsByListId(id!)
+  const { t } = useTolgee(['language'])
 
   // Gerar perguntas baseadas nos cartões reais
   // Usar useState ao invés de useMemo para não recalcular quando cards mudar
@@ -51,9 +53,9 @@ export default function QuestionsScreen() {
       <View className="flex-1 bg-background dark:bg-background-dark">
         <EmptyState
           icon={SealQuestionIcon}
-          title="Nenhum cartão encontrado"
-          description="Esta lista não possui cartões para estudar"
-          buttonText="Voltar"
+          title={t('questions.emptyState.title')}
+          description={t('questions.emptyState.description')}
+          buttonText={t('common.back')}
           onButtonPress={() => router.back()}
         />
       </View>
@@ -92,7 +94,7 @@ export default function QuestionsScreen() {
     <View className="flex-1 bg-background dark:bg-background-dark">
       <SafeAreaView style={{ flex: 1 }} edges={['bottom']}>
         <Stack.Screen
-          options={{ title: finished ? 'Resumo' : `${qIndex + 1}/${questions.length}` }}
+          options={{ title: finished ? t('questions.title') : `${qIndex + 1}/${questions.length}` }}
         />
 
         <View className="flex-1">
@@ -105,13 +107,13 @@ export default function QuestionsScreen() {
                   </Text>
                   <Text className="text-foreground dark:text-foreground-dark text-2xl font-manrope-bold text-center">
                     {successRate >= 80
-                      ? 'Excelente!'
+                      ? t('flashcards.summary.title')
                       : successRate >= 50
-                      ? 'Bom trabalho!'
-                      : 'Continue praticando!'}
+                      ? t('flashcards.summary.title')
+                      : t('flashcards.summary.title')}
                   </Text>
                   <Text className="text-foreground dark:text-foreground-dark/60 text-base font-manrope-regular text-center">
-                    Você completou todas as perguntas
+                    {t('questions.summary.description') || 'Você completou todas as perguntas'}
                   </Text>
                 </View>
 
@@ -127,7 +129,7 @@ export default function QuestionsScreen() {
                       <View className="flex-row items-center gap-2">
                         <View className="w-3 h-3 rounded-full bg-green-500" />
                         <Text className="text-foreground dark:text-foreground-dark text-sm font-manrope-regular">
-                          Acertos
+                          {t('questions.summary.correct')}
                         </Text>
                       </View>
                       <Text className="text-foreground dark:text-foreground-dark text-lg font-manrope-bold">
@@ -139,7 +141,7 @@ export default function QuestionsScreen() {
                       <View className="flex-row items-center gap-2">
                         <View className="w-3 h-3 rounded-full bg-red-500" />
                         <Text className="text-foreground dark:text-foreground-dark text-sm font-manrope-regular">
-                          Erros
+                          {t('questions.summary.wrong')}
                         </Text>
                       </View>
                       <Text className="text-foreground dark:text-foreground-dark text-lg font-manrope-bold">
@@ -167,7 +169,7 @@ export default function QuestionsScreen() {
                   className="h-14 rounded-xl items-center justify-center bg-primary dark:bg-primary-dark"
                 >
                   <Text className="text-white text-base font-manrope-semibold">
-                    Refazer Perguntas
+                    {t('questions.summary.restart')}
                   </Text>
                 </TouchableOpacity>
 
@@ -176,7 +178,7 @@ export default function QuestionsScreen() {
                   className="h-14 rounded-xl items-center justify-center bg-card dark:bg-card-dark"
                 >
                   <Text className="text-foreground dark:text-foreground-dark text-base font-manrope-semibold">
-                    Voltar
+                    {t('common.back')}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -193,7 +195,7 @@ export default function QuestionsScreen() {
 
               {/* Instrução */}
               <Text className="text-foreground dark:text-foreground-dark text-base font-manrope-regular">
-                Escolha a resposta correta
+                {t('questions.instruction')}
               </Text>
 
               {/* Opções de resposta */}
@@ -243,7 +245,9 @@ export default function QuestionsScreen() {
                 onPress={next}
                 className="h-14 rounded-xl items-center justify-center bg-primary dark:bg-primary-dark"
               >
-                <Text className="text-white text-base font-manrope-semibold">Próximo</Text>
+                <Text className="text-white text-base font-manrope-semibold">
+                  {t('common.next')}
+                </Text>
               </TouchableOpacity>
             </View>
           )}

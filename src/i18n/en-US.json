@@ -1,10 +1,131 @@
 {
+  "cardDetail": {
+    "delete": {
+      "card": {
+        "lastCard": "Cannot delete the last card. Delete the entire list.",
+        "message": "Are you sure you want to delete this card?",
+        "title": "Delete Card"
+      },
+      "list": {
+        "message": "Are you sure you want to delete this list and all its cards?",
+        "title": "Delete List"
+      }
+    },
+    "options": {
+      "delete": "Delete",
+      "deleteList": "Delete List",
+      "edit": "Edit",
+      "editList": "Edit List"
+    },
+    "sort": {
+      "original": "Original order"
+    },
+    "studyModes": {
+      "combine": "Match",
+      "flashcards": "Flashcards",
+      "questions": "Questions",
+      "quickTest": "Quick Test"
+    }
+  },
+  "cardForm": {
+    "addCard": "Add card",
+    "backPlaceholder": "Definition",
+    "editTitle": "Edit List",
+    "error": {
+      "fillFields": "Please fill in all fields.",
+      "minCards": "At least one card is required.",
+      "save": "Could not save the list. Please try again.",
+      "update": "Could not update the list. Please try again."
+    },
+    "frontPlaceholder": "Term",
+    "new": "new",
+    "removeCard": "Remove",
+    "success": {
+      "created": "List created successfully!",
+      "updated": "List updated successfully!"
+    },
+    "titlePlaceholder": "Theme, chapter, unit"
+  },
+  "combine": {
+    "allComplete": "Congratulations! You matched all pairs! \uD83C\uDF89",
+    "emptyState": {
+      "description": "This list has no cards to study",
+      "title": "No cards found"
+    },
+    "instruction": "Match the pairs",
+    "nextStep": "Next step",
+    "selectInstruction": "Select a term and then its translation",
+    "stepComplete": "Step complete! \uD83C\uDF89",
+    "title": "Match"
+  },
   "common": {
+    "back": "Back",
+    "benefits": "Benefits",
+    "cancel": "Cancel",
+    "card": "Card",
+    "cards": "Cards",
+    "continue": "Continue",
     "createList": "Create a list",
+    "delete": "Delete",
+    "edit": "Edit",
+    "error": "Error",
+    "finish": "Finish",
     "language": "Change language",
+    "next": "Next",
+    "restart": "Restart",
+    "restorePurchases": "Restore purchases",
+    "restoring": "Restoring...",
+    "save": "Save",
+    "saving": "Saving...",
     "settings": "Settings",
     "subscription": "Subscription",
-    "theme": "Change theme"
+    "term": "term",
+    "terms": "terms",
+    "theme": "Change theme",
+    "title": "Title"
+  },
+  "flashcards": {
+    "emptyState": {
+      "description": "This list has no cards to study",
+      "title": "No cards found"
+    },
+    "learning": "Still learning",
+    "summary": {
+      "description": "You completed all flashcards!",
+      "learning": "Still learning",
+      "restart": "Restart Flashcards",
+      "title": "Congratulations! \uD83C\uDF89",
+      "understood": "Got it"
+    },
+    "title": "Flashcards",
+    "understood": "Got it"
+  },
+  "home": {
+    "cardList": "Card list",
+    "emptyState": {
+      "button": "Create first list",
+      "description": "Create your first card list to start studying",
+      "title": "No lists created"
+    }
+  },
+  "notFound": {
+    "button": "Go to home screen!",
+    "title": "This screen doesn't exist anymore or never did!"
+  },
+  "questions": {
+    "emptyState": {
+      "description": "This list has no cards to study",
+      "title": "No cards found"
+    },
+    "instruction": "Choose the correct answer",
+    "summary": {
+      "correct": "Correct",
+      "description": "You completed all questions",
+      "restart": "Restart Questions",
+      "successRate": "Success rate",
+      "wrong": "Wrong"
+    },
+    "title": "Questions"
   },
   "settings": {
     "about": {
@@ -32,5 +153,34 @@
       "light": "Light",
       "system": "System"
     }
+  },
+  "subscription": {
+    "benefits[0]": "Remove ads",
+    "benefits[1]": "Create cards with images and audio",
+    "benefits[2]": "Hide question text in test",
+    "benefits[3]": "Change question order",
+    "error": {
+      "noPurchases": "No purchases found to restore.",
+      "purchase": "Error processing purchase. Please try again later.",
+      "restore": "Error restoring purchases. Please try again later.",
+      "selectPlan": "Select a plan"
+    },
+    "plans": {
+      "annual": "Annual plan",
+      "bestOffer": "Best offer",
+      "monthly": "Monthly plan",
+      "only": "Only",
+      "perMonth": "per month",
+      "perYear": "per year"
+    },
+    "success": {
+      "activated": "Congratulations! Your subscription has been activated.",
+      "restored": "Purchases restored successfully!"
+    }
+  },
+  "theme": {
+    "dark": "Dark",
+    "light": "Light",
+    "system": "System default"
   }
 }

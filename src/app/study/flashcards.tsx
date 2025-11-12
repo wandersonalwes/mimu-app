@@ -4,6 +4,7 @@ import { useCardsByListId } from '@/hooks/use-cards'
 import { useSpeech } from '@/hooks/use-speech'
 import { CardsIcon, HeartIcon, SpeakerHighIcon } from '@/icons'
 import { cardActions } from '@/state/card'
+import { useTolgee } from '@tolgee/react'
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
 import { useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
@@ -13,6 +14,7 @@ export default function FlashcardsScreen() {
   const router = useRouter()
   const { id } = useLocalSearchParams<{ id: string }>()
   const cards = useCardsByListId(id)
+  const { t } = useTolgee(['language'])
 
   const [index, setIndex] = useState(0)
   const [showBack, setShowBack] = useState(false)
@@ -28,9 +30,9 @@ export default function FlashcardsScreen() {
       <View className="flex-1 bg-background dark:bg-background-dark">
         <EmptyState
           icon={CardsIcon}
-          title="Nenhum cartão encontrado"
-          description="Esta lista não possui cartões para estudar"
-          buttonText="Voltar"
+          title={t('flashcards.emptyState.title')}
+          description={t('flashcards.emptyState.description')}
+          buttonText={t('common.back')}
           onButtonPress={() => router.back()}
         />
       </View>
@@ -85,40 +87,40 @@ export default function FlashcardsScreen() {
   if (isCompleted) {
     return (
       <SafeAreaView style={{ flex: 1 }} edges={['bottom']}>
-        <Stack.Screen options={{ title: 'Resumo' }} />
+        <Stack.Screen options={{ title: t('flashcards.title') }} />
 
         <View className="flex-1 p-5 gap-6 bg-background dark:bg-background-dark justify-center">
           <View className="bg-card dark:bg-card-dark rounded-xl p-8 gap-6">
             <Text className="text-foreground  dark:text-foreground-dark text-2xl font-manrope-bold text-center">
-              Parabéns! 🎉
+              {t('flashcards.summary.title')}
             </Text>
 
             <Text className="text-foreground dark:text-foreground-dark text-base font-manrope-regular text-center">
-              Você completou todos os flashcards!
+              {t('flashcards.summary.description')}
             </Text>
 
             <View className="gap-4 mt-4">
               <View className="bg-[#EF4444]/10 rounded-xl p-4">
                 <Text className="text-[#EF4444] text-lg font-manrope-semibold text-center">
-                  Aprendendo
+                  {t('flashcards.summary.learning')}
                 </Text>
                 <Text className="text-[#EF4444] text-3xl font-manrope-bold text-center mt-2">
                   {learningCount}
                 </Text>
                 <Text className="text-foreground/60 text-sm font-manrope-regular text-center mt-1">
-                  {learningCount === 1 ? 'palavra' : 'palavras'}
+                  {learningCount === 1 ? t('common.term') : t('common.terms')}
                 </Text>
               </View>
 
               <View className="bg-primary/10 rounded-xl p-4">
                 <Text className="text-primary dark:text-primary-foreground-dark text-lg font-manrope-semibold text-center">
-                  Entendo bem
+                  {t('flashcards.summary.understood')}
                 </Text>
                 <Text className="text-primary dark:text-primary-foreground-dark text-3xl font-manrope-bold text-center mt-2">
                   {understoodCount}
                 </Text>
                 <Text className="text-foreground/60 dark:text-foreground-dark/60 text-sm font-manrope-regular text-center mt-1">
-                  {understoodCount === 1 ? 'palavra' : 'palavras'}
+                  {understoodCount === 1 ? t('common.term') : t('common.terms')}
                 </Text>
               </View>
             </View>
@@ -130,7 +132,7 @@ export default function FlashcardsScreen() {
               className="h-14 rounded-xl items-center justify-center bg-primary dark:bg-primary-dark"
             >
               <Text className="text-primary-foreground dark:text-primary-foreground-dark text-base font-manrope-semibold">
-                Reiniciar Flashcards
+                {t('flashcards.summary.restart')}
               </Text>
             </TouchableOpacity>
 
@@ -139,7 +141,7 @@ export default function FlashcardsScreen() {
               className="h-14 rounded-xl items-center justify-center bg-card dark:bg-card-dark"
             >
               <Text className="text-foreground dark:text-foreground-dark text-base font-manrope-semibold">
-                Voltar
+                {t('common.back')}
               </Text>
             </TouchableOpacity>
           </View>
@@ -200,7 +202,7 @@ export default function FlashcardsScreen() {
               className="flex-1 h-14 rounded-xl items-center justify-center bg-[#EF4444]"
             >
               <Text className="text-white text-base font-manrope-medium">
-                Aprendendo ({learningCount})
+                {t('flashcards.learning')} ({learningCount})
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -208,7 +210,7 @@ export default function FlashcardsScreen() {
               className="flex-1 h-14 rounded-xl items-center justify-center bg-primary dark:bg-primary-dark"
             >
               <Text className="text-white text-base font-manrope-medium">
-                Entendo bem ({understoodCount})
+                {t('flashcards.understood')} ({understoodCount})
               </Text>
             </TouchableOpacity>
           </View>

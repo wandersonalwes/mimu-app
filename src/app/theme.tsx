@@ -1,16 +1,19 @@
 import { Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
+import { useTolgee } from '@tolgee/react'
+
 import { CheckIcon } from '@/icons'
 import { useThemeStore } from '@/stores/theme'
 
 export default function ThemeScreen() {
   const { theme: selectedTheme, setTheme } = useThemeStore()
+  const { t } = useTolgee(['language'])
 
   const themes = [
-    { id: 'light', label: 'Claro' },
-    { id: 'dark', label: 'Escuro' },
-    { id: 'system', label: 'Padrão do sistema' },
+    { id: 'light', label: t('theme.light') },
+    { id: 'dark', label: t('theme.dark') },
+    { id: 'system', label: t('theme.system') },
   ] as const
 
   return (

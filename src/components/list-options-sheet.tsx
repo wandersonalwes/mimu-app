@@ -2,6 +2,7 @@ import { ComponentRef } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 
 import BottomSheet from '@gorhom/bottom-sheet'
+import { useTolgee } from '@tolgee/react'
 
 import { BaseBottomSheet } from '@/components/base-bottom-sheet'
 import { PencilIcon, TrashIcon } from '@/icons'
@@ -13,6 +14,8 @@ type ListOptionsSheetProps = {
 }
 
 export function ListOptionsSheet({ ref, onEdit, onDelete }: ListOptionsSheetProps) {
+  const { t } = useTolgee(['language'])
+
   return (
     <BaseBottomSheet ref={ref}>
       <TouchableOpacity
@@ -22,7 +25,7 @@ export function ListOptionsSheet({ ref, onEdit, onDelete }: ListOptionsSheetProp
       >
         <PencilIcon size={24} className="text-foreground dark:text-foreground-dark" />
         <Text className="text-base font-manrope-medium text-foreground dark:text-foreground-dark">
-          Editar Lista
+          {t('cardDetail.options.editList')}
         </Text>
       </TouchableOpacity>
 
@@ -35,7 +38,7 @@ export function ListOptionsSheet({ ref, onEdit, onDelete }: ListOptionsSheetProp
       >
         <TrashIcon size={24} className="text-destructive dark:text-destructive-dark" />
         <Text className="text-base font-manrope-medium text-destructive dark:text-destructive-dark">
-          Excluir Lista
+          {t('cardDetail.options.deleteList')}
         </Text>
       </TouchableOpacity>
     </BaseBottomSheet>

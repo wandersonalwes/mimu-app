@@ -9,6 +9,7 @@ import {
   View,
 } from 'react-native'
 
+import { useTolgee } from '@tolgee/react'
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
 
 import { Fab } from '@/components/fab'
@@ -31,6 +32,7 @@ export default function EditCardScreen() {
   const router = useRouter()
   const { id } = useLocalSearchParams<{ id: string }>()
   const scrollRef = useRef<ScrollView>(null)
+  const { t } = useTolgee(['language'])
 
   const [title, setTitle] = useState('')
   const [cards, setCards] = useState<CardInput[]>([])
@@ -78,7 +80,7 @@ export default function EditCardScreen() {
 
   function removeCard(id: string) {
     if (cards.length <= 1) {
-      toast.warning({ title: 'É necessário ter pelo menos um cartão.' })
+      toast.warning({ title: t('cardForm.error.minCards') })
       return
     }
 
@@ -110,7 +112,7 @@ export default function EditCardScreen() {
 
     if (!validation.isValid) {
       toast.error({
-        title: validation.message || 'Por favor, preencha todos os campos.',
+        title: validation.message || t('cardForm.error.fillFields'),
       })
       return
     }
@@ -149,14 +151,14 @@ export default function EditCardScreen() {
         }
       })
 
-      toast.success({ title: 'Lista atualizada com sucesso!' })
+      toast.success({ title: t('cardForm.success.updated') })
 
       router.back()
     } catch (error) {
       console.error('Error updating list:', error)
       toast.error({
-        title: 'Erro',
-        description: 'Não foi possível atualizar a lista. Tente novamente.',
+        title: t('common.error'),
+        description: t('cardForm.error.update'),
       })
     } finally {
       setIsSaving(false)
@@ -171,7 +173,7 @@ export default function EditCardScreen() {
     <>
       <Stack.Screen
         options={{
-          title: 'Editar Lista',
+          title: t('cardForm.editTitle'),
           headerRight: () => (
             <TouchableOpacity
               onPressIn={handleSave}
@@ -179,7 +181,7 @@ export default function EditCardScreen() {
               className="bg-primary dark:bg-primary-dark px-6 py-2.5 rounded-lg active:opacity-80"
             >
               <Text className="text-sm font-manrope-semibold text-white">
-                {isSaving ? 'Salvando...' : 'Salvar'}
+                {isSaving ? t('common.saving') : t('common.save')}
               </Text>
             </TouchableOpacity>
           ),
@@ -200,13 +202,13 @@ export default function EditCardScreen() {
           >
             <View className="px-5 py-6">
               <Text className="text-sm font-manrope-semibold text-foreground dark:text-foreground-dark mb-2.5">
-                Título
+                {t('common.title')}
               </Text>
               <View className="bg-card dark:bg-card-dark rounded-xl px-4 py-4 mb-6">
                 <TextInput
                   value={title}
                   onChangeText={setTitle}
-                  placeholder="Tema, capítulo, unidade"
+                  placeholder={t('cardForm.titlePlaceholder')}
                   placeholderTextColor="#9D9D9D"
                   className="text-sm font-manrope-semibold text-foreground dark:text-foreground-dark"
                   editable={!isSaving}
@@ -216,7 +218,7 @@ export default function EditCardScreen() {
               {/* Cartões Section */}
               <View className="flex-row items-center justify-between mb-4">
                 <Text className="text-sm font-manrope-semibold text-foreground dark:text-foreground-dark">
-                  Cartões ({cards.length})
+                  {t('common.cards')} ({cards.length})
                 </Text>
               </View>
 
@@ -227,8 +229,8 @@ export default function EditCardScreen() {
                     {/* Card Number and Remove Button */}
                     <View className="flex-row items-center justify-between mb-2">
                       <Text className="text-xs font-manrope-medium text-muted dark:text-muted-dark">
-                        Cartão {index + 1}
-                        {card.isNew && ' (novo)'}
+                        {t('common.card')} {index + 1}
+                        {card.isNew && ` (${t('cardForm.new')})`}
                       </Text>
                       {cards.length > 1 && (
                         <TouchableOpacity
@@ -237,7 +239,7 @@ export default function EditCardScreen() {
                           className="active:opacity-60"
                         >
                           <Text className="text-xs font-manrope-medium text-destructive dark:text-destructive-dark">
-                            Remover
+                            {t('cardForm.removeCard')}
                           </Text>
                         </TouchableOpacity>
                       )}
@@ -248,7 +250,7 @@ export default function EditCardScreen() {
                       <TextInput
                         value={card.front}
                         onChangeText={(value) => updateCard(card.id, 'front', value)}
-                        placeholder="Frente"
+                        placeholder={t('cardForm.frontPlaceholder')}
                         placeholderTextColor="#9D9D9D"
                         className="text-sm font-manrope-semibold text-foreground dark:text-foreground-dark"
                         editable={!isSaving}
@@ -264,7 +266,7 @@ export default function EditCardScreen() {
                       <TextInput
                         value={card.back}
                         onChangeText={(value) => updateCard(card.id, 'back', value)}
-                        placeholder="Verso"
+                        placeholder={t('cardForm.backPlaceholder')}
                         placeholderTextColor="#9D9D9D"
                         className="text-sm font-manrope-semibold text-foreground dark:text-foreground-dark"
                         editable={!isSaving}

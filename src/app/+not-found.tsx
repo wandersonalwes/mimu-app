@@ -1,15 +1,18 @@
+import { useTolgee } from '@tolgee/react'
 import { Link, Stack } from 'expo-router'
 import { StyleSheet, Text, View } from 'react-native'
 
 export default function NotFoundScreen() {
+  const { t } = useTolgee(['language'])
+
   return (
     <>
       <Stack.Screen options={{ title: 'Oops!' }} />
       <View style={styles.container}>
-        <Text style={styles.title}>Essa tela não existe mais ou nunca existiu!</Text>
+        <Text style={styles.title}>{t('notFound.title')}</Text>
 
         <Link href="/" style={styles.link}>
-          <Text style={styles.linkText}>Ir para a tela inicial!</Text>
+          <Text style={styles.linkText}>{t('notFound.button')}</Text>
         </Link>
       </View>
     </>

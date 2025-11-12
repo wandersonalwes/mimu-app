@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
+import { useTolgee } from '@tolgee/react'
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
 
 import { EmptyState } from '@/components/empty-state'
@@ -23,6 +24,7 @@ export default function CombineScreen() {
   const router = useRouter()
   const { id } = useLocalSearchParams<{ id?: string }>()
   const cards = useCardsByListId(id!)
+  const { t } = useTolgee(['language'])
 
   // Transformar cards em Terms e dividir em steps - usar useState para não recalcular
   const [steps] = useState<{ left: Term[]; right: Term[] }[]>(() => {
@@ -72,9 +74,9 @@ export default function CombineScreen() {
       <View className="flex-1 bg-background dark:bg-background-dark">
         <EmptyState
           icon={PuzzlePieceIcon}
-          title="Nenhum cartão encontrado"
-          description="Esta lista não possui cartões para estudar"
-          buttonText="Voltar"
+          title={t('combine.emptyState.title')}
+          description={t('combine.emptyState.description')}
+          buttonText={t('common.back')}
           onButtonPress={() => router.back()}
         />
       </View>
@@ -125,7 +127,7 @@ export default function CombineScreen() {
           <Progress progress={completedCombinations / totalCombinations} />
 
           <Text className="text-base text-foreground dark:text-foreground-dark font-manrope-regular">
-            Combine os pares
+            {t('combine.instruction')}
           </Text>
           <View className="flex-1 flex-row gap-4">
             <View className="flex-1 gap-3">
@@ -160,7 +162,7 @@ export default function CombineScreen() {
             {stepCompleted ? (
               <>
                 <Text className="text-green-500 font-manrope-bold">
-                  {allCompleted ? 'Todas as combinações corretas!' : 'Step completo!'}
+                  {allCompleted ? t('combine.allComplete') : t('combine.stepComplete')}
                 </Text>
                 {allCompleted ? (
                   <TouchableOpacity
@@ -168,7 +170,7 @@ export default function CombineScreen() {
                     className="bg-primary dark:bg-primary-dark px-8 py-3 rounded-lg w-full items-center justify-center"
                   >
                     <Text className="text-primary-foreground dark:text-primary-foreground-dark font-manrope-semibold">
-                      Concluir
+                      {t('common.finish')}
                     </Text>
                   </TouchableOpacity>
                 ) : (
@@ -177,14 +179,14 @@ export default function CombineScreen() {
                     className="bg-primary dark:bg-primary-dark px-8 py-3 rounded-lg w-full items-center justify-center"
                   >
                     <Text className="text-primary-foreground dark:text-primary-foreground-dark font-manrope-semibold">
-                      Continuar
+                      {t('combine.nextStep')}
                     </Text>
                   </TouchableOpacity>
                 )}
               </>
             ) : (
               <Text className="text-xs text-muted-foreground">
-                Selecione um termo e depois sua tradução
+                {t('combine.selectInstruction')}
               </Text>
             )}
           </View>
