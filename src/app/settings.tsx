@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 
 import { useTolgee } from '@tolgee/react'
@@ -9,6 +8,7 @@ import { Switch } from '@/components/switch'
 import { useIsSubscribed } from '@/hooks/use-is-subscribed'
 import { BrazilIcon, CaretRightIcon, MimuIcon, SpainIcon, UnitedStatesIcon } from '@/icons'
 import { useLanguageStore } from '@/stores/language'
+import { useNotificationsStore } from '@/stores/notifications'
 import { useThemeStore } from '@/stores/theme'
 
 const THEME_NAME_MAP = {
@@ -33,7 +33,8 @@ export default function SettingsScreen() {
   const theme = useThemeStore((state) => state.theme)
   const language = useLanguageStore((state) => state.language)
 
-  const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(true)
+  const isNotificationsEnabled = useNotificationsStore((state) => state.isEnabled)
+  const setIsNotificationsEnabled = useNotificationsStore((state) => state.setIsEnabled)
 
   const LanguageIcon = LANGUAGE_ICON_MAP[language]
 
