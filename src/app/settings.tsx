@@ -4,6 +4,8 @@ import { useTolgee } from '@tolgee/react'
 import { useRouter } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
+import * as Application from 'expo-application'
+
 import { Switch } from '@/components/switch'
 import { useIsSubscribed } from '@/hooks/use-is-subscribed'
 import { BrazilIcon, CaretRightIcon, MimuIcon, SpainIcon, UnitedStatesIcon } from '@/icons'
@@ -144,7 +146,7 @@ export default function SettingsScreen() {
         <View className="items-center justify-end gap-3 mb-5 flex-1">
           <MimuIcon className="text-foreground dark:text-foreground-dark" />
           <Text className="text-xs font-[Nunito] font-normal leading-4 uppercase text-muted-foreground">
-            0.0.1 (1)
+            {Application.nativeApplicationVersion} ({Application.nativeBuildVersion})
           </Text>
         </View>
       </SafeAreaView>

@@ -18,8 +18,7 @@
       "infoPlist": {
         "UIDesignRequiresCompatibility": true
       },
-      "bundleIdentifier": "dev.wanderson.mimu",
-      "buildNumber": "1"
+      "bundleIdentifier": "dev.wanderson.mimu"
     },
     "android": {
       "adaptiveIcon": {
@@ -28,8 +27,7 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "dev.wanderson.mimu",
-      "versionCode": 1
+      "package": "dev.wanderson.mimu"
     },
     "web": {
       "bundler": "metro",
@@ -38,6 +36,7 @@
     },
     "plugins": [
       "expo-router",
+      "expo-system-ui",
       "@react-native-firebase/app",
       "@react-native-firebase/perf",
       "@react-native-firebase/crashlytics",
