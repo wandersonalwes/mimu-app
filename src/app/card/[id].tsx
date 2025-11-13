@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { ConfirmDeleteSheet } from '@/components/confirm-delete-sheet'
 import { ListOptionsSheet } from '@/components/list-options-sheet'
+import { SortOptionsSheet, type SortOption } from '@/components/sort-options-sheet'
 import { useCardsByListId } from '@/hooks/use-cards'
 import { useList } from '@/hooks/use-lists'
 import { useSpeech } from '@/hooks/use-speech'
@@ -51,12 +52,22 @@ export default function CardDetailScreen() {
   const bottomSheetRef = useRef<BottomSheet>(null)
   const deleteCardSheetRef = useRef<BottomSheet>(null)
   const deleteListSheetRef = useRef<BottomSheet>(null)
+  const sortSheetRef = useRef<BottomSheet>(null)
   const [cardToDelete, setCardToDelete] = useState<string | null>(null)
+  const [sortOption, setSortOption] = useState<SortOption>('createdAtAsc')
 
-  // Usar hooks reativos para atualização em tempo real
   const list = useList(id)
   const cards = useCardsByListId(id)
-  const { speak, isSpeaking } = useSpeech()
+  const { speak } = useSpeech()
+
+  const comparators = {
+    createdAtAsc: (a: Card, b: Card) => a.createdAt - b.createdAt,
+    createdAtDesc: (a: Card, b: Card) => b.createdAt - a.createdAt,
+    alphabeticalAsc: (a: Card, b: Card) => a.front.localeCompare(b.front),
+    alphabeticalDesc: (a: Card, b: Card) => b.front.localeCompare(a.front),
+  } as const
+
+  const sortedCards = [...cards].sort(comparators[sortOption] ?? (() => 0))
 
   const cardsInList = cards.length
 
@@ -113,6 +124,23 @@ export default function CardDetailScreen() {
     speak(text)
   }
 
+  function showSortOptions() {
+    sortSheetRef.current?.expand()
+  }
+
+  function handleSelectSort(sort: SortOption) {
+    setSortOption(sort)
+  }
+
+  const sortLabels = {
+    createdAtAsc: 'cardDetail.sort.createdAtAsc',
+    createdAtDesc: 'cardDetail.sort.createdAtDesc',
+    alphabeticalAsc: 'cardDetail.sort.alphabeticalAsc',
+    alphabeticalDesc: 'cardDetail.sort.alphabeticalDesc',
+  } as const
+
+  const getSortLabel = () => t(sortLabels[sortOption] ?? 'cardDetail.sort.original')
+
   return (
     <>
       <Stack.Screen
@@ -159,9 +187,9 @@ export default function CardDetailScreen() {
           <Text className="font-manrope-bold text-base text-foreground dark:text-foreground-dark">
             {t('common.cards')}
           </Text>
-          <TouchableOpacity className="flex-row items-center gap-4">
+          <TouchableOpacity className="flex-row items-center gap-4" onPress={showSortOptions}>
             <Text className="text-foreground text-sm font-manrope-medium dark:text-foreground-dark">
-              {t('cardDetail.sort.original')}
+              {getSortLabel()}
             </Text>
 
             <FunnelIcon size={20} className="text-foreground dark:text-foreground-dark" />
@@ -169,7 +197,7 @@ export default function CardDetailScreen() {
         </View>
 
         <View className="gap-3">
-          {cards.map((card: Card) => (
+          {sortedCards.map((card: Card) => (
             <View
               key={card.id}
               className="bg-card dark:bg-card-dark rounded-2xl px-5 py-4 flex-row items-start justify-between"
@@ -228,6 +256,12 @@ export default function CardDetailScreen() {
         title={t('cardDetail.delete.list.title')}
         message={t('cardDetail.delete.list.message')}
         onConfirm={confirmDeleteList}
+      />
+
+      <SortOptionsSheet
+        ref={sortSheetRef}
+        currentSort={sortOption}
+        onSelectSort={handleSelectSort}
       />
     </>
   )

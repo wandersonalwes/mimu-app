@@ -18,6 +18,10 @@
       "editList": "Edit List"
     },
     "sort": {
+      "alphabeticalAsc": "Alphabetical (A-Z)",
+      "alphabeticalDesc": "Alphabetical (Z-A)",
+      "createdAtAsc": "Creation date (oldest first)",
+      "createdAtDesc": "Creation date (newest first)",
       "original": "Original order"
     },
     "studyModes": {
