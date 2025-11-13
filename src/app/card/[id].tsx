@@ -147,6 +147,7 @@ export default function CardDetailScreen() {
               onPress={() => router.push({ pathname: `/study/${item.slug}`, params: { id } })}
             >
               <item.icon size={24} className="text-foreground dark:text-foreground-dark" />
+
               <Text className="text-foreground text-sm dark:text-foreground-dark">
                 {item.title}
               </Text>
@@ -162,6 +163,7 @@ export default function CardDetailScreen() {
             <Text className="text-foreground text-sm font-manrope-medium dark:text-foreground-dark">
               {t('cardDetail.sort.original')}
             </Text>
+
             <FunnelIcon size={20} className="text-foreground dark:text-foreground-dark" />
           </TouchableOpacity>
         </View>

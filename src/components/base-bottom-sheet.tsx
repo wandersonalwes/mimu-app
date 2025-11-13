@@ -1,6 +1,10 @@
 import { ComponentRef, ReactNode, useCallback } from 'react'
 
-import BottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet'
+import BottomSheet, {
+  BottomSheetBackdrop,
+  BottomSheetBackdropProps,
+  BottomSheetView,
+} from '@gorhom/bottom-sheet'
 import { useTheme } from '@react-navigation/native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
@@ -19,8 +23,8 @@ export function BaseBottomSheet({
   const { dark } = useTheme()
 
   const renderBackdrop = useCallback(
-    (props: any) => (
-      <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} opacity={0.5} />
+    (props: BottomSheetBackdropProps) => (
+      <BottomSheetBackdrop {...props} appearsOnIndex={1} disappearsOnIndex={0} opacity={0.5} />
     ),
     []
   )
@@ -29,6 +33,7 @@ export function BaseBottomSheet({
     <BottomSheet
       ref={ref}
       index={-1}
+      snapPoints={[0.1]}
       enablePanDownToClose={enablePanDownToClose}
       backdropComponent={renderBackdrop}
       backgroundStyle={{

@@ -47,6 +47,15 @@
           "smallIcons": ["./assets/images/icon.png"],
           "largeIcons": ["./assets/images/icon.png"]
         }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static",
+            "buildReactNativeFromSource": true
+          }
+        }
       ]
     ],
     "experiments": {
