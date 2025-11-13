@@ -43,9 +43,11 @@
       "update": "Could not update the list. Please try again."
     },
     "frontPlaceholder": "Term",
-    "languageInfo": "Select the language of terms and definitions for automatic translations and better pronunciation",
+    "languageInfo": "Select the language for terms and definitions for automatic translations and better pronunciation",
     "new": "new",
     "removeCard": "Remove",
+    "autoTranslate": "Auto-translate",
+    "autoTranslateInfo": "Automatically translates definitions when typing terms",
     "success": {
       "created": "List created successfully!",
       "updated": "List updated successfully!"

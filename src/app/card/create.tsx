@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   KeyboardAvoidingView,
   Platform,
@@ -16,10 +16,12 @@ import { Stack, useRouter } from 'expo-router'
 import { Fab } from '@/components/fab'
 import { LanguagePickerSheet } from '@/components/language-picker-sheet'
 import { LanguageSelector } from '@/components/language-selector'
+import { Switch } from '@/components/switch'
 import { useKeyboardHeight } from '@/hooks/use-keyboard-height'
 import { PlusIcon } from '@/icons'
 import { generateId } from '@/libs/generate-id'
 import { toast } from '@/libs/toast'
+import { translateText } from '@/libs/translate'
 import { validateCards, validateListTitle } from '@/libs/validation'
 import { cardActions } from '@/state/card'
 import { listActions } from '@/state/list'
@@ -45,9 +47,52 @@ export default function CreateCardScreen() {
   const [definitionLanguage, setDefinitionLanguage] = useState<LanguageCode>(
     userLanguage as LanguageCode
   )
+  const [autoTranslate, setAutoTranslate] = useState(false)
   const [cards, setCards] = useState<CardInput[]>([{ id: generateId(), front: '', back: '' }])
   const [isSaving, setIsSaving] = useState(false)
+  const [isTranslating, setIsTranslating] = useState(false)
   const keyboardHeight = useKeyboardHeight()
+
+  // Auto-translate definitions when term changes
+  useEffect(() => {
+    if (!autoTranslate || termLanguage === definitionLanguage || isTranslating) {
+      return
+    }
+
+    const translateCards = async () => {
+      setIsTranslating(true)
+      try {
+        const updatedCards = await Promise.all(
+          cards.map(async (card) => {
+            // Only translate if front has content and back is empty
+            if (card.front.trim() && !card.back.trim()) {
+              try {
+                const translatedBack = await translateText(
+                  card.front,
+                  termLanguage,
+                  definitionLanguage
+                )
+                return { ...card, back: translatedBack }
+              } catch (error) {
+                console.error('Translation error for card:', card.id, error)
+                return card
+              }
+            }
+            return card
+          })
+        )
+        setCards(updatedCards)
+      } catch (error) {
+        console.error('Translation error:', error)
+      } finally {
+        setIsTranslating(false)
+      }
+    }
+
+    // Debounce the translation
+    const timeoutId = setTimeout(translateCards, 800)
+    return () => clearTimeout(timeoutId)
+  }, [cards, autoTranslate, termLanguage, definitionLanguage, isTranslating])
 
   function handleAddCard() {
     const newCard: CardInput = {
@@ -190,6 +235,21 @@ export default function CreateCardScreen() {
                 onPress={() => definitionLanguageSheetRef.current?.expand()}
                 disabled={isSaving}
               />
+
+              {/* Auto-translate Toggle */}
+              {termLanguage !== definitionLanguage && (
+                <View className="mb-6 p-4 bg-card dark:bg-card-dark rounded-xl">
+                  <View className="flex-row items-center justify-between mb-2">
+                    <Text className="text-sm font-manrope-semibold text-foreground dark:text-foreground-dark">
+                      {t('cardForm.autoTranslate')}
+                    </Text>
+                    <Switch checked={autoTranslate} onChange={setAutoTranslate} />
+                  </View>
+                  <Text className="text-xs font-manrope-regular text-muted-foreground dark:text-muted-foreground leading-4">
+                    {t('cardForm.autoTranslateInfo')}
+                  </Text>
+                </View>
+              )}
 
               <Text className="text-sm font-manrope-semibold text-foreground dark:text-foreground-dark mb-2.5">
                 {t('common.title')}

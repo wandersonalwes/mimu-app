@@ -46,6 +46,8 @@
     "languageInfo": "Selecione o idioma dos termos e definições para traduções automáticas e melhor pronuncía",
     "new": "novo",
     "removeCard": "Remover",
+    "autoTranslate": "Tradução automática",
+    "autoTranslateInfo": "Traduz automaticamente as definições ao digitar os termos",
     "success": {
       "created": "Lista criada com sucesso!",
       "updated": "Lista atualizada com sucesso!"

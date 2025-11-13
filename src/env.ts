@@ -8,6 +8,7 @@ const envSchema = z.object({
   EXPO_PUBLIC_TOLGEE_API_KEY: z.string().min(1),
   EXPO_PUBLIC_ONESIGNAL_APP_ID: z.string().min(1),
   EXPO_PUBLIC_CLARITY_ID: z.string().min(1),
+  EXPO_PUBLIC_GOOGLE_TRANSLATE_API_KEY: z.string().min(1),
 })
 
 export const env = envSchema.parse({
@@ -18,4 +19,5 @@ export const env = envSchema.parse({
   EXPO_PUBLIC_TOLGEE_API_KEY: process.env.EXPO_PUBLIC_TOLGEE_API_KEY,
   EXPO_PUBLIC_ONESIGNAL_APP_ID: process.env.EXPO_PUBLIC_ONESIGNAL_APP_ID,
   EXPO_PUBLIC_CLARITY_ID: process.env.EXPO_PUBLIC_CLARITY_ID,
+  EXPO_PUBLIC_GOOGLE_TRANSLATE_API_KEY: process.env.EXPO_PUBLIC_GOOGLE_TRANSLATE_API_KEY,
 })
