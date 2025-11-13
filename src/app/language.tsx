@@ -18,9 +18,9 @@ export default function LanguageScreen() {
   }
 
   const languages = [
-    { id: 'pt-BR', label: 'Português', Icon: BrazilIcon },
-    { id: 'en-US', label: 'Inglês', Icon: UnitedStatesIcon },
-    { id: 'es-ES', label: 'Espanhol', Icon: SpainIcon },
+    { id: 'pt-BR', label: tolgee.t('settings.languageName.pt-BR'), Icon: BrazilIcon },
+    { id: 'en-US', label: tolgee.t('settings.languageName.en-US'), Icon: UnitedStatesIcon },
+    { id: 'es-ES', label: tolgee.t('settings.languageName.es-ES'), Icon: SpainIcon },
   ] as const
 
   return (

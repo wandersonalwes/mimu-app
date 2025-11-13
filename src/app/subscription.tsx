@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { ActivityIndicator, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 
+import { useTolgee } from '@tolgee/react'
+import { useRouter } from 'expo-router'
 import Purchases, { PurchasesPackage } from 'react-native-purchases'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -9,14 +11,9 @@ import { CheckIcon } from '@/icons'
 import { checkIsSubscribed } from '@/libs/check-is-subscribed'
 import { cn } from '@/libs/cn'
 import { toast } from '@/libs/toast'
-import { useRouter } from 'expo-router'
-
-const SUBSCRIPTION_DURATION_TEXT: Record<string, string> = {
-  ANNUAL: 'Plano anual',
-  MONTHLY: 'Plano mensal',
-} as const
 
 export default function SubscriptionScreen() {
+  const { t } = useTolgee(['language'])
   const router = useRouter()
 
   const [selectedPlan, setSelectedPlan] = useState<PurchasesPackage | null>(null)
@@ -24,15 +21,20 @@ export default function SubscriptionScreen() {
 
   const { offerings, isLoading } = useOfferings()
 
+  const SUBSCRIPTION_DURATION_TEXT: Record<string, string> = {
+    ANNUAL: t('subscription.plans.annual'),
+    MONTHLY: t('subscription.plans.monthly'),
+  }
+
   const benefits = [
-    'Remover anúncios',
-    'Criar cartões com imagens e audio',
-    'Ocultar o texto da pergunta no teste',
-    'Mudar ordenação das perguntas',
+    t('subscription.benefits[0]'),
+    t('subscription.benefits[1]'),
+    t('subscription.benefits[2]'),
+    t('subscription.benefits[3]'),
   ]
 
   const handleSubscribe = async () => {
-    if (!selectedPlan) return toast.error({ title: 'Selecione um plano' })
+    if (!selectedPlan) return toast.error({ title: t('subscription.error.selectPlan') })
 
     try {
       const { customerInfo } = await Purchases.purchasePackage(selectedPlan)
@@ -40,12 +42,12 @@ export default function SubscriptionScreen() {
       const isSubscribed = checkIsSubscribed(customerInfo)
 
       if (isSubscribed) {
-        toast.success({ title: 'Parabéns! Sua assinatura foi ativada.' })
+        toast.success({ title: t('subscription.success.activated') })
 
         router.push('/')
       }
     } catch (e) {
-      toast.error({ title: 'Erro ao processar compra. Tente novamente mais tarde.' })
+      toast.error({ title: t('subscription.error.purchase') })
       console.log('📢 error', e)
     }
   }
@@ -59,13 +61,13 @@ export default function SubscriptionScreen() {
       const isSubscribed = checkIsSubscribed(customerInfo)
 
       if (isSubscribed) {
-        toast.success({ title: 'Compras restauradas com sucesso!' })
+        toast.success({ title: t('subscription.success.restored') })
         router.push('/')
       } else {
-        toast.error({ title: 'Nenhuma compra encontrada para restaurar.' })
+        toast.error({ title: t('subscription.error.noPurchases') })
       }
     } catch (e) {
-      toast.error({ title: 'Erro ao restaurar compras. Tente novamente mais tarde.' })
+      toast.error({ title: t('subscription.error.restore') })
       console.log('📢 error', e)
     } finally {
       setIsRestoring(false)
@@ -87,7 +89,7 @@ export default function SubscriptionScreen() {
           <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
             <View className="px-5 py-6">
               <Text className="text-base font-manrope-semibold text-foreground mb-4">
-                Benefícios
+                {t('common.benefits')}
               </Text>
 
               <View className="gap-3 mb-8">
@@ -115,7 +117,7 @@ export default function SubscriptionScreen() {
                     {pkg.packageType === 'ANNUAL' && (
                       <View className="absolute -top-2 right-0 z-10 bg-primary dark:bg-primary-dark rounded-xl px-2 py-0.5">
                         <Text className="text-[10px] font-manrope-semibold text-primary-foreground dark:text-primary-foreground-dark">
-                          Melhor oferta
+                          {t('subscription.plans.bestOffer')}
                         </Text>
                       </View>
                     )}
@@ -140,7 +142,8 @@ export default function SubscriptionScreen() {
                       </Text>
                       {pkg.packageType === 'ANNUAL' && (
                         <Text className="text-sm font-manrope-regular text-foreground dark:text-foreground-dark">
-                          Apenas {pkg.product.pricePerYearString} por ano
+                          {t('subscription.plans.only')} {pkg.product.pricePerYearString}{' '}
+                          {t('subscription.plans.perYear')}
                         </Text>
                       )}
                     </View>
@@ -150,7 +153,7 @@ export default function SubscriptionScreen() {
                         {pkg.product.pricePerMonthString}
                       </Text>
                       <Text className="text-xs font-manrope-medium text-foreground dark:text-foreground-dark">
-                        por mês
+                        {t('subscription.plans.perMonth')}
                       </Text>
                     </View>
                   </TouchableOpacity>
@@ -165,7 +168,7 @@ export default function SubscriptionScreen() {
               onPress={handleSubscribe}
             >
               <Text className="text-sm font-manrope-semibold text-primary-foreground dark:text-primary-foreground-dark">
-                Continuar
+                {t('common.continue')}
               </Text>
             </TouchableOpacity>
 
@@ -175,7 +178,7 @@ export default function SubscriptionScreen() {
               disabled={isRestoring}
             >
               <Text className="text-base font-manrope-medium text-foreground dark:text-foreground-dark">
-                {isRestoring ? 'Restaurando...' : 'Restaurar compras'}
+                {isRestoring ? t('common.restoring') : t('common.restorePurchases')}
               </Text>
             </TouchableOpacity>
           </View>
