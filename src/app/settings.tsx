@@ -9,6 +9,7 @@ import * as Application from 'expo-application'
 import { Switch } from '@/components/switch'
 import { useIsSubscribed } from '@/hooks/use-is-subscribed'
 import { BrazilIcon, CaretRightIcon, MimuIcon, SpainIcon, UnitedStatesIcon } from '@/icons'
+import { openStore } from '@/libs/open-store'
 import { useLanguageStore } from '@/stores/language'
 import { useNotificationsStore } from '@/stores/notifications'
 import { useThemeStore } from '@/stores/theme'
@@ -136,7 +137,10 @@ export default function SettingsScreen() {
         </TouchableOpacity>
 
         {/* Avaliar app */}
-        <TouchableOpacity className="mx-5 flex-row justify-between items-center gap-4 px-5 py-3.5 bg-card dark:bg-card-dark rounded-xl">
+        <TouchableOpacity
+          className="mx-5 flex-row justify-between items-center gap-4 px-5 py-3.5 bg-card dark:bg-card-dark rounded-xl"
+          onPress={openStore}
+        >
           <Text className="text-sm font-manrope-regular leading-5 text-foreground dark:text-foreground-dark">
             {t('settings.about.rateApp')}
           </Text>
