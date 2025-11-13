@@ -34,6 +34,7 @@
   "cardForm": {
     "addCard": "Add card",
     "backPlaceholder": "Definition",
+    "definitionLanguage": "Definition language",
     "editTitle": "Edit List",
     "error": {
       "fillFields": "Please fill in all fields.",
@@ -42,12 +43,14 @@
       "update": "Could not update the list. Please try again."
     },
     "frontPlaceholder": "Term",
+    "languageInfo": "Select the language of terms and definitions for automatic translations and better pronunciation",
     "new": "new",
     "removeCard": "Remove",
     "success": {
       "created": "List created successfully!",
       "updated": "List updated successfully!"
     },
+    "termLanguage": "Term language",
     "titlePlaceholder": "Theme, chapter, unit"
   },
   "combine": {

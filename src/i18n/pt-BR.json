@@ -34,6 +34,7 @@
   "cardForm": {
     "addCard": "Adicionar cartão",
     "backPlaceholder": "Definição",
+    "definitionLanguage": "Idioma da definição",
     "editTitle": "Editar Lista",
     "error": {
       "fillFields": "Por favor, preencha todos os campos.",
@@ -42,12 +43,14 @@
       "update": "Não foi possível atualizar a lista. Tente novamente."
     },
     "frontPlaceholder": "Termo",
+    "languageInfo": "Selecione o idioma dos termos e definições para traduções automáticas e melhor pronuncía",
     "new": "novo",
     "removeCard": "Remover",
     "success": {
       "created": "Lista criada com sucesso!",
       "updated": "Lista atualizada com sucesso!"
     },
+    "termLanguage": "Idioma do termo",
     "titlePlaceholder": "Tema, capítulo, unidade"
   },
   "combine": {

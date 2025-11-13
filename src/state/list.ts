@@ -7,6 +7,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 export type List = {
   id: string
   name: string
+  termLanguage: string // Language code for terms (e.g., 'pt-BR', 'en-US', 'es-ES')
+  definitionLanguage: string // Language code for definitions (e.g., 'pt-BR', 'en-US', 'es-ES')
   createdAt: number
   updatedAt: number
 }
@@ -39,6 +41,19 @@ syncObservable(
   persistOptions({
     persist: {
       name: 'listStore',
+      transform: {
+        load: (value) => {
+          // Migration: add default language fields to existing lists
+          if (value?.lists) {
+            value.lists = value.lists.map((list: any) => ({
+              ...list,
+              termLanguage: list.termLanguage || 'pt-BR',
+              definitionLanguage: list.definitionLanguage || 'pt-BR',
+            }))
+          }
+          return value
+        },
+      },
     },
   })
 )

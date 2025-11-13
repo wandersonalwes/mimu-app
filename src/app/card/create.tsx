@@ -9,10 +9,13 @@ import {
   View,
 } from 'react-native'
 
+import BottomSheet from '@gorhom/bottom-sheet'
 import { useTolgee } from '@tolgee/react'
 import { Stack, useRouter } from 'expo-router'
 
 import { Fab } from '@/components/fab'
+import { LanguagePickerSheet } from '@/components/language-picker-sheet'
+import { LanguageSelector } from '@/components/language-selector'
 import { useKeyboardHeight } from '@/hooks/use-keyboard-height'
 import { PlusIcon } from '@/icons'
 import { generateId } from '@/libs/generate-id'
@@ -20,6 +23,7 @@ import { toast } from '@/libs/toast'
 import { validateCards, validateListTitle } from '@/libs/validation'
 import { cardActions } from '@/state/card'
 import { listActions } from '@/state/list'
+import { useLanguageStore } from '@/stores/language'
 
 type CardInput = {
   id: string
@@ -27,11 +31,20 @@ type CardInput = {
   back: string
 }
 
+type LanguageCode = 'pt-BR' | 'en-US' | 'es-ES'
+
 export default function CreateCardScreen() {
   const router = useRouter()
   const scrollRef = useRef<ScrollView>(null)
+  const termLanguageSheetRef = useRef<BottomSheet>(null)
+  const definitionLanguageSheetRef = useRef<BottomSheet>(null)
   const { t } = useTolgee(['language'])
+  const { language: userLanguage } = useLanguageStore()
   const [title, setTitle] = useState('')
+  const [termLanguage, setTermLanguage] = useState<LanguageCode>(userLanguage as LanguageCode)
+  const [definitionLanguage, setDefinitionLanguage] = useState<LanguageCode>(
+    userLanguage as LanguageCode
+  )
   const [cards, setCards] = useState<CardInput[]>([{ id: generateId(), front: '', back: '' }])
   const [isSaving, setIsSaving] = useState(false)
   const keyboardHeight = useKeyboardHeight()
@@ -96,6 +109,8 @@ export default function CreateCardScreen() {
       listActions.addList({
         id: listId,
         name: title.trim(),
+        termLanguage,
+        definitionLanguage,
       })
 
       // Filtrar e adicionar apenas cartões válidos
@@ -154,6 +169,28 @@ export default function CreateCardScreen() {
             keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
           >
             <View className="px-5 py-6">
+              {/* Language Info */}
+              <View className="mb-6 p-4 bg-card dark:bg-card-dark rounded-xl">
+                <Text className="text-xs font-manrope-regular text-muted-foreground dark:text-muted-foreground leading-4">
+                  {t('cardForm.languageInfo')}
+                </Text>
+              </View>
+
+              {/* Language Selectors */}
+              <LanguageSelector
+                label={t('cardForm.termLanguage')}
+                value={termLanguage}
+                onPress={() => termLanguageSheetRef.current?.expand()}
+                disabled={isSaving}
+              />
+
+              <LanguageSelector
+                label={t('cardForm.definitionLanguage')}
+                value={definitionLanguage}
+                onPress={() => definitionLanguageSheetRef.current?.expand()}
+                disabled={isSaving}
+              />
+
               <Text className="text-sm font-manrope-semibold text-foreground dark:text-foreground-dark mb-2.5">
                 {t('common.title')}
               </Text>
@@ -242,6 +279,18 @@ export default function CreateCardScreen() {
           </Fab>
         )}
       </View>
+
+      <LanguagePickerSheet
+        ref={termLanguageSheetRef}
+        selectedLanguage={termLanguage}
+        onSelectLanguage={(code) => setTermLanguage(code as LanguageCode)}
+      />
+
+      <LanguagePickerSheet
+        ref={definitionLanguageSheetRef}
+        selectedLanguage={definitionLanguage}
+        onSelectLanguage={(code) => setDefinitionLanguage(code as LanguageCode)}
+      />
     </>
   )
 }
