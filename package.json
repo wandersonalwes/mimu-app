@@ -9,7 +9,8 @@
     "web": "expo start --web",
     "tolgee:login": "tolgee login \"${TOLGEE_API_KEY}\"",
     "tolgee:pull": "tolgee pull",
-    "tolgee:push": "tolgee push"
+    "tolgee:push": "tolgee push",
+    "build:android": "eas build -p android --profile production --local --output ./build/android/app.aab && eas submit -p android --path ./build/android/app.aab"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
