@@ -1,4 +1,4 @@
-import { FlatList, Image, Text, TouchableOpacity, useColorScheme, View } from 'react-native'
+import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native'
 
 import { useTolgee } from '@tolgee/react'
 import { Link, useRouter } from 'expo-router'
@@ -13,6 +13,7 @@ import { Fab } from '@/components/fab'
 import { BooksIcon, GearSixIcon, MimuIcon, PlusIcon } from '@/icons'
 import { cardActions } from '@/state/card'
 import { listStore$ } from '@/state/list'
+import { useUniwind } from 'uniwind'
 
 export default function HomeScreen() {
   const router = useRouter()
@@ -21,8 +22,8 @@ export default function HomeScreen() {
 
   const lists = useValue(listStore$.lists)
 
-  const colorScheme = useColorScheme()
-  const isDark = colorScheme === 'dark'
+  const { theme } = useUniwind()
+  const isDark = theme === 'dark'
 
   function handleCardPress(cardId: string) {
     router.push(`/card/${cardId}`)
@@ -49,6 +50,7 @@ export default function HomeScreen() {
       <Image
         source={isDark ? Images.headerBackgroundDark : Images.headerBackgroundLight}
         className="absolute top-0 left-0 right-0"
+        resizeMode="contain"
       />
 
       <SafeAreaView style={{ flex: 1 }}>

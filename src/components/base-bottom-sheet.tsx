@@ -1,15 +1,17 @@
-import { ComponentRef, ReactNode, useCallback } from 'react'
+import { ReactNode, useCallback } from 'react'
 
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetBackdropProps,
   BottomSheetView,
 } from '@gorhom/bottom-sheet'
-import { useTheme } from "expo-router/react-navigation"
+import { useTheme } from 'expo-router/react-navigation'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
+import { BaseBottomSheetRef } from '@/components/base-bottom-sheet.shared'
+
 type BaseBottomSheetProps = {
-  ref: React.RefObject<ComponentRef<typeof BottomSheet> | null>
+  ref: React.RefObject<BaseBottomSheetRef | null>
   children: ReactNode
   enablePanDownToClose?: boolean
 }
@@ -31,7 +33,7 @@ export function BaseBottomSheet({
 
   return (
     <BottomSheet
-      ref={ref}
+      ref={ref as any}
       index={-1}
       snapPoints={[0.1]}
       enablePanDownToClose={enablePanDownToClose}

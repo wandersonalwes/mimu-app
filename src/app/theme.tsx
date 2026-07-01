@@ -2,13 +2,14 @@ import { Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { useTolgee } from '@tolgee/react'
+import { Uniwind, useUniwind } from 'uniwind'
 
 import { CheckIcon } from '@/icons'
-import { useThemeStore } from '@/stores/theme'
 
 export default function ThemeScreen() {
-  const { theme: selectedTheme, setTheme } = useThemeStore()
+  const { theme, hasAdaptiveThemes } = useUniwind()
   const { t } = useTolgee(['language'])
+  const selectedTheme = hasAdaptiveThemes ? 'system' : theme
 
   const themes = [
     { id: 'light', label: t('theme.light') },
@@ -25,7 +26,7 @@ export default function ThemeScreen() {
               <TouchableOpacity
                 key={theme.id}
                 className="flex-row items-center gap-4 px-5 h-12 bg-card rounded-xl"
-                onPress={() => setTheme(theme.id)}
+                onPress={() => Uniwind.setTheme(theme.id)}
               >
                 <Text className="flex-1 text-sm font-manrope-regular leading-5 text-foreground">
                   {theme.label}

@@ -9,11 +9,11 @@ import {
   View,
 } from 'react-native'
 
-import BottomSheet from '@gorhom/bottom-sheet'
 import { useTolgee } from '@tolgee/react'
 import { Stack, useRouter } from 'expo-router'
 
 import { Fab } from '@/components/fab'
+import { BaseBottomSheetRef } from '@/components/base-bottom-sheet.shared'
 import { LanguagePickerSheet } from '@/components/language-picker-sheet'
 import { LanguageSelector } from '@/components/language-selector'
 import { Switch } from '@/components/switch'
@@ -38,8 +38,8 @@ type LanguageCode = 'pt-BR' | 'en-US' | 'es-ES'
 export default function CreateCardScreen() {
   const router = useRouter()
   const scrollRef = useRef<ScrollView>(null)
-  const termLanguageSheetRef = useRef<BottomSheet>(null)
-  const definitionLanguageSheetRef = useRef<BottomSheet>(null)
+  const termLanguageSheetRef = useRef<BaseBottomSheetRef>(null)
+  const definitionLanguageSheetRef = useRef<BaseBottomSheetRef>(null)
   const { t } = useTolgee(['language'])
   const { language: userLanguage } = useLanguageStore()
   const [title, setTitle] = useState('')

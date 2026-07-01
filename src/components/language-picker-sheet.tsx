@@ -1,9 +1,7 @@
-import { ComponentRef } from 'react'
 import { Text, TouchableOpacity } from 'react-native'
 
-import BottomSheet from '@gorhom/bottom-sheet'
-
 import { BaseBottomSheet } from '@/components/base-bottom-sheet'
+import { BaseBottomSheetRef } from '@/components/base-bottom-sheet.shared'
 import { BrazilIcon, CheckIcon, SpainIcon, UnitedStatesIcon } from '@/icons'
 
 type LanguageOption = {
@@ -19,7 +17,7 @@ const LANGUAGES: LanguageOption[] = [
 ]
 
 type LanguagePickerSheetProps = {
-  ref: React.RefObject<ComponentRef<typeof BottomSheet> | null>
+  ref: React.RefObject<BaseBottomSheetRef | null>
   selectedLanguage: string
   onSelectLanguage: (languageCode: string) => void
 }

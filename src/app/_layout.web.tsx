@@ -5,7 +5,6 @@ import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
 import { View } from 'react-native'
-import 'react-native-reanimated'
 
 export { ErrorBoundary } from 'expo-router'
 
@@ -45,6 +44,7 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const { t } = useTolgee(['language'])
+
   return (
     <Stack
       screenOptions={{

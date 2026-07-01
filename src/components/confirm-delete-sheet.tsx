@@ -1,13 +1,12 @@
-import { ComponentRef } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 
-import BottomSheet from '@gorhom/bottom-sheet'
 import { useTolgee } from '@tolgee/react'
 
 import { BaseBottomSheet } from '@/components/base-bottom-sheet'
+import { BaseBottomSheetRef } from '@/components/base-bottom-sheet.shared'
 
 type ConfirmDeleteSheetProps = {
-  ref: React.RefObject<ComponentRef<typeof BottomSheet> | null>
+  ref: React.RefObject<BaseBottomSheetRef | null>
   title: string
   message: string
   onConfirm: () => void

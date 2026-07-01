@@ -1,7 +1,5 @@
 import { TolgeeProvider } from '@tolgee/react'
 import { ThemeProvider } from 'expo-router/react-navigation'
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import 'react-native-reanimated'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import Toast from 'react-native-toast-message'
 
@@ -28,13 +26,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const isDarkMode = theme === 'dark'
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaProvider style={{ flex: 1 }}>
-        <ThemeProvider value={isDarkMode ? themes.dark : themes.light}>
-          <TolgeeProvider tolgee={tolgee}>{children}</TolgeeProvider>
-          <Toast config={toastConfig} position="top" />
-        </ThemeProvider>
-      </SafeAreaProvider>
-    </GestureHandlerRootView>
+    <SafeAreaProvider style={{ flex: 1 }}>
+      <ThemeProvider value={isDarkMode ? themes.dark : themes.light}>
+        <TolgeeProvider tolgee={tolgee}>{children}</TolgeeProvider>
+        <Toast config={toastConfig} position="top" />
+      </ThemeProvider>
+    </SafeAreaProvider>
   )
 }

@@ -1,16 +1,15 @@
-import { ComponentRef } from 'react'
 import { Text, TouchableOpacity } from 'react-native'
 
-import BottomSheet from '@gorhom/bottom-sheet'
 import { useTolgee } from '@tolgee/react'
 
 import { BaseBottomSheet } from '@/components/base-bottom-sheet'
+import { BaseBottomSheetRef } from '@/components/base-bottom-sheet.shared'
 import { CheckIcon } from '@/icons'
 
 export type SortOption = 'createdAtAsc' | 'createdAtDesc' | 'alphabeticalAsc' | 'alphabeticalDesc'
 
 type SortOptionsSheetProps = {
-  ref: React.RefObject<ComponentRef<typeof BottomSheet> | null>
+  ref: React.RefObject<BaseBottomSheetRef | null>
   currentSort: SortOption
   onSelectSort: (sort: SortOption) => void
 }

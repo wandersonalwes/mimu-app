@@ -12,7 +12,7 @@ import { BrazilIcon, CaretRightIcon, MimuIcon, SpainIcon, UnitedStatesIcon } fro
 import { openStore } from '@/libs/open-store'
 import { useLanguageStore } from '@/stores/language'
 import { useNotificationsStore } from '@/stores/notifications'
-import { useThemeStore } from '@/stores/theme'
+import { useUniwind } from 'uniwind'
 
 const THEME_NAME_MAP = {
   light: 'settings.theme.light',
@@ -33,8 +33,9 @@ export default function SettingsScreen() {
 
   const { isLoading, isSubscribed } = useIsSubscribed()
 
-  const theme = useThemeStore((state) => state.theme)
+  const { theme, hasAdaptiveThemes } = useUniwind()
   const language = useLanguageStore((state) => state.language)
+  const selectedTheme = hasAdaptiveThemes ? 'system' : theme
 
   const isNotificationsEnabled = useNotificationsStore((state) => state.isEnabled)
   const setIsNotificationsEnabled = useNotificationsStore((state) => state.setIsEnabled)
@@ -117,7 +118,7 @@ export default function SettingsScreen() {
               {t('settings.preferences.colorScheme')}
             </Text>
             <Text className="text-xs font-manrope-regular leading-4 text-muted-foreground">
-              {t(THEME_NAME_MAP[theme])}
+              {t(THEME_NAME_MAP[selectedTheme])}
             </Text>
           </View>
           <CaretRightIcon size={24} color="#FFFFFF" weight="regular" />

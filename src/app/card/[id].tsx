@@ -1,12 +1,12 @@
 import { useRef, useState } from 'react'
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
 
-import BottomSheet from '@gorhom/bottom-sheet'
 import { useTolgee } from '@tolgee/react'
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { ConfirmDeleteSheet } from '@/components/confirm-delete-sheet'
+import { BaseBottomSheetRef } from '@/components/base-bottom-sheet.shared'
 import { ListOptionsSheet } from '@/components/list-options-sheet'
 import { SortOptionsSheet, type SortOption } from '@/components/sort-options-sheet'
 import { useCardsByListId } from '@/hooks/use-cards'
@@ -49,10 +49,10 @@ export default function CardDetailScreen() {
   const { bottom } = useSafeAreaInsets()
   const router = useRouter()
   const { id } = useLocalSearchParams<{ id: string }>()
-  const bottomSheetRef = useRef<BottomSheet>(null)
-  const deleteCardSheetRef = useRef<BottomSheet>(null)
-  const deleteListSheetRef = useRef<BottomSheet>(null)
-  const sortSheetRef = useRef<BottomSheet>(null)
+  const bottomSheetRef = useRef<BaseBottomSheetRef>(null)
+  const deleteCardSheetRef = useRef<BaseBottomSheetRef>(null)
+  const deleteListSheetRef = useRef<BaseBottomSheetRef>(null)
+  const sortSheetRef = useRef<BaseBottomSheetRef>(null)
   const [cardToDelete, setCardToDelete] = useState<string | null>(null)
   const [sortOption, setSortOption] = useState<SortOption>('createdAtAsc')
 
