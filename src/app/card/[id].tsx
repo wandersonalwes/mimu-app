@@ -147,7 +147,7 @@ export default function CardDetailScreen() {
         options={{
           headerRight: () => (
             <TouchableOpacity onPressIn={showListOptions} className="p-2 -mr-2">
-              <DotsThreeIcon size={24} className="text-foreground dark:text-foreground-dark" />
+              <DotsThreeIcon size={24} className="text-foreground" />
             </TouchableOpacity>
           ),
         }}
@@ -156,10 +156,10 @@ export default function CardDetailScreen() {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ padding: 20, paddingBottom: bottom + 20 }}
-        className="bg-background dark:bg-background-dark"
+        className="bg-background"
       >
         <View className="flex-1 mb-6">
-          <Text className="font-manrope-bold mb-1 text-foreground dark:text-foreground-dark">
+          <Text className="font-manrope-bold mb-1 text-foreground">
             {list.name}
           </Text>
           <Text className="text-sm text-muted-foreground">
@@ -171,12 +171,12 @@ export default function CardDetailScreen() {
           {data.map((item) => (
             <TouchableOpacity
               key={item.title}
-              className="flex-row gap-4 items-center px-5 py-3.5 bg-card dark:bg-card-dark rounded-2xl"
+              className="flex-row gap-4 items-center px-5 py-3.5 bg-card rounded-2xl"
               onPress={() => router.push({ pathname: `/study/${item.slug}`, params: { id } })}
             >
-              <item.icon size={24} className="text-foreground dark:text-foreground-dark" />
+              <item.icon size={24} className="text-foreground" />
 
-              <Text className="text-foreground text-sm dark:text-foreground-dark">
+              <Text className="text-foreground text-sm">
                 {item.title}
               </Text>
             </TouchableOpacity>
@@ -184,15 +184,15 @@ export default function CardDetailScreen() {
         </View>
 
         <View className="flex-row items-center justify-between mb-4">
-          <Text className="font-manrope-bold text-base text-foreground dark:text-foreground-dark">
+          <Text className="font-manrope-bold text-base text-foreground">
             {t('common.cards')}
           </Text>
           <TouchableOpacity className="flex-row items-center gap-4" onPress={showSortOptions}>
-            <Text className="text-foreground text-sm font-manrope-medium dark:text-foreground-dark">
+            <Text className="text-foreground text-sm font-manrope-medium">
               {getSortLabel()}
             </Text>
 
-            <FunnelIcon size={20} className="text-foreground dark:text-foreground-dark" />
+            <FunnelIcon size={20} className="text-foreground" />
           </TouchableOpacity>
         </View>
 
@@ -200,13 +200,13 @@ export default function CardDetailScreen() {
           {sortedCards.map((card: Card) => (
             <View
               key={card.id}
-              className="bg-card dark:bg-card-dark rounded-2xl px-5 py-4 flex-row items-start justify-between"
+              className="bg-card rounded-2xl px-5 py-4 flex-row items-start justify-between"
             >
               <View className="flex-1 gap-2 mr-4">
-                <Text className="text-foreground dark:text-foreground-dark text-sm font-manrope-regular">
+                <Text className="text-foreground text-sm font-manrope-regular">
                   {card.front}
                 </Text>
-                <Text className="text-muted-foreground dark:text-muted-foreground text-sm font-manrope-regular">
+                <Text className="text-muted-foreground text-sm font-manrope-regular">
                   {card.back}
                 </Text>
               </View>
@@ -215,7 +215,7 @@ export default function CardDetailScreen() {
                 <TouchableOpacity onPress={() => handleSpeak(card.front)}>
                   <SpeakerHighIcon
                     size={20}
-                    className="text-foreground dark:text-foreground-dark"
+                    className="text-foreground"
                   />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => handleToggleFavorite(card.id)}>
@@ -224,13 +224,13 @@ export default function CardDetailScreen() {
                     weight={card.isFavorite ? 'fill' : 'regular'}
                     className={
                       card.isFavorite
-                        ? 'text-destructive dark:text-destructive-dark'
-                        : 'text-foreground dark:text-foreground-dark'
+                        ? 'text-destructive'
+                        : 'text-foreground'
                     }
                   />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => handleDeleteCard(card.id)}>
-                  <TrashIcon size={20} className="text-foreground dark:text-foreground-dark" />
+                  <TrashIcon size={20} className="text-foreground" />
                 </TouchableOpacity>
               </View>
             </View>

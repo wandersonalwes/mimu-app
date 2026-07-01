@@ -45,7 +45,7 @@ export default function HomeScreen() {
   }
 
   return (
-    <View className="flex-1 bg-background dark:bg-background-dark">
+    <View className="flex-1 bg-background">
       <Image
         source={isDark ? Images.headerBackgroundDark : Images.headerBackgroundLight}
         className="absolute top-0 left-0 right-0"
@@ -53,16 +53,16 @@ export default function HomeScreen() {
 
       <SafeAreaView style={{ flex: 1 }}>
         <View className="h-16 items-center flex-row px-5 justify-between">
-          <MimuIcon className="text-foreground dark:text-foreground-dark" />
+          <MimuIcon className="text-foreground" />
           <Link href="/settings" asChild>
             <TouchableOpacity>
-              <GearSixIcon size={24} className="text-foreground dark:text-foreground-dark" />
+              <GearSixIcon size={24} className="text-foreground" />
             </TouchableOpacity>
           </Link>
         </View>
 
         <View className="px-5 py-8 flex-1">
-          <Text className="text-base font-manrope-bold mb-3 text-foreground dark:text-foreground-dark">
+          <Text className="text-base font-manrope-bold mb-3 text-foreground">
             {t('home.cardList')}
           </Text>
 

@@ -42,14 +42,14 @@ export function SortOptionsSheet({ ref, currentSort, onSelectSort }: SortOptions
           <Text
             className={`text-base font-manrope-medium ${
               currentSort === option.value
-                ? 'text-primary dark:text-primary-dark'
-                : 'text-foreground dark:text-foreground-dark'
+                ? 'text-primary'
+                : 'text-foreground'
             }`}
           >
             {option.label}
           </Text>
           {currentSort === option.value && (
-            <CheckIcon size={24} className="text-primary dark:text-primary-dark" weight="bold" />
+            <CheckIcon size={24} className="text-primary" weight="bold" />
           )}
         </TouchableOpacity>
       ))}

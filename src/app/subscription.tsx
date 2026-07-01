@@ -76,14 +76,14 @@ export default function SubscriptionScreen() {
 
   if (isLoading) {
     return (
-      <View className="flex-1 justify-center items-center bg-background dark:bg-background-dark">
-        <ActivityIndicator size="large" className="text-primary dark:text-primary-dark" />
+      <View className="flex-1 justify-center items-center bg-background">
+        <ActivityIndicator size="large" className="text-primary" />
       </View>
     )
   }
 
   return (
-    <View className="flex-1 bg-background dark:bg-background-dark">
+    <View className="flex-1 bg-background">
       <SafeAreaView style={{ flex: 1 }} edges={['bottom']}>
         <View className="flex-1">
           <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
@@ -97,10 +97,10 @@ export default function SubscriptionScreen() {
                   <View key={index} className="flex-row gap-4">
                     <CheckIcon
                       size={24}
-                      className="text-foreground dark:text-foreground-dark"
+                      className="text-foreground"
                       weight="bold"
                     />
-                    <Text className="text-sm font-manrope-semibold text-foreground dark:text-foreground-dark flex-1">
+                    <Text className="text-sm font-manrope-semibold text-foreground flex-1">
                       {benefit}
                     </Text>
                   </View>
@@ -112,11 +112,11 @@ export default function SubscriptionScreen() {
                   <TouchableOpacity
                     key={pkg.identifier}
                     onPress={() => setSelectedPlan(pkg)}
-                    className="bg-card dark:bg-card-dark rounded-xl px-6 py-4 flex-row items-center gap-6 relative"
+                    className="bg-card rounded-xl px-6 py-4 flex-row items-center gap-6 relative"
                   >
                     {pkg.packageType === 'ANNUAL' && (
-                      <View className="absolute -top-2 right-0 z-10 bg-primary dark:bg-primary-dark rounded-xl px-2 py-0.5">
-                        <Text className="text-[10px] font-manrope-semibold text-primary-foreground dark:text-primary-foreground-dark">
+                      <View className="absolute -top-2 right-0 z-10 bg-primary rounded-xl px-2 py-0.5">
+                        <Text className="text-[10px] font-manrope-semibold text-primary-foreground">
                           {t('subscription.plans.bestOffer')}
                         </Text>
                       </View>
@@ -126,22 +126,22 @@ export default function SubscriptionScreen() {
                       className={cn(
                         'w-6 h-6 rounded-xl border-2 border-gray-300 dark:border-zinc-500 items-center justify-center',
                         {
-                          'border-primary dark:border-primary-dark':
+                          'border-primary':
                             selectedPlan?.identifier === pkg.identifier,
                         }
                       )}
                     >
                       {selectedPlan?.identifier === pkg.identifier && (
-                        <View className="w-2.5 h-2.5 rounded-lg bg-primary dark:bg-primary-dark" />
+                        <View className="w-2.5 h-2.5 rounded-lg bg-primary" />
                       )}
                     </View>
 
                     <View className="flex-1 gap-0.5">
-                      <Text className="text-base font-manrope-semibold text-foreground dark:text-foreground-dark">
+                      <Text className="text-base font-manrope-semibold text-foreground">
                         {SUBSCRIPTION_DURATION_TEXT[pkg.packageType]}
                       </Text>
                       {pkg.packageType === 'ANNUAL' && (
-                        <Text className="text-sm font-manrope-regular text-foreground dark:text-foreground-dark">
+                        <Text className="text-sm font-manrope-regular text-foreground">
                           {t('subscription.plans.only')} {pkg.product.pricePerYearString}{' '}
                           {t('subscription.plans.perYear')}
                         </Text>
@@ -149,10 +149,10 @@ export default function SubscriptionScreen() {
                     </View>
 
                     <View className="items-end gap-1.5">
-                      <Text className="text-base font-manrope-semibold text-foreground dark:text-foreground-dark">
+                      <Text className="text-base font-manrope-semibold text-foreground">
                         {pkg.product.pricePerMonthString}
                       </Text>
-                      <Text className="text-xs font-manrope-medium text-foreground dark:text-foreground-dark">
+                      <Text className="text-xs font-manrope-medium text-foreground">
                         {t('subscription.plans.perMonth')}
                       </Text>
                     </View>
@@ -164,10 +164,10 @@ export default function SubscriptionScreen() {
 
           <View className="px-5 pb-6 pt-4">
             <TouchableOpacity
-              className="bg-primary dark:bg-primary-dark rounded-xl py-4 items-center mb-3"
+              className="bg-primary rounded-xl py-4 items-center mb-3"
               onPress={handleSubscribe}
             >
-              <Text className="text-sm font-manrope-semibold text-primary-foreground dark:text-primary-foreground-dark">
+              <Text className="text-sm font-manrope-semibold text-primary-foreground">
                 {t('common.continue')}
               </Text>
             </TouchableOpacity>
@@ -177,7 +177,7 @@ export default function SubscriptionScreen() {
               onPress={handleRestorePurchases}
               disabled={isRestoring}
             >
-              <Text className="text-base font-manrope-medium text-foreground dark:text-foreground-dark">
+              <Text className="text-base font-manrope-medium text-foreground">
                 {isRestoring ? t('common.restoring') : t('common.restorePurchases')}
               </Text>
             </TouchableOpacity>

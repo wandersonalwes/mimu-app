@@ -71,7 +71,7 @@ export default function CombineScreen() {
   // Se não há cartões, mostrar mensagem
   if (!cards || cards.length === 0) {
     return (
-      <View className="flex-1 bg-background dark:bg-background-dark">
+      <View className="flex-1 bg-background">
         <EmptyState
           icon={PuzzlePieceIcon}
           title={t('combine.emptyState.title')}
@@ -113,7 +113,7 @@ export default function CombineScreen() {
   }
 
   return (
-    <View className="flex-1 p-5 bg-background dark:bg-background-dark">
+    <View className="flex-1 p-5 bg-background">
       <SafeAreaView style={{ flex: 1 }} edges={['bottom']}>
         <Stack.Screen
           options={{
@@ -126,7 +126,7 @@ export default function CombineScreen() {
         <View className="flex-1 gap-6">
           <Progress progress={completedCombinations / totalCombinations} />
 
-          <Text className="text-base text-foreground dark:text-foreground-dark font-manrope-regular">
+          <Text className="text-base text-foreground font-manrope-regular">
             {t('combine.instruction')}
           </Text>
           <View className="flex-1 flex-row gap-4">
@@ -167,18 +167,18 @@ export default function CombineScreen() {
                 {allCompleted ? (
                   <TouchableOpacity
                     onPress={handleFinish}
-                    className="bg-primary dark:bg-primary-dark px-8 py-3 rounded-lg w-full items-center justify-center"
+                    className="bg-primary px-8 py-3 rounded-lg w-full items-center justify-center"
                   >
-                    <Text className="text-primary-foreground dark:text-primary-foreground-dark font-manrope-semibold">
+                    <Text className="text-primary-foreground font-manrope-semibold">
                       {t('common.finish')}
                     </Text>
                   </TouchableOpacity>
                 ) : (
                   <TouchableOpacity
                     onPress={handleContinue}
-                    className="bg-primary dark:bg-primary-dark px-8 py-3 rounded-lg w-full items-center justify-center"
+                    className="bg-primary px-8 py-3 rounded-lg w-full items-center justify-center"
                   >
-                    <Text className="text-primary-foreground dark:text-primary-foreground-dark font-manrope-semibold">
+                    <Text className="text-primary-foreground font-manrope-semibold">
                       {t('combine.nextStep')}
                     </Text>
                   </TouchableOpacity>

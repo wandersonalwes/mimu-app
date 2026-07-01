@@ -27,7 +27,7 @@ export default function FlashcardsScreen() {
   // Se não há cartões, mostrar mensagem
   if (!cards || cards.length === 0) {
     return (
-      <View className="flex-1 bg-background dark:bg-background-dark">
+      <View className="flex-1 bg-background">
         <EmptyState
           icon={CardsIcon}
           title={t('flashcards.emptyState.title')}
@@ -89,13 +89,13 @@ export default function FlashcardsScreen() {
       <SafeAreaView style={{ flex: 1 }} edges={['bottom']}>
         <Stack.Screen options={{ title: t('flashcards.title') }} />
 
-        <View className="flex-1 p-5 gap-6 bg-background dark:bg-background-dark justify-center">
-          <View className="bg-card dark:bg-card-dark rounded-xl p-8 gap-6">
-            <Text className="text-foreground  dark:text-foreground-dark text-2xl font-manrope-bold text-center">
+        <View className="flex-1 p-5 gap-6 bg-background justify-center">
+          <View className="bg-card rounded-xl p-8 gap-6">
+            <Text className="text-foreground text-2xl font-manrope-bold text-center">
               {t('flashcards.summary.title')}
             </Text>
 
-            <Text className="text-foreground dark:text-foreground-dark text-base font-manrope-regular text-center">
+            <Text className="text-foreground text-base font-manrope-regular text-center">
               {t('flashcards.summary.description')}
             </Text>
 
@@ -113,13 +113,13 @@ export default function FlashcardsScreen() {
               </View>
 
               <View className="bg-primary/10 rounded-xl p-4">
-                <Text className="text-primary dark:text-primary-foreground-dark text-lg font-manrope-semibold text-center">
+                <Text className="text-primary dark:text-primary-foreground text-lg font-manrope-semibold text-center">
                   {t('flashcards.summary.understood')}
                 </Text>
-                <Text className="text-primary dark:text-primary-foreground-dark text-3xl font-manrope-bold text-center mt-2">
+                <Text className="text-primary dark:text-primary-foreground text-3xl font-manrope-bold text-center mt-2">
                   {understoodCount}
                 </Text>
-                <Text className="text-foreground/60 dark:text-foreground-dark/60 text-sm font-manrope-regular text-center mt-1">
+                <Text className="text-foreground/60 text-sm font-manrope-regular text-center mt-1">
                   {understoodCount === 1 ? t('common.term') : t('common.terms')}
                 </Text>
               </View>
@@ -129,18 +129,18 @@ export default function FlashcardsScreen() {
           <View className="gap-4">
             <TouchableOpacity
               onPress={handleRestart}
-              className="h-14 rounded-xl items-center justify-center bg-primary dark:bg-primary-dark"
+              className="h-14 rounded-xl items-center justify-center bg-primary"
             >
-              <Text className="text-primary-foreground dark:text-primary-foreground-dark text-base font-manrope-semibold">
+              <Text className="text-primary-foreground text-base font-manrope-semibold">
                 {t('flashcards.summary.restart')}
               </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               onPress={handleGoBack}
-              className="h-14 rounded-xl items-center justify-center bg-card dark:bg-card-dark"
+              className="h-14 rounded-xl items-center justify-center bg-card"
             >
-              <Text className="text-foreground dark:text-foreground-dark text-base font-manrope-semibold">
+              <Text className="text-foreground text-base font-manrope-semibold">
                 {t('common.back')}
               </Text>
             </TouchableOpacity>
@@ -151,11 +151,11 @@ export default function FlashcardsScreen() {
   }
 
   return (
-    <View className="flex-1 bg-background dark:bg-background-dark">
+    <View className="flex-1 bg-background">
       <SafeAreaView style={{ flex: 1 }} edges={['bottom']}>
         <Stack.Screen options={{ title: `${index + 1} / ${cards.length}` }} />
 
-        <View className="flex-1 p-5 gap-6 bg-background dark:bg-background-dark">
+        <View className="flex-1 p-5 gap-6 bg-background">
           {/* Barra de progresso fina, conforme Figma */}
           <Progress progress={(index + 1) / cards.length} />
 
@@ -163,7 +163,7 @@ export default function FlashcardsScreen() {
           <View className="flex-1">
             <TouchableOpacity
               onPress={toggleSide}
-              className="flex-1 w-full bg-card dark:bg-card-dark rounded-xl p-8 justify-center"
+              className="flex-1 w-full bg-card rounded-xl p-8 justify-center"
               activeOpacity={0.9}
             >
               {/* Ícones posicionados no topo do card */}
@@ -171,7 +171,7 @@ export default function FlashcardsScreen() {
                 <TouchableOpacity onPress={handleSpeak}>
                   <SpeakerHighIcon
                     size={24}
-                    className="text-foreground dark:text-foreground-dark"
+                    className="text-foreground"
                   />
                 </TouchableOpacity>
               </View>
@@ -184,12 +184,12 @@ export default function FlashcardsScreen() {
                   size={24}
                   weight={card.isFavorite ? 'fill' : 'regular'}
                   className={
-                    card.isFavorite ? 'text-red-500' : 'text-foreground dark:text-foreground-dark'
+                    card.isFavorite ? 'text-red-500' : 'text-foreground'
                   }
                 />
               </TouchableOpacity>
 
-              <Text className="text-foreground dark:text-foreground-dark text-xl font-manrope-semibold text-center">
+              <Text className="text-foreground text-xl font-manrope-semibold text-center">
                 {showBack ? card.back : card.front}
               </Text>
             </TouchableOpacity>
@@ -207,7 +207,7 @@ export default function FlashcardsScreen() {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={handleUnderstood}
-              className="flex-1 h-14 rounded-xl items-center justify-center bg-primary dark:bg-primary-dark"
+              className="flex-1 h-14 rounded-xl items-center justify-center bg-primary"
             >
               <Text className="text-white text-base font-manrope-medium">
                 {t('flashcards.understood')} ({understoodCount})

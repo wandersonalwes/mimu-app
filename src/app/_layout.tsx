@@ -1,5 +1,3 @@
-import '@/styles/global.css'
-
 import { useFonts } from 'expo-font'
 import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
@@ -49,7 +47,7 @@ function RootLayoutNav() {
     <Stack
       screenOptions={{
         headerShadowVisible: false,
-        headerBackground: () => <View className="bg-background dark:bg-background-dark flex-1" />,
+        headerBackground: () => <View className="bg-background flex-1" />,
         headerBackTitle: ' ',
         headerTitleStyle: { fontFamily: 'ManropeSemiBold', fontSize: 16 },
       }}

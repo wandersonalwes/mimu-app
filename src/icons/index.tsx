@@ -1,5 +1,5 @@
 import { MimuLogo } from '@/components/mimu-logo'
-import { styled } from 'nativewind'
+import { withUniwind } from 'uniwind'
 
 import type { IconProps } from 'phosphor-react-native'
 import * as PhosphorIcons from 'phosphor-react-native'
@@ -7,7 +7,12 @@ import { View } from 'react-native'
 
 // --- Helper function to create styled icon components ---
 function createStyledIcon(icon: React.ComponentType<IconProps>) {
-  const IconComponent = styled(icon, { className: 'style' })
+  const IconComponent = withUniwind(icon, {
+    color: {
+      fromClassName: 'className',
+      styleProperty: 'color',
+    },
+  })
 
   return (props: IconProps & { className?: string }) => (
     <View pointerEvents="none">
@@ -17,7 +22,12 @@ function createStyledIcon(icon: React.ComponentType<IconProps>) {
 }
 
 // --- General ---
-export const MimuIcon = styled(MimuLogo, { className: 'style' })
+export const MimuIcon = withUniwind(MimuLogo, {
+  color: {
+    fromClassName: 'className',
+    styleProperty: 'color',
+  },
+})
 
 // --- Phosphor Icons ---
 export const ArrowLeftIcon = createStyledIcon(PhosphorIcons.ArrowLeftIcon)

@@ -50,7 +50,7 @@ export default function QuestionsScreen() {
   // Se não há cartões, mostrar mensagem
   if (!cards || cards.length === 0) {
     return (
-      <View className="flex-1 bg-background dark:bg-background-dark">
+      <View className="flex-1 bg-background">
         <EmptyState
           icon={SealQuestionIcon}
           title={t('questions.emptyState.title')}
@@ -91,7 +91,7 @@ export default function QuestionsScreen() {
   const successRate = finished ? Math.round((correctCount / questions.length) * 100) : 0
 
   return (
-    <View className="flex-1 bg-background dark:bg-background-dark">
+    <View className="flex-1 bg-background">
       <SafeAreaView style={{ flex: 1 }} edges={['bottom']}>
         <Stack.Screen
           options={{ title: finished ? t('questions.title') : `${qIndex + 1}/${questions.length}` }}
@@ -100,26 +100,26 @@ export default function QuestionsScreen() {
         <View className="flex-1">
           {finished ? (
             <View className="flex-1 px-5 gap-6 justify-center">
-              <View className="bg-card dark:bg-card-dark rounded-xl p-8 gap-6">
+              <View className="bg-card rounded-xl p-8 gap-6">
                 <View className="items-center gap-2">
                   <Text className="text-6xl">
                     {successRate >= 80 ? '🎉' : successRate >= 50 ? '👍' : '💪'}
                   </Text>
-                  <Text className="text-foreground dark:text-foreground-dark text-2xl font-manrope-bold text-center">
+                  <Text className="text-foreground text-2xl font-manrope-bold text-center">
                     {successRate >= 80
                       ? t('flashcards.summary.title')
                       : successRate >= 50
                       ? t('flashcards.summary.title')
                       : t('flashcards.summary.title')}
                   </Text>
-                  <Text className="text-foreground dark:text-foreground-dark/60 text-base font-manrope-regular text-center">
+                  <Text className="text-foreground dark:text-foreground/60 text-base font-manrope-regular text-center">
                     {t('questions.summary.description') || 'Você completou todas as perguntas'}
                   </Text>
                 </View>
 
-                <View className="bg-background dark:bg-background-dark rounded-xl p-4">
+                <View className="bg-background rounded-xl p-4">
                   <View className="flex-row items-center justify-center gap-2 mb-4">
-                    <Text className="text-foreground dark:text-foreground-dark text-4xl font-manrope-bold">
+                    <Text className="text-foreground text-4xl font-manrope-bold">
                       {successRate}%
                     </Text>
                   </View>
@@ -128,11 +128,11 @@ export default function QuestionsScreen() {
                     <View className="flex-row items-center justify-between">
                       <View className="flex-row items-center gap-2">
                         <View className="w-3 h-3 rounded-full bg-green-500" />
-                        <Text className="text-foreground dark:text-foreground-dark text-sm font-manrope-regular">
+                        <Text className="text-foreground text-sm font-manrope-regular">
                           {t('questions.summary.correct')}
                         </Text>
                       </View>
-                      <Text className="text-foreground dark:text-foreground-dark text-lg font-manrope-bold">
+                      <Text className="text-foreground text-lg font-manrope-bold">
                         {correctCount}
                       </Text>
                     </View>
@@ -140,11 +140,11 @@ export default function QuestionsScreen() {
                     <View className="flex-row items-center justify-between">
                       <View className="flex-row items-center gap-2">
                         <View className="w-3 h-3 rounded-full bg-red-500" />
-                        <Text className="text-foreground dark:text-foreground-dark text-sm font-manrope-regular">
+                        <Text className="text-foreground text-sm font-manrope-regular">
                           {t('questions.summary.wrong')}
                         </Text>
                       </View>
-                      <Text className="text-foreground dark:text-foreground-dark text-lg font-manrope-bold">
+                      <Text className="text-foreground text-lg font-manrope-bold">
                         {wrongCount}
                       </Text>
                     </View>
@@ -152,10 +152,10 @@ export default function QuestionsScreen() {
                     <View className="h-px bg-border my-1" />
 
                     <View className="flex-row items-center justify-between">
-                      <Text className="text-foreground dark:text-foreground-dark text-sm font-manrope-semibold">
+                      <Text className="text-foreground text-sm font-manrope-semibold">
                         Total
                       </Text>
-                      <Text className="text-foreground dark:text-foreground-dark text-lg font-manrope-bold">
+                      <Text className="text-foreground text-lg font-manrope-bold">
                         {questions.length}
                       </Text>
                     </View>
@@ -166,7 +166,7 @@ export default function QuestionsScreen() {
               <View className="gap-4">
                 <TouchableOpacity
                   onPress={handleRestart}
-                  className="h-14 rounded-xl items-center justify-center bg-primary dark:bg-primary-dark"
+                  className="h-14 rounded-xl items-center justify-center bg-primary"
                 >
                   <Text className="text-white text-base font-manrope-semibold">
                     {t('questions.summary.restart')}
@@ -175,9 +175,9 @@ export default function QuestionsScreen() {
 
                 <TouchableOpacity
                   onPress={handleGoBack}
-                  className="h-14 rounded-xl items-center justify-center bg-card dark:bg-card-dark"
+                  className="h-14 rounded-xl items-center justify-center bg-card"
                 >
-                  <Text className="text-foreground dark:text-foreground-dark text-base font-manrope-semibold">
+                  <Text className="text-foreground text-base font-manrope-semibold">
                     {t('common.back')}
                   </Text>
                 </TouchableOpacity>
@@ -189,12 +189,12 @@ export default function QuestionsScreen() {
               <Progress progress={(qIndex + 1) / questions.length} />
 
               {/* Palavra a ser traduzida */}
-              <Text className="text-foreground dark:text-foreground-dark text-xl font-manrope-bold">
+              <Text className="text-foreground text-xl font-manrope-bold">
                 {q.front}
               </Text>
 
               {/* Instrução */}
-              <Text className="text-foreground dark:text-foreground-dark text-base font-manrope-regular">
+              <Text className="text-foreground text-base font-manrope-regular">
                 {t('questions.instruction')}
               </Text>
 
@@ -213,7 +213,7 @@ export default function QuestionsScreen() {
                           ? 'bg-green-600/20'
                           : isWrong
                           ? 'bg-red-600/20'
-                          : 'bg-card dark:bg-card-dark'
+                          : 'bg-card'
                       }`}
                       accessibilityRole="button"
                       accessibilityState={{ selected: isSelected }}
@@ -225,7 +225,7 @@ export default function QuestionsScreen() {
                             ? 'text-green-600'
                             : isWrong
                             ? 'text-red-600'
-                            : 'text-foreground dark:text-foreground-dark'
+                            : 'text-foreground'
                         }`}
                       >
                         {opt}
@@ -243,7 +243,7 @@ export default function QuestionsScreen() {
             <View className="px-5 pb-5">
               <TouchableOpacity
                 onPress={next}
-                className="h-14 rounded-xl items-center justify-center bg-primary dark:bg-primary-dark"
+                className="h-14 rounded-xl items-center justify-center bg-primary"
               >
                 <Text className="text-white text-base font-manrope-semibold">
                   {t('common.next')}

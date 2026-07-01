@@ -29,17 +29,17 @@ export function LanguageSelector({
 
   return (
     <View className="mb-6">
-      <Text className="text-sm font-manrope-semibold text-foreground dark:text-foreground-dark mb-2.5">
+      <Text className="text-sm font-manrope-semibold text-foreground mb-2.5">
         {label}
       </Text>
       <TouchableOpacity
         onPress={onPress}
         disabled={disabled}
-        className="bg-card dark:bg-card-dark rounded-xl px-4 py-4 flex-row items-center justify-between active:opacity-70"
+        className="bg-card rounded-xl px-4 py-4 flex-row items-center justify-between active:opacity-70"
       >
         <View className="flex-row items-center gap-3 flex-1">
           <Icon width={20} height={15} />
-          <Text className="text-sm font-manrope-semibold text-foreground dark:text-foreground-dark">
+          <Text className="text-sm font-manrope-semibold text-foreground">
             {languageInfo.label}
           </Text>
         </View>

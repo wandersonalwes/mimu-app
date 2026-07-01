@@ -42,17 +42,17 @@ export function ConfirmDeleteSheet({
   return (
     <BaseBottomSheet ref={ref}>
       <View className="gap-4">
-        <Text className="text-xl font-manrope-bold text-foreground dark:text-foreground-dark">
+        <Text className="text-xl font-manrope-bold text-foreground">
           {title}
         </Text>
-        <Text className="text-base font-manrope-regular text-muted-foreground dark:text-muted-foreground">
+        <Text className="text-base font-manrope-regular text-muted-foreground">
           {message}
         </Text>
 
         <View className="gap-3 mt-4">
           <TouchableOpacity
             onPress={handleConfirm}
-            className="bg-destructive dark:bg-destructive-dark py-4 rounded-xl items-center"
+            className="bg-destructive py-4 rounded-xl items-center"
             activeOpacity={0.8}
           >
             <Text className="text-base font-manrope-semibold text-white">{t('common.delete')}</Text>
@@ -60,10 +60,10 @@ export function ConfirmDeleteSheet({
 
           <TouchableOpacity
             onPress={handleCancel}
-            className="bg-card dark:bg-card-dark py-4 rounded-xl items-center"
+            className="bg-card py-4 rounded-xl items-center"
             activeOpacity={0.8}
           >
-            <Text className="text-base font-manrope-semibold text-foreground dark:text-foreground-dark">
+            <Text className="text-base font-manrope-semibold text-foreground">
               {t('common.cancel')}
             </Text>
           </TouchableOpacity>

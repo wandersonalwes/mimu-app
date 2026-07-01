@@ -44,11 +44,11 @@ export function LanguagePickerSheet({
           activeOpacity={0.7}
         >
           <language.Icon width={20} height={15} />
-          <Text className="flex-1 text-base font-manrope-medium text-foreground dark:text-foreground-dark">
+          <Text className="flex-1 text-base font-manrope-medium text-foreground">
             {language.label}
           </Text>
           {selectedLanguage === language.code && (
-            <CheckIcon size={24} className="text-primary dark:text-primary-dark" weight="bold" />
+            <CheckIcon size={24} className="text-primary" weight="bold" />
           )}
         </TouchableOpacity>
       ))}

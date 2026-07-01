@@ -1,4 +1,4 @@
-import { Theme } from "expo-router/react-navigation"
+import { Theme } from 'expo-router/react-navigation'
 
 const fonts = {
   regular: {
@@ -36,10 +36,10 @@ const dark: Theme = {
   dark: true,
   colors: {
     primary: 'rgb(72, 12, 168)',
-    background: 'rgb(255, 255, 255)',
+    background: 'rgb(6, 1, 12)',
     card: 'rgb(24, 24, 27)',
     text: 'rgb(244, 244, 245)',
-    border: 'rgb(229, 231, 235)',
+    border: 'rgb(39, 39, 42)',
     notification: 'rgb(239, 68, 68)',
   },
   fonts,

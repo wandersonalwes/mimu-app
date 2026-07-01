@@ -1,14 +1,10 @@
 import { Text } from '@/components/text'
-import { styled } from 'nativewind'
+import { withUniwind } from 'uniwind'
 import { Pressable } from 'react-native'
 import Toast, { BaseToast, ErrorToast, ToastConfig } from 'react-native-toast-message'
 
-const BaseToastThemed = styled(BaseToast, {
-  className: 'style',
-})
-const ErrorToastThemed = styled(ErrorToast, {
-  className: 'style',
-})
+const BaseToastThemed = withUniwind(BaseToast)
+const ErrorToastThemed = withUniwind(ErrorToast)
 
 type ToastProps = {
   title: string
@@ -75,8 +71,8 @@ export const toastConfig: ToastConfig = {
       {...baseConfig}
       renderLeadingIcon={() => null}
       renderTrailingIcon={renderTrailingIcon}
-      text1Style={{ color: 'white', fontFamily: 'ManropeBold' }}
-      text2Style={{ color: 'white', fontFamily: 'ManropeRegular' }}
+      text1ClassName="text-white font-manrope-bold"
+      text2ClassName="text-white font-manrope-regular"
       className="bg-green-500 border-l-0 shadow-none"
     />
   ),
@@ -87,8 +83,8 @@ export const toastConfig: ToastConfig = {
       {...baseConfig}
       renderLeadingIcon={() => null}
       renderTrailingIcon={renderTrailingIcon}
-      text1Style={{ color: 'white', fontFamily: 'ManropeBold' }}
-      text2Style={{ color: 'white', fontFamily: 'ManropeRegular' }}
+      text1ClassName="text-white font-manrope-bold"
+      text2ClassName="text-white font-manrope-regular"
       className="bg-destructive border-l-0 shadow-none"
     />
   ),
@@ -99,8 +95,8 @@ export const toastConfig: ToastConfig = {
       {...baseConfig}
       renderLeadingIcon={() => null}
       renderTrailingIcon={renderTrailingIcon}
-      text1Style={{ color: 'white', fontFamily: 'ManropeBold' }}
-      text2Style={{ color: 'white', fontFamily: 'ManropeRegular' }}
+      text1ClassName="text-white font-manrope-bold"
+      text2ClassName="text-white font-manrope-regular"
       className="bg-yellow-500 border-l-0 shadow-none"
     />
   ),

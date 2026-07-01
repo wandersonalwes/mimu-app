@@ -236,7 +236,7 @@ export default function EditCardScreen() {
             <TouchableOpacity
               onPressIn={handleSave}
               disabled={isSaving}
-              className="bg-primary dark:bg-primary-dark px-6 py-2.5 rounded-lg active:opacity-80"
+              className="bg-primary px-6 py-2.5 rounded-lg active:opacity-80"
             >
               <Text className="text-sm font-manrope-semibold text-white">
                 {isSaving ? t('common.saving') : t('common.save')}
@@ -246,7 +246,7 @@ export default function EditCardScreen() {
         }}
       />
 
-      <View className="flex-1 bg-background dark:bg-background-dark">
+      <View className="flex-1 bg-background">
         <ScrollView
           ref={scrollRef}
           className="flex-1"
@@ -260,8 +260,8 @@ export default function EditCardScreen() {
           >
             <View className="px-5 py-6">
               {/* Language Info */}
-              <View className="mb-6 p-4 bg-card dark:bg-card-dark rounded-xl">
-                <Text className="text-xs font-manrope-regular text-muted-foreground dark:text-muted-foreground leading-4">
+              <View className="mb-6 p-4 bg-card rounded-xl">
+                <Text className="text-xs font-manrope-regular text-muted-foreground leading-4">
                   {t('cardForm.languageInfo')}
                 </Text>
               </View>
@@ -283,37 +283,37 @@ export default function EditCardScreen() {
 
               {/* Auto-translate Toggle */}
               {termLanguage !== definitionLanguage && (
-                <View className="mb-6 p-4 bg-card dark:bg-card-dark rounded-xl">
+                <View className="mb-6 p-4 bg-card rounded-xl">
                   <View className="flex-row items-center justify-between mb-2">
-                    <Text className="text-sm font-manrope-semibold text-foreground dark:text-foreground-dark">
+                    <Text className="text-sm font-manrope-semibold text-foreground">
                       {t('cardForm.autoTranslate')}
                     </Text>
                     <Switch checked={autoTranslate} onChange={setAutoTranslate} />
                   </View>
-                  <Text className="text-xs font-manrope-regular text-muted-foreground dark:text-muted-foreground leading-4">
+                  <Text className="text-xs font-manrope-regular text-muted-foreground leading-4">
                     {t('cardForm.autoTranslateInfo')}
                   </Text>
                 </View>
               )}
 
-              <Text className="text-sm font-manrope-semibold text-foreground dark:text-foreground-dark mb-2.5">
+              <Text className="text-sm font-manrope-semibold text-foreground mb-2.5">
                 {t('common.title')}
               </Text>
 
-              <View className="bg-card dark:bg-card-dark rounded-xl px-4 py-4 mb-6">
+              <View className="bg-card rounded-xl px-4 py-4 mb-6">
                 <TextInput
                   value={title}
                   onChangeText={setTitle}
                   placeholder={t('cardForm.titlePlaceholder')}
                   placeholderTextColor="#9D9D9D"
-                  className="text-sm font-manrope-semibold text-foreground dark:text-foreground-dark"
+                  className="text-sm font-manrope-semibold text-foreground"
                   editable={!isSaving}
                 />
               </View>
 
               {/* Cartões Section */}
               <View className="flex-row items-center justify-between mb-4">
-                <Text className="text-sm font-manrope-semibold text-foreground dark:text-foreground-dark">
+                <Text className="text-sm font-manrope-semibold text-foreground">
                   {t('common.cards')} ({cards.length})
                 </Text>
               </View>
@@ -324,7 +324,7 @@ export default function EditCardScreen() {
                   <View key={card.id} className="relative">
                     {/* Card Number and Remove Button */}
                     <View className="flex-row items-center justify-between mb-2">
-                      <Text className="text-xs font-manrope-medium text-muted dark:text-muted-dark">
+                      <Text className="text-xs font-manrope-medium text-muted">
                         {t('common.card')} {index + 1}
                         {card.isNew && ` (${t('cardForm.new')})`}
                       </Text>
@@ -334,7 +334,7 @@ export default function EditCardScreen() {
                           disabled={isSaving}
                           className="active:opacity-60"
                         >
-                          <Text className="text-xs font-manrope-medium text-destructive dark:text-destructive-dark">
+                          <Text className="text-xs font-manrope-medium text-destructive">
                             {t('cardForm.removeCard')}
                           </Text>
                         </TouchableOpacity>
@@ -342,29 +342,29 @@ export default function EditCardScreen() {
                     </View>
 
                     {/* Term Input */}
-                    <View className="bg-card dark:bg-card-dark rounded-t-xl px-4 py-4">
+                    <View className="bg-card rounded-t-xl px-4 py-4">
                       <TextInput
                         value={card.front}
                         onChangeText={(value) => updateCard(card.id, 'front', value)}
                         placeholder={t('cardForm.frontPlaceholder')}
                         placeholderTextColor="#9D9D9D"
-                        className="text-sm font-manrope-semibold text-foreground dark:text-foreground-dark"
+                        className="text-sm font-manrope-semibold text-foreground"
                         editable={!isSaving}
                         multiline
                       />
                     </View>
 
                     {/* Divider */}
-                    <View className="h-px bg-background dark:bg-background-dark" />
+                    <View className="h-px bg-background" />
 
                     {/* Definition Input */}
-                    <View className="bg-card dark:bg-card-dark rounded-b-xl px-4 py-4">
+                    <View className="bg-card rounded-b-xl px-4 py-4">
                       <TextInput
                         value={card.back}
                         onChangeText={(value) => updateCard(card.id, 'back', value)}
                         placeholder={t('cardForm.backPlaceholder')}
                         placeholderTextColor="#9D9D9D"
-                        className="text-sm font-manrope-semibold text-foreground dark:text-foreground-dark"
+                        className="text-sm font-manrope-semibold text-foreground"
                         editable={!isSaving}
                         multiline
                       />

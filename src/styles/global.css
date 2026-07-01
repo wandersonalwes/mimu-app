@@ -1,48 +1,57 @@
-@import "tailwindcss/theme.css" layer(theme);
-@import "tailwindcss/preflight.css" layer(base);
-@import "tailwindcss/utilities.css";
- 
-@import "nativewind/theme";
+@import 'tailwindcss';
+@import 'uniwind';
 
-/* TODO: Add custom properties for dark mode */
-/* https://github.com/nativewind/nativewind/issues/1640 */
-
-:root {
-    --primary: rgb(76, 201, 240);
-    --primary-foreground: rgb(255, 255, 255);
-    --background: rgb(244, 244, 245);
-    --foreground: rgb(0, 0, 0);
-    --destructive: rgb(239, 68, 68);
-    --card: rgb(255, 255, 255);
-    --muted-foreground: rgb(161, 161, 170);
-
-    /* Temporary */
-    --primary-dark: rgb(72, 12, 168);
-    --primary-foreground-dark: rgb(255, 255, 255);
-    --background-dark: rgb(6, 1, 12);
-    --foreground-dark: rgb(244, 244, 245);
-    --destructive-dark: rgb(239, 68, 68);
-    --card-dark: rgb(24, 24, 27);
-} 
+@source '../../src/';
 
 @theme {
-    --color-primary: var(--primary);
-    --color-primary-foreground: var(--primary-foreground);
-    --color-background: var(--background);
-    --color-foreground: var(--foreground);
-    --color-destructive: var(--destructive);
-    --color-card: var(--card);
-    --color-muted-foreground: var(--muted-foreground);
+  --font-manrope-regular: 'ManropeRegular';
+  --font-manrope-bold: 'ManropeBold';
+  --font-manrope-semibold: 'ManropeSemiBold';
+  --font-manrope-medium: 'ManropeMedium';
+}
 
-    --color-primary-dark: var(--primary-dark);
-    --color-primary-foreground-dark: var(--primary-foreground-dark);
-    --color-background-dark: var(--background-dark);
-    --color-foreground-dark: var(--foreground-dark);
-    --color-destructive-dark: var(--destructive-dark);
-    --color-card-dark: var(--card-dark);
+@layer theme {
+  :root {
+    @variant light {
+      --color-primary: rgb(76, 201, 240);
+      --color-primary-foreground: rgb(255, 255, 255);
+      --color-secondary: rgb(228, 231, 235);
+      --color-secondary-foreground: rgb(24, 24, 27);
+      --color-background: rgb(244, 244, 245);
+      --color-foreground: rgb(0, 0, 0);
+      --color-muted: rgb(161, 161, 170);
+      --color-muted-foreground: rgb(161, 161, 170);
+      --color-border: rgb(229, 231, 235);
+      --color-destructive: rgb(239, 68, 68);
+      --color-destructive-foreground: rgb(255, 255, 255);
+      --color-card: rgb(255, 255, 255);
+      --color-card-foreground: rgb(0, 0, 0);
+      --color-accent: rgb(228, 231, 235);
+      --color-accent-foreground: rgb(24, 24, 27);
+      --color-popover: rgb(255, 255, 255);
+      --color-popover-foreground: rgb(0, 0, 0);
+      --color-ring: rgb(76, 201, 240);
+    }
 
-    --font-manrope-regular: 'ManropeRegular';
-    --font-manrope-bold: 'ManropeBold';
-    --font-manrope-semibold: 'ManropeSemiBold';
-    --font-manrope-medium: 'ManropeMedium';
+    @variant dark {
+      --color-primary: rgb(72, 12, 168);
+      --color-primary-foreground: rgb(255, 255, 255);
+      --color-secondary: rgb(39, 39, 42);
+      --color-secondary-foreground: rgb(244, 244, 245);
+      --color-background: rgb(6, 1, 12);
+      --color-foreground: rgb(244, 244, 245);
+      --color-muted: rgb(63, 63, 70);
+      --color-muted-foreground: rgb(161, 161, 170);
+      --color-border: rgb(39, 39, 42);
+      --color-destructive: rgb(239, 68, 68);
+      --color-destructive-foreground: rgb(255, 255, 255);
+      --color-card: rgb(24, 24, 27);
+      --color-card-foreground: rgb(244, 244, 245);
+      --color-accent: rgb(39, 39, 42);
+      --color-accent-foreground: rgb(244, 244, 245);
+      --color-popover: rgb(24, 24, 27);
+      --color-popover-foreground: rgb(244, 244, 245);
+      --color-ring: rgb(72, 12, 168);
+    }
+  }
 }

@@ -23,21 +23,21 @@ export function ListOptionsSheet({ ref, onEdit, onDelete }: ListOptionsSheetProp
         className="flex-row items-center gap-3 py-4"
         activeOpacity={0.7}
       >
-        <PencilIcon size={24} className="text-foreground dark:text-foreground-dark" />
-        <Text className="text-base font-manrope-medium text-foreground dark:text-foreground-dark">
+        <PencilIcon size={24} className="text-foreground" />
+        <Text className="text-base font-manrope-medium text-foreground">
           {t('cardDetail.options.editList')}
         </Text>
       </TouchableOpacity>
 
-      <View className="h-px bg-border dark:bg-border-dark my-2" />
+      <View className="h-px bg-border my-2" />
 
       <TouchableOpacity
         onPress={onDelete}
         className="flex-row items-center gap-3 py-4"
         activeOpacity={0.7}
       >
-        <TrashIcon size={24} className="text-destructive dark:text-destructive-dark" />
-        <Text className="text-base font-manrope-medium text-destructive dark:text-destructive-dark">
+        <TrashIcon size={24} className="text-destructive" />
+        <Text className="text-base font-manrope-medium text-destructive">
           {t('cardDetail.options.deleteList')}
         </Text>
       </TouchableOpacity>
