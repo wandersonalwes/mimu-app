@@ -1,4 +1,4 @@
-import { useTheme } from '@react-navigation/native'
+import { useTheme } from "expo-router/react-navigation"
 import type { Icon } from 'phosphor-react-native'
 import { Text, TouchableOpacity, View } from 'react-native'
 
@@ -23,7 +23,7 @@ export function EmptyState({
     <View className="flex-1 items-center justify-center px-8">
       <View className="items-center gap-4 mb-8">
         <View className="w-24 h-24 rounded-full bg-primary/10 dark:bg-primary-dark/10 items-center justify-center mb-2">
-          <Icon size={48} color={colors.primary} />
+          <Icon size={48} color={colors.primary.toString()} />
         </View>
         <Text className="text-foreground dark:text-foreground-dark text-xl font-manrope-bold text-center">
           {title}

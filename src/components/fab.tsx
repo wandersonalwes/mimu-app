@@ -1,4 +1,4 @@
-import { useTheme } from '@react-navigation/native'
+import { useTheme } from "expo-router/react-navigation"
 import { StyleSheet, TouchableOpacity, TouchableOpacityProps } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 

@@ -5,7 +5,7 @@ import BottomSheet, {
   BottomSheetBackdropProps,
   BottomSheetView,
 } from '@gorhom/bottom-sheet'
-import { useTheme } from '@react-navigation/native'
+import { useTheme } from "expo-router/react-navigation"
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 type BaseBottomSheetProps = {

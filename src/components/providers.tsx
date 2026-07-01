@@ -1,6 +1,6 @@
 import '@/styles/global.css'
 
-import { ThemeProvider } from '@react-navigation/native'
+import { ThemeProvider } from "expo-router/react-navigation"
 import { TolgeeProvider } from '@tolgee/react'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import 'react-native-reanimated'

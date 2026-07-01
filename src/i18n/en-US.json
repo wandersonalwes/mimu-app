@@ -33,6 +33,8 @@
   },
   "cardForm": {
     "addCard": "Add card",
+    "autoTranslate": "Auto-translate",
+    "autoTranslateInfo": "Automatically translates definitions when typing terms",
     "backPlaceholder": "Definition",
     "definitionLanguage": "Definition language",
     "editTitle": "Edit List",
@@ -46,8 +48,6 @@
     "languageInfo": "Select the language for terms and definitions for automatic translations and better pronunciation",
     "new": "new",
     "removeCard": "Remove",
-    "autoTranslate": "Auto-translate",
-    "autoTranslateInfo": "Automatically translates definitions when typing terms",
     "success": {
       "created": "List created successfully!",
       "updated": "List updated successfully!"

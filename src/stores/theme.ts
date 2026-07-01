@@ -13,7 +13,7 @@ export const useThemeStore = create<ThemeState>()(
     (set) => ({
       theme: 'system',
       setTheme: (theme) => {
-        Appearance.setColorScheme(theme === 'system' ? null : theme)
+        Appearance.setColorScheme(theme === 'system' ? 'unspecified' : theme)
 
         set({ theme })
       },
@@ -21,6 +21,6 @@ export const useThemeStore = create<ThemeState>()(
     {
       name: 'theme-storage',
       storage: createJSONStorage(() => AsyncStorage),
-    }
-  )
+    },
+  ),
 )
