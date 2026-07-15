@@ -93,6 +93,52 @@
     "theme": "Cambiar tema",
     "title": "Título"
   },
+  "csvExport": {
+    "action": "Exportar CSV",
+    "chooseDelimiter": "Elige el separador del CSV",
+    "comma": "Coma",
+    "error": "No se pudo exportar el CSV. Inténtalo de nuevo.",
+    "semicolon": "Punto y coma",
+    "success": "¡CSV exportado correctamente!"
+  },
+  "csvImport": {
+    "action": "Importar CSV",
+    "cardNumber": "Tarjeta {number} · fila {row}",
+    "confirm": "Importar {count} tarjetas",
+    "destination": {
+      "existing": "Lista existente",
+      "new": "Nueva lista",
+      "selectList": "Seleccionar lista",
+      "title": "Destino de la importación"
+    },
+    "duplicateWarning": "Esta tarjeta está duplicada. Se importará si continúas.",
+    "error": {
+      "emptyFile": "El CSV debe contener al menos una tarjeta.",
+      "fileTooLarge": "El archivo debe tener como máximo 5 MB.",
+      "invalidDelimiter": "Usa coma o punto y coma como separador.",
+      "invalidExtension": "Selecciona un archivo con extensión .csv.",
+      "invalidHeader": "El encabezado debe ser front,back o front;back.",
+      "invalidTitle": "El título debe tener entre 3 y 100 caracteres.",
+      "read": "No se pudo leer el CSV. Revisa el archivo e inténtalo de nuevo.",
+      "save": "No se pudieron importar las tarjetas. Inténtalo de nuevo.",
+      "sharingUnavailable": "Compartir no está disponible en este dispositivo.",
+      "tooManyCards": "El CSV puede contener como máximo 10.000 tarjetas."
+    },
+    "importing": "Importando...",
+    "reading": "Leyendo archivo...",
+    "removeRow": "Eliminar fila",
+    "review": "Revisar tarjetas",
+    "rowIssue": {
+      "columnCount": "La fila debe tener exactamente dos columnas; revisa los campos",
+      "missingBack": "Completa la definición",
+      "missingFront": "Completa el término",
+      "parseError": "La fila tiene un formato inválido; revisa los campos"
+    },
+    "selectFile": "Seleccionar archivo CSV",
+    "success": "¡{count} tarjetas importadas correctamente!",
+    "summary": "{invalid} inválidas · {duplicates} duplicadas",
+    "title": "Importar tarjetas"
+  },
   "flashcards": {
     "emptyState": {
       "description": "Esta lista no tiene tarjetas para estudiar",

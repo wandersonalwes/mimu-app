@@ -46,6 +46,10 @@ export const HeartIcon = createStyledIcon(PhosphorIcons.HeartIcon)
 export const TrashIcon = createStyledIcon(PhosphorIcons.TrashIcon)
 export const PencilIcon = createStyledIcon(PhosphorIcons.PencilIcon)
 export const DotsThreeIcon = createStyledIcon(PhosphorIcons.DotsThreeIcon)
+export const FileArrowUpIcon = createStyledIcon(PhosphorIcons.FileArrowUpIcon)
+export const FileArrowDownIcon = createStyledIcon(PhosphorIcons.FileArrowDownIcon)
+export const WarningCircleIcon = createStyledIcon(PhosphorIcons.WarningCircleIcon)
+export const XIcon = createStyledIcon(PhosphorIcons.XIcon)
 
 // --- Countries ---
 export { BrazilIcon } from './countries/brazil'

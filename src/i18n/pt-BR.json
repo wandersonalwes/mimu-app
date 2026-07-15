@@ -93,6 +93,52 @@
     "theme": "Mudar tema",
     "title": "Título"
   },
+  "csvExport": {
+    "action": "Exportar CSV",
+    "chooseDelimiter": "Escolha o separador do CSV",
+    "comma": "Vírgula",
+    "error": "Não foi possível exportar o CSV. Tente novamente.",
+    "semicolon": "Ponto e vírgula",
+    "success": "CSV exportado com sucesso!"
+  },
+  "csvImport": {
+    "action": "Importar CSV",
+    "cardNumber": "Cartão {number} · linha {row}",
+    "confirm": "Importar {count} cartões",
+    "destination": {
+      "existing": "Lista existente",
+      "new": "Nova lista",
+      "selectList": "Selecionar lista",
+      "title": "Destino da importação"
+    },
+    "duplicateWarning": "Este cartão está duplicado. Ele será importado se você continuar.",
+    "error": {
+      "emptyFile": "O CSV precisa conter pelo menos um cartão.",
+      "fileTooLarge": "O arquivo deve ter no máximo 5 MB.",
+      "invalidDelimiter": "Use vírgula ou ponto e vírgula como separador.",
+      "invalidExtension": "Selecione um arquivo com extensão .csv.",
+      "invalidHeader": "O cabeçalho deve ser front,back ou front;back.",
+      "invalidTitle": "O título deve ter entre 3 e 100 caracteres.",
+      "read": "Não foi possível ler o CSV. Verifique o arquivo e tente novamente.",
+      "save": "Não foi possível importar os cartões. Tente novamente.",
+      "sharingUnavailable": "O compartilhamento não está disponível neste dispositivo.",
+      "tooManyCards": "O CSV pode conter no máximo 10.000 cartões."
+    },
+    "importing": "Importando...",
+    "reading": "Lendo arquivo...",
+    "removeRow": "Remover linha",
+    "review": "Revisar cartões",
+    "rowIssue": {
+      "columnCount": "A linha deve ter exatamente duas colunas; revise os campos",
+      "missingBack": "Preencha a definição",
+      "missingFront": "Preencha o termo",
+      "parseError": "A linha contém uma formatação inválida; revise os campos"
+    },
+    "selectFile": "Selecionar arquivo CSV",
+    "success": "{count} cartões importados com sucesso!",
+    "summary": "{invalid} inválidos · {duplicates} duplicados",
+    "title": "Importar cartões"
+  },
   "flashcards": {
     "emptyState": {
       "description": "Esta lista não possui cartões para estudar",

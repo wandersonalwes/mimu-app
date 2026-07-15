@@ -8,6 +8,8 @@ interface EmptyStateProps {
   description: string
   buttonText?: string
   onButtonPress?: () => void
+  secondaryButtonText?: string
+  onSecondaryButtonPress?: () => void
 }
 
 export function EmptyState({
@@ -16,6 +18,8 @@ export function EmptyState({
   description,
   buttonText,
   onButtonPress,
+  secondaryButtonText,
+  onSecondaryButtonPress,
 }: EmptyStateProps) {
   const { colors } = useTheme()
 
@@ -32,14 +36,26 @@ export function EmptyState({
           {description}
         </Text>
       </View>
-      {buttonText && onButtonPress && (
-        <TouchableOpacity
-          onPress={onButtonPress}
-          className="bg-primary px-8 py-3.5 rounded-xl"
-        >
-          <Text className="text-white text-base font-manrope-semibold">{buttonText}</Text>
-        </TouchableOpacity>
-      )}
+      <View className="items-center gap-3">
+        {buttonText && onButtonPress && (
+          <TouchableOpacity
+            onPress={onButtonPress}
+            className="bg-primary px-8 py-3.5 rounded-xl"
+          >
+            <Text className="text-white text-base font-manrope-semibold">{buttonText}</Text>
+          </TouchableOpacity>
+        )}
+        {secondaryButtonText && onSecondaryButtonPress && (
+          <TouchableOpacity
+            onPress={onSecondaryButtonPress}
+            className="px-8 py-3 active:opacity-70"
+          >
+            <Text className="text-primary text-base font-manrope-semibold">
+              {secondaryButtonText}
+            </Text>
+          </TouchableOpacity>
+        )}
+      </View>
     </View>
   )
 }

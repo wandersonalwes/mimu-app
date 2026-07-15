@@ -93,6 +93,52 @@
     "theme": "Change theme",
     "title": "Title"
   },
+  "csvExport": {
+    "action": "Export CSV",
+    "chooseDelimiter": "Choose the CSV delimiter",
+    "comma": "Comma",
+    "error": "Could not export the CSV. Please try again.",
+    "semicolon": "Semicolon",
+    "success": "CSV exported successfully!"
+  },
+  "csvImport": {
+    "action": "Import CSV",
+    "cardNumber": "Card {number} · row {row}",
+    "confirm": "Import {count} cards",
+    "destination": {
+      "existing": "Existing list",
+      "new": "New list",
+      "selectList": "Select list",
+      "title": "Import destination"
+    },
+    "duplicateWarning": "This card is duplicated. It will be imported if you continue.",
+    "error": {
+      "emptyFile": "The CSV must contain at least one card.",
+      "fileTooLarge": "The file must be no larger than 5 MB.",
+      "invalidDelimiter": "Use a comma or semicolon as the delimiter.",
+      "invalidExtension": "Select a file with the .csv extension.",
+      "invalidHeader": "The header must be front,back or front;back.",
+      "invalidTitle": "The title must be between 3 and 100 characters.",
+      "read": "Could not read the CSV. Check the file and try again.",
+      "save": "Could not import the cards. Please try again.",
+      "sharingUnavailable": "Sharing is not available on this device.",
+      "tooManyCards": "The CSV can contain at most 10,000 cards."
+    },
+    "importing": "Importing...",
+    "reading": "Reading file...",
+    "removeRow": "Remove row",
+    "review": "Review cards",
+    "rowIssue": {
+      "columnCount": "The row must have exactly two columns; review the fields",
+      "missingBack": "Enter the definition",
+      "missingFront": "Enter the term",
+      "parseError": "The row has invalid formatting; review the fields"
+    },
+    "selectFile": "Select CSV file",
+    "success": "{count} cards imported successfully!",
+    "summary": "{invalid} invalid · {duplicates} duplicates",
+    "title": "Import cards"
+  },
   "flashcards": {
     "emptyState": {
       "description": "This list has no cards to study",

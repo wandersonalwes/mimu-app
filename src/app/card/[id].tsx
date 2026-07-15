@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { ConfirmDeleteSheet } from '@/components/confirm-delete-sheet'
 import { BaseBottomSheetRef } from '@/components/base-bottom-sheet.shared'
 import { ListOptionsSheet } from '@/components/list-options-sheet'
+import { ExportCsvSheet } from '@/components/export-csv-sheet'
 import { SortOptionsSheet, type SortOption } from '@/components/sort-options-sheet'
 import { useCardsByListId } from '@/hooks/use-cards'
 import { useList } from '@/hooks/use-lists'
@@ -23,6 +24,8 @@ import {
   TrashIcon,
 } from '@/icons'
 import { toast } from '@/libs/toast'
+import { sanitizeCsvFilename, serializeCardsCsv, type CsvDelimiter } from '@/libs/card-csv'
+import { exportCsvFile } from '@/libs/card-csv-file'
 import { cardActions, type Card } from '@/state/card'
 import { listActions } from '@/state/list'
 
@@ -53,6 +56,7 @@ export default function CardDetailScreen() {
   const deleteCardSheetRef = useRef<BaseBottomSheetRef>(null)
   const deleteListSheetRef = useRef<BaseBottomSheetRef>(null)
   const sortSheetRef = useRef<BaseBottomSheetRef>(null)
+  const exportSheetRef = useRef<BaseBottomSheetRef>(null)
   const [cardToDelete, setCardToDelete] = useState<string | null>(null)
   const [sortOption, setSortOption] = useState<SortOption>('createdAtAsc')
 
@@ -74,6 +78,7 @@ export default function CardDetailScreen() {
   if (!list) {
     return null
   }
+  const listName = list.name
 
   function confirmDeleteList() {
     cardActions.removeAllCardsByListId(id)
@@ -118,6 +123,22 @@ export default function CardDetailScreen() {
     setTimeout(() => {
       deleteListSheetRef.current?.expand()
     }, 300)
+  }
+
+  function handleShowExportOptions() {
+    bottomSheetRef.current?.close()
+    setTimeout(() => exportSheetRef.current?.expand(), 300)
+  }
+
+  async function handleExport(delimiter: CsvDelimiter) {
+    try {
+      const content = serializeCardsCsv(cards, delimiter)
+      await exportCsvFile(sanitizeCsvFilename(listName), content)
+      toast.success({ title: t('csvExport.success') })
+    } catch (error) {
+      console.error('CSV export error:', error)
+      toast.error({ title: t('csvExport.error') })
+    }
   }
 
   function handleSpeak(text: string) {
@@ -241,8 +262,11 @@ export default function CardDetailScreen() {
       <ListOptionsSheet
         ref={bottomSheetRef}
         onEdit={handleEditList}
+        onExport={handleShowExportOptions}
         onDelete={handleDeleteListFromSheet}
       />
+
+      <ExportCsvSheet ref={exportSheetRef} onSelect={handleExport} />
 
       <ConfirmDeleteSheet
         ref={deleteCardSheetRef}

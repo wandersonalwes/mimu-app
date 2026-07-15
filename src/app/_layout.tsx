@@ -61,6 +61,7 @@ function RootLayoutNav() {
       <Stack.Screen name="subscription" options={{ title: t('common.subscription') }} />
       <Stack.Screen name="card/[id]" options={{ title: '' }} />
       <Stack.Screen name="card/create" options={{ title: t('common.createList') }} />
+      <Stack.Screen name="card/import" options={{ title: t('csvImport.title') }} />
     </Stack>
   )
 }

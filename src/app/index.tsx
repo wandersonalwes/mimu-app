@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native'
 
 import { useTolgee } from '@tolgee/react'
@@ -10,6 +11,8 @@ import { Images } from '@/assets/images'
 import { CardListItem } from '@/components/card-list-item'
 import { EmptyState } from '@/components/empty-state'
 import { Fab } from '@/components/fab'
+import { HomeActionsSheet } from '@/components/home-actions-sheet'
+import { type BaseBottomSheetRef } from '@/components/base-bottom-sheet.shared'
 import { BooksIcon, GearSixIcon, MimuIcon, PlusIcon } from '@/icons'
 import { cardActions } from '@/state/card'
 import { listStore$ } from '@/state/list'
@@ -17,6 +20,7 @@ import { useUniwind } from 'uniwind'
 
 export default function HomeScreen() {
   const router = useRouter()
+  const actionsSheetRef = useRef<BaseBottomSheetRef>(null)
 
   const { t } = useTolgee(['language'])
 
@@ -30,6 +34,20 @@ export default function HomeScreen() {
   }
 
   function handleCreateCardPress() {
+    actionsSheetRef.current?.close()
+    setTimeout(() => router.push('/card/create'), 300)
+  }
+
+  function handleImportPress() {
+    actionsSheetRef.current?.close()
+    setTimeout(() => router.push('/card/import'), 300)
+  }
+
+  function showHomeActions() {
+    actionsSheetRef.current?.expand()
+  }
+
+  function handleEmptyCreatePress() {
     router.push('/card/create')
   }
 
@@ -74,7 +92,9 @@ export default function HomeScreen() {
               title={t('home.emptyState.title')}
               description={t('home.emptyState.description')}
               buttonText={t('home.emptyState.button')}
-              onButtonPress={handleCreateCardPress}
+              onButtonPress={handleEmptyCreatePress}
+              secondaryButtonText={t('csvImport.action')}
+              onSecondaryButtonPress={() => router.push('/card/import')}
             />
           ) : (
             <FlatList
@@ -86,10 +106,16 @@ export default function HomeScreen() {
           )}
         </View>
 
-        <Fab onPress={handleCreateCardPress}>
+        <Fab onPress={showHomeActions}>
           <PlusIcon size={24} className="text-white" />
         </Fab>
       </SafeAreaView>
+
+      <HomeActionsSheet
+        ref={actionsSheetRef}
+        onCreate={handleCreateCardPress}
+        onImport={handleImportPress}
+      />
     </View>
   )
 }
