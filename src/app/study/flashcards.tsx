@@ -1,5 +1,6 @@
 import { EmptyState } from '@/components/empty-state'
 import { Progress } from '@/components/progress'
+import { StudySuccess } from '@/components/study/study-success'
 import { useCardsByListId } from '@/hooks/use-cards'
 import { useSpeech } from '@/hooks/use-speech'
 import { CardsIcon, HeartIcon, SpeakerHighIcon } from '@/icons'
@@ -86,67 +87,31 @@ export default function FlashcardsScreen() {
   // Tela de resumo
   if (isCompleted) {
     return (
-      <SafeAreaView style={{ flex: 1 }} edges={['bottom']}>
+      <>
         <Stack.Screen options={{ title: t('flashcards.title') }} />
-
-        <View className="flex-1 p-5 gap-6 bg-background justify-center">
-          <View className="bg-card rounded-xl p-8 gap-6">
-            <Text className="text-foreground text-2xl font-manrope-bold text-center">
-              {t('flashcards.summary.title')}
-            </Text>
-
-            <Text className="text-foreground text-base font-manrope-regular text-center">
-              {t('flashcards.summary.description')}
-            </Text>
-
-            <View className="gap-4 mt-4">
-              <View className="bg-[#EF4444]/10 rounded-xl p-4">
-                <Text className="text-[#EF4444] text-lg font-manrope-semibold text-center">
-                  {t('flashcards.summary.learning')}
-                </Text>
-                <Text className="text-[#EF4444] text-3xl font-manrope-bold text-center mt-2">
-                  {learningCount}
-                </Text>
-                <Text className="text-foreground/60 text-sm font-manrope-regular text-center mt-1">
-                  {learningCount === 1 ? t('common.term') : t('common.terms')}
-                </Text>
-              </View>
-
-              <View className="bg-primary/10 rounded-xl p-4">
-                <Text className="text-primary dark:text-primary-foreground text-lg font-manrope-semibold text-center">
-                  {t('flashcards.summary.understood')}
-                </Text>
-                <Text className="text-primary dark:text-primary-foreground text-3xl font-manrope-bold text-center mt-2">
-                  {understoodCount}
-                </Text>
-                <Text className="text-foreground/60 text-sm font-manrope-regular text-center mt-1">
-                  {understoodCount === 1 ? t('common.term') : t('common.terms')}
-                </Text>
-              </View>
-            </View>
-          </View>
-
-          <View className="gap-4">
-            <TouchableOpacity
-              onPress={handleRestart}
-              className="h-14 rounded-xl items-center justify-center bg-primary"
-            >
-              <Text className="text-primary-foreground text-base font-manrope-semibold">
-                {t('flashcards.summary.restart')}
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={handleGoBack}
-              className="h-14 rounded-xl items-center justify-center bg-card"
-            >
-              <Text className="text-foreground text-base font-manrope-semibold">
-                {t('common.back')}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </SafeAreaView>
+        <StudySuccess
+          title={t('studySuccess.title')}
+          description={t('flashcards.summary.description')}
+          metrics={[
+            {
+              label: t('flashcards.summary.learning'),
+              value: learningCount,
+              supportingText: learningCount === 1 ? t('common.term') : t('common.terms'),
+              tone: 'danger',
+            },
+            {
+              label: t('flashcards.summary.understood'),
+              value: understoodCount,
+              supportingText: understoodCount === 1 ? t('common.term') : t('common.terms'),
+              tone: 'success',
+            },
+          ]}
+          restartLabel={t('flashcards.summary.restart')}
+          backLabel={t('common.back')}
+          onRestart={handleRestart}
+          onBack={handleGoBack}
+        />
+      </>
     )
   }
 

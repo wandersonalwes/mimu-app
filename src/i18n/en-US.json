@@ -56,7 +56,7 @@
     "titlePlaceholder": "Theme, chapter, unit"
   },
   "combine": {
-    "allComplete": "Congratulations! You matched all pairs! \uD83C\uDF89",
+    "allComplete": "Congratulations! You matched all pairs!",
     "emptyState": {
       "description": "This list has no cards to study",
       "title": "No cards found"
@@ -64,7 +64,12 @@
     "instruction": "Match the pairs",
     "nextStep": "Next step",
     "selectInstruction": "Select a term and then its translation",
-    "stepComplete": "Step complete! \uD83C\uDF89",
+    "stepComplete": "Step complete!",
+    "summary": {
+      "description": "You matched every pair in this list.",
+      "matches": "Matched pairs",
+      "restart": "Restart matching"
+    },
     "title": "Match"
   },
   "common": {
@@ -149,7 +154,7 @@
       "description": "You completed all flashcards!",
       "learning": "Still learning",
       "restart": "Restart Flashcards",
-      "title": "Congratulations! \uD83C\uDF89",
+      "title": "Congratulations!",
       "understood": "Got it"
     },
     "title": "Flashcards",
@@ -208,6 +213,10 @@
       "light": "Light",
       "system": "System"
     }
+  },
+  "studySuccess": {
+    "title": "Session complete!",
+    "total": "Total"
   },
   "subscription": {
     "benefits[0]": "Remove ads",

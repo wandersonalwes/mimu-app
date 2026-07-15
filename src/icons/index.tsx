@@ -50,6 +50,10 @@ export const FileArrowUpIcon = createStyledIcon(PhosphorIcons.FileArrowUpIcon)
 export const FileArrowDownIcon = createStyledIcon(PhosphorIcons.FileArrowDownIcon)
 export const WarningCircleIcon = createStyledIcon(PhosphorIcons.WarningCircleIcon)
 export const XIcon = createStyledIcon(PhosphorIcons.XIcon)
+export const TrophyIcon = createStyledIcon(PhosphorIcons.TrophyIcon)
+export const ArrowCounterClockwiseIcon = createStyledIcon(
+  PhosphorIcons.ArrowCounterClockwiseIcon
+)
 
 // --- Countries ---
 export { BrazilIcon } from './countries/brazil'

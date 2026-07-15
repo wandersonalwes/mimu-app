@@ -8,6 +8,7 @@ import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
 import { EmptyState } from '@/components/empty-state'
 import { Progress } from '@/components/progress'
 import { MatchItem } from '@/components/study/match-item'
+import { StudySuccess } from '@/components/study/study-success'
 import { useCardsByListId } from '@/hooks/use-cards'
 import { PuzzlePieceIcon } from '@/icons'
 
@@ -112,6 +113,35 @@ export default function CombineScreen() {
     router.back()
   }
 
+  const handleRestart = () => {
+    setCurrentStep(0)
+    setSelectedLeft(null)
+    setMatches({})
+  }
+
+  if (allCompleted) {
+    return (
+      <>
+        <Stack.Screen options={{ title: t('combine.title') }} />
+        <StudySuccess
+          title={t('studySuccess.title')}
+          description={t('combine.summary.description')}
+          metrics={[
+            {
+              label: t('combine.summary.matches'),
+              value: totalCombinations,
+              tone: 'success',
+            },
+          ]}
+          restartLabel={t('combine.summary.restart')}
+          backLabel={t('common.back')}
+          onRestart={handleRestart}
+          onBack={handleFinish}
+        />
+      </>
+    )
+  }
+
   return (
     <View className="flex-1 p-5 bg-background">
       <SafeAreaView style={{ flex: 1 }} edges={['bottom']}>
@@ -162,27 +192,16 @@ export default function CombineScreen() {
             {stepCompleted ? (
               <>
                 <Text className="text-green-500 font-manrope-bold">
-                  {allCompleted ? t('combine.allComplete') : t('combine.stepComplete')}
+                  {t('combine.stepComplete')}
                 </Text>
-                {allCompleted ? (
-                  <TouchableOpacity
-                    onPress={handleFinish}
-                    className="bg-primary px-8 py-3 rounded-lg w-full items-center justify-center"
-                  >
-                    <Text className="text-primary-foreground font-manrope-semibold">
-                      {t('common.finish')}
-                    </Text>
-                  </TouchableOpacity>
-                ) : (
-                  <TouchableOpacity
-                    onPress={handleContinue}
-                    className="bg-primary px-8 py-3 rounded-lg w-full items-center justify-center"
-                  >
-                    <Text className="text-primary-foreground font-manrope-semibold">
-                      {t('combine.nextStep')}
-                    </Text>
-                  </TouchableOpacity>
-                )}
+                <TouchableOpacity
+                  onPress={handleContinue}
+                  className="bg-primary px-8 py-3 rounded-lg w-full items-center justify-center"
+                >
+                  <Text className="text-primary-foreground font-manrope-semibold">
+                    {t('combine.nextStep')}
+                  </Text>
+                </TouchableOpacity>
               </>
             ) : (
               <Text className="text-xs text-muted-foreground">

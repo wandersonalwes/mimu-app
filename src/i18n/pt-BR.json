@@ -56,7 +56,7 @@
     "titlePlaceholder": "Tema, capítulo, unidade"
   },
   "combine": {
-    "allComplete": "Parabéns! Você completou todos os pares! \uD83C\uDF89",
+    "allComplete": "Parabéns! Você completou todos os pares!",
     "emptyState": {
       "description": "Esta lista não possui cartões para estudar",
       "title": "Nenhum cartão encontrado"
@@ -64,7 +64,12 @@
     "instruction": "Combine os pares",
     "nextStep": "Próxima etapa",
     "selectInstruction": "Selecione um termo e depois sua tradução",
-    "stepComplete": "Etapa concluída! \uD83C\uDF89",
+    "stepComplete": "Etapa concluída!",
+    "summary": {
+      "description": "Você encontrou todos os pares desta lista.",
+      "matches": "Pares combinados",
+      "restart": "Reiniciar combinação"
+    },
     "title": "Combinar"
   },
   "common": {
@@ -149,7 +154,7 @@
       "description": "Você completou todos os flashcards!",
       "learning": "Ainda estou aprendendo",
       "restart": "Reiniciar Flashcards",
-      "title": "Parabéns! \uD83C\uDF89",
+      "title": "Parabéns!",
       "understood": "Já sei"
     },
     "title": "Flashcards",
@@ -208,6 +213,10 @@
       "light": "Claro",
       "system": "Sistema"
     }
+  },
+  "studySuccess": {
+    "title": "Sessão concluída!",
+    "total": "Total"
   },
   "subscription": {
     "benefits[0]": "Remover anúncios",
