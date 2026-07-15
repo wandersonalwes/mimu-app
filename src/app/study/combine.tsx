@@ -1,76 +1,45 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { useTolgee } from '@tolgee/react'
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { EmptyState } from '@/components/empty-state'
 import { Progress } from '@/components/progress'
 import { MatchItem } from '@/components/study/match-item'
 import { StudySuccess } from '@/components/study/study-success'
 import { useCardsByListId } from '@/hooks/use-cards'
+import { useStudySession } from '@/hooks/use-study'
 import { PuzzlePieceIcon } from '@/icons'
-
-type Term = {
-  front: string
-  back: string
-}
+import { studyActions } from '@/state/study'
 
 const ITEMS_PER_STEP = 4
-
-const shuffle = <T,>(arr: T[]): T[] => [...arr].sort(() => Math.random() - 0.5)
+const shuffle = <T,>(items: T[]) => [...items].sort(() => Math.random() - 0.5)
 
 export default function CombineScreen() {
   const router = useRouter()
-  const { id } = useLocalSearchParams<{ id?: string }>()
-  const cards = useCardsByListId(id!)
   const { t } = useTolgee(['language'])
+  const { id = '', sessionId = '' } = useLocalSearchParams<{ id: string; sessionId: string }>()
+  const cards = useCardsByListId(id)
+  const session = useStudySession(sessionId)
+  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const sessionCards = session?.cardIds
+    .map((cardId) => cards.find((card) => card.id === cardId))
+    .filter((card) => card !== undefined) ?? []
+  const currentCards = sessionCards.slice(
+    session?.currentIndex ?? 0,
+    (session?.currentIndex ?? 0) + ITEMS_PER_STEP
+  )
+  const orderKey = `${session?.id}:${Math.floor((session?.currentIndex ?? 0) / ITEMS_PER_STEP)}`
+  const rightCards = useMemo(() => shuffle(currentCards), [orderKey])
+  const matchedIds = new Set(
+    currentCards.filter((card) => session?.ratings?.[card.id]).map((card) => card.id)
+  )
+  const stepComplete = currentCards.length > 0 && matchedIds.size === currentCards.length
+  const completed = Boolean(session?.completedAt) || Boolean(session && session.currentIndex >= sessionCards.length)
 
-  // Transformar cards em Terms e dividir em steps - usar useState para não recalcular
-  const [steps] = useState<{ left: Term[]; right: Term[] }[]>(() => {
-    if (!cards || cards.length === 0) return []
-
-    const allTerms = cards.map((card) => ({ front: card.front, back: card.back }))
-    const shuffledTerms = shuffle(allTerms)
-
-    // Dividir em grupos de ITEMS_PER_STEP
-    const stepsArray: { left: Term[]; right: Term[] }[] = []
-    for (let i = 0; i < shuffledTerms.length; i += ITEMS_PER_STEP) {
-      const stepTerms = shuffledTerms.slice(i, i + ITEMS_PER_STEP)
-      // Para cada step, embaralhar separadamente a esquerda e direita
-      stepsArray.push({
-        left: shuffle(stepTerms),
-        right: shuffle(stepTerms),
-      })
-    }
-
-    return stepsArray
-  })
-
-  const [selectedLeft, setSelectedLeft] = useState<number | null>(null)
-  const [matches, setMatches] = useState<Record<number, number>>({})
-  const [currentStep, setCurrentStep] = useState(0)
-
-  // Calcular o número total de steps
-  const totalSteps = steps.length
-
-  // Items do step atual
-  const currentLeft = steps[currentStep]?.left || []
-  const currentRight = steps[currentStep]?.right || []
-
-  // Verificar se todos os items do step atual foram combinados
-  const stepCompleted = Object.keys(matches).length === currentLeft.length
-
-  // Calcular total de combinações
-  const totalCombinations = cards?.length || 0
-  const completedCombinations = currentStep * ITEMS_PER_STEP + Object.keys(matches).length
-
-  // Verificar se todos os steps foram completados
-  const allCompleted = currentStep === totalSteps - 1 && stepCompleted
-
-  // Se não há cartões, mostrar mensagem
-  if (!cards || cards.length === 0) {
+  if (!session || (!currentCards.length && !completed)) {
     return (
       <View className="flex-1 bg-background">
         <EmptyState
@@ -84,131 +53,98 @@ export default function CombineScreen() {
     )
   }
 
-  const selectLeft = (i: number) => {
-    setSelectedLeft(i === selectedLeft ? null : i)
-  }
-
-  const selectRight = (i: number) => {
-    if (selectedLeft === null) return
-    setMatches((m) => {
-      const n = { ...m }
-      // Validate correct match - comparar pelo back (tradução)
-      if (currentLeft[selectedLeft].back === currentRight[i].back) {
-        n[selectedLeft] = i
-      }
-      return n
-    })
-    setSelectedLeft(null)
-  }
-
-  const handleContinue = () => {
-    if (currentStep < totalSteps - 1) {
-      setCurrentStep(currentStep + 1)
-      setSelectedLeft(null)
-      setMatches({}) // Resetar matches para o próximo step
+  function selectRight(cardId: string) {
+    if (!selectedId || !session) return
+    if (selectedId === cardId) {
+      studyActions.recordAnswer(
+        session.id,
+        cardId,
+        session.failedCardIds?.includes(cardId) ? 'again' : 'good'
+      )
+    } else {
+      studyActions.markFailedAttempt(session.id, selectedId)
     }
+    setSelectedId(null)
   }
 
-  const handleFinish = () => {
-    router.back()
+  function continueStep() {
+    if (!session) return
+    const count = currentCards.length
+    studyActions.advanceSession(session.id, count)
+    if (session.currentIndex + count >= sessionCards.length) studyActions.completeSession(session.id)
+    setSelectedId(null)
   }
 
-  const handleRestart = () => {
-    setCurrentStep(0)
-    setSelectedLeft(null)
-    setMatches({})
-  }
-
-  if (allCompleted) {
+  if (completed) {
     return (
       <>
         <Stack.Screen options={{ title: t('combine.title') }} />
         <StudySuccess
           title={t('studySuccess.title')}
-          description={t('combine.summary.description')}
+          description={session.practice ? t('studySuccess.practiceDescription') : t('combine.summary.description')}
+          highlight={{ value: String(session.cardIds.length), label: t('combine.summary.matches') }}
           metrics={[
-            {
-              label: t('combine.summary.matches'),
-              value: totalCombinations,
-              tone: 'success',
-            },
+            { label: t('studySuccess.firstTry'), value: session.correct, tone: 'success' },
+            { label: t('studySuccess.toReview'), value: session.incorrect, tone: 'danger' },
           ]}
-          restartLabel={t('combine.summary.restart')}
+          restartLabel={t('studySuccess.continue')}
           backLabel={t('common.back')}
-          onRestart={handleRestart}
-          onBack={handleFinish}
+          onRestart={() => router.replace({ pathname: '/study/setup', params: { id, mode: 'combine' } })}
+          onBack={() => router.replace(`/card/${id}`)}
         />
       </>
     )
   }
 
+  const completedCount = (session?.currentIndex ?? 0) + matchedIds.size
+  const step = Math.floor((session?.currentIndex ?? 0) / ITEMS_PER_STEP) + 1
+  const totalSteps = Math.ceil(sessionCards.length / ITEMS_PER_STEP)
+
   return (
-    <View className="flex-1 p-5 bg-background">
+    <View className="flex-1 bg-background p-5">
       <SafeAreaView style={{ flex: 1 }} edges={['bottom']}>
-        <Stack.Screen
-          options={{
-            title: `Step ${
-              currentStep + 1
-            } de ${totalSteps} - ${completedCombinations} / ${totalCombinations}`,
-          }}
-        />
-
-        <View className="flex-1 gap-6">
-          <Progress progress={completedCombinations / totalCombinations} />
-
-          <Text className="text-base text-foreground font-manrope-regular">
+        <Stack.Screen options={{ title: `${t('combine.step')} ${step} / ${totalSteps}` }} />
+        <View className="flex-1 gap-5">
+          <Progress progress={completedCount / sessionCards.length} />
+          <Text selectable className="text-base font-manrope-regular text-foreground">
             {t('combine.instruction')}
           </Text>
-          <View className="flex-1 flex-row gap-4">
+          <View className="flex-1 flex-row gap-3">
             <View className="flex-1 gap-3">
-              {currentLeft.map((t, i) => {
-                return (
-                  <MatchItem
-                    key={i}
-                    label={t.front}
-                    matched={matches[i] !== undefined}
-                    selected={i === selectedLeft}
-                    onPress={() => selectLeft(i)}
-                  />
-                )
-              })}
+              {currentCards.map((card) => (
+                <MatchItem
+                  key={card.id}
+                  label={card.front}
+                  matched={matchedIds.has(card.id)}
+                  selected={selectedId === card.id}
+                  onPress={() => setSelectedId(selectedId === card.id ? null : card.id)}
+                />
+              ))}
             </View>
             <View className="flex-1 gap-3">
-              {currentRight.map((t, i) => {
-                const matchedIndex = Object.values(matches).findIndex((v) => v === i)
-                const matched = matchedIndex !== -1
-                return (
-                  <MatchItem
-                    key={i}
-                    label={t.back}
-                    matched={matched}
-                    onPress={() => selectRight(i)}
-                  />
-                )
-              })}
+              {rightCards.map((card) => (
+                <MatchItem
+                  key={card.id}
+                  label={card.back}
+                  matched={matchedIds.has(card.id)}
+                  onPress={() => selectRight(card.id)}
+                />
+              ))}
             </View>
           </View>
-          <View className="items-center gap-4">
-            {stepCompleted ? (
-              <>
-                <Text className="text-green-500 font-manrope-bold">
-                  {t('combine.stepComplete')}
-                </Text>
-                <TouchableOpacity
-                  onPress={handleContinue}
-                  className="bg-primary px-8 py-3 rounded-lg w-full items-center justify-center"
-                >
-                  <Text className="text-primary-foreground font-manrope-semibold">
-                    {t('combine.nextStep')}
-                  </Text>
-                </TouchableOpacity>
-              </>
-            ) : (
-              <Text className="text-xs text-muted-foreground">
-                {t('combine.selectInstruction')}
+          {stepComplete ? (
+            <TouchableOpacity onPress={continueStep} className="h-14 items-center justify-center rounded-xl bg-primary">
+              <Text className="text-base font-manrope-semibold text-white">
+                {session.currentIndex + currentCards.length >= sessionCards.length
+                  ? t('common.finish')
+                  : t('combine.nextStep')}
               </Text>
-            )}
-          </View>
+            </TouchableOpacity>
+          ) : (
+            <Text selectable className="text-center text-xs font-manrope-regular text-muted-foreground">
+              {t('combine.selectInstruction')}
+            </Text>
+          )}
         </View>
       </SafeAreaView>
     </View>

@@ -64,6 +64,7 @@
     "instruction": "Match the pairs",
     "nextStep": "Next step",
     "selectInstruction": "Select a term and then its translation",
+    "step": "Step",
     "stepComplete": "Step complete!",
     "summary": {
       "description": "You matched every pair in this list.",
@@ -157,6 +158,7 @@
       "title": "Congratulations!",
       "understood": "Got it"
     },
+    "tapToFlip": "Tap to flip",
     "title": "Flashcards",
     "understood": "Got it"
   },
@@ -172,6 +174,31 @@
     "button": "Go to home screen!",
     "title": "This screen doesn't exist anymore or never did!"
   },
+  "progress": {
+    "accuracy": "Accuracy",
+    "bestStreak": "Best streak",
+    "byList": "Progress by list",
+    "cards": "Cards",
+    "currentStreak": "Current streak",
+    "due": "Due",
+    "lastSevenDays": "Last 7 days",
+    "learning": "Learning",
+    "listSummary": "{due} due · {mastered} mastered · {accuracy}% accuracy",
+    "mastered": "Mastered",
+    "new": "New",
+    "nextReview": "Next review: {date}",
+    "noReviewScheduled": "none scheduled",
+    "review": "In review",
+    "reviewedLast30Days": "Last 30 days",
+    "reviewedToday": "Reviewed today",
+    "startStudy": "Study now",
+    "streak": "day streak",
+    "study": "Study",
+    "title": "Your progress",
+    "today": "Today's plan",
+    "todaySummary": "{due} due · {fresh} new",
+    "viewProgress": "View progress"
+  },
   "questions": {
     "emptyState": {
       "description": "This list has no cards to study",
@@ -186,6 +213,13 @@
       "wrong": "Wrong"
     },
     "title": "Questions"
+  },
+  "reviewRating": {
+    "again": "Again",
+    "easy": "Easy",
+    "good": "Good",
+    "hard": "Hard",
+    "inDays": "{days, plural, one {# day} other {# days}}"
   },
   "settings": {
     "about": {
@@ -214,8 +248,28 @@
       "system": "System"
     }
   },
+  "studySetup": {
+    "due": "Due",
+    "mastered": "Mastered",
+    "new": "New",
+    "practice": "Free practice",
+    "practiceBadge": "Free practice · does not change scheduling",
+    "practiceHint": "Free practice uses the least recently studied cards and does not affect progress.",
+    "questionsUnavailable": "Add at least two different definitions to use Questions mode.",
+    "resume": "Resume session",
+    "sessionSize": "Cards in this session",
+    "start": "Start review",
+    "title": "Prepare session"
+  },
   "studySuccess": {
+    "continue": "Continue studying",
+    "correct": "Correct",
+    "firstTry": "First try",
+    "incorrect": "Incorrect",
+    "practiceDescription": "Practice completed without changing your schedule.",
+    "reviewed": "Cards reviewed",
     "title": "Session complete!",
+    "toReview": "To review",
     "total": "Total"
   },
   "subscription": {

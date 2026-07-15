@@ -64,6 +64,7 @@
     "instruction": "Combina los pares",
     "nextStep": "Siguiente etapa",
     "selectInstruction": "Selecciona un término y luego su traducción",
+    "step": "Etapa",
     "stepComplete": "¡Etapa completada!",
     "summary": {
       "description": "Encontraste todos los pares de esta lista.",
@@ -157,6 +158,7 @@
       "title": "¡Felicidades!",
       "understood": "Ya lo sé"
     },
+    "tapToFlip": "Toca para voltear",
     "title": "Tarjetas",
     "understood": "Ya lo sé"
   },
@@ -172,6 +174,31 @@
     "button": "¡Ir a la pantalla principal!",
     "title": "¡Esta pantalla ya no existe o nunca existió!"
   },
+  "progress": {
+    "accuracy": "Precisión",
+    "bestStreak": "Mejor racha",
+    "byList": "Progreso por lista",
+    "cards": "Tarjetas",
+    "currentStreak": "Racha actual",
+    "due": "Vencidas",
+    "lastSevenDays": "Últimos 7 días",
+    "learning": "Aprendiendo",
+    "listSummary": "{due} vencidas · {mastered} dominadas · {accuracy}% de precisión",
+    "mastered": "Dominadas",
+    "new": "Nuevas",
+    "nextReview": "Próxima revisión: {date}",
+    "noReviewScheduled": "ninguna programada",
+    "review": "En revisión",
+    "reviewedLast30Days": "Últimos 30 días",
+    "reviewedToday": "Revisadas hoy",
+    "startStudy": "Estudiar ahora",
+    "streak": "días seguidos",
+    "study": "Estudiar",
+    "title": "Tu progreso",
+    "today": "Plan de hoy",
+    "todaySummary": "{due} vencidas · {fresh} nuevas",
+    "viewProgress": "Ver progreso"
+  },
   "questions": {
     "emptyState": {
       "description": "Esta lista no tiene tarjetas para estudiar",
@@ -186,6 +213,13 @@
       "wrong": "Incorrectas"
     },
     "title": "Preguntas"
+  },
+  "reviewRating": {
+    "again": "Fallé",
+    "easy": "Fácil",
+    "good": "Bien",
+    "hard": "Difícil",
+    "inDays": "{days, plural, one {# día} other {# días}}"
   },
   "settings": {
     "about": {
@@ -214,8 +248,28 @@
       "system": "Sistema"
     }
   },
+  "studySetup": {
+    "due": "Vencidas",
+    "mastered": "Dominadas",
+    "new": "Nuevas",
+    "practice": "Práctica libre",
+    "practiceBadge": "Práctica libre · no cambia la programación",
+    "practiceHint": "La práctica libre usa las tarjetas vistas hace más tiempo y no afecta el progreso.",
+    "questionsUnavailable": "Añade al menos dos definiciones diferentes para usar el modo Preguntas.",
+    "resume": "Retomar sesión",
+    "sessionSize": "Tarjetas en esta sesión",
+    "start": "Comenzar revisión",
+    "title": "Preparar sesión"
+  },
   "studySuccess": {
+    "continue": "Seguir estudiando",
+    "correct": "Aciertos",
+    "firstTry": "Al primer intento",
+    "incorrect": "Errores",
+    "practiceDescription": "Práctica completada sin cambiar tu programación.",
+    "reviewed": "Tarjetas revisadas",
     "title": "¡Sesión completada!",
+    "toReview": "Para revisar",
     "total": "Total"
   },
   "subscription": {

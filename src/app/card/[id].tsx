@@ -28,6 +28,8 @@ import { sanitizeCsvFilename, serializeCardsCsv, type CsvDelimiter } from '@/lib
 import { exportCsvFile } from '@/libs/card-csv-file'
 import { cardActions, type Card } from '@/state/card'
 import { listActions } from '@/state/list'
+import { studyActions } from '@/state/study'
+import { useListStudySummary } from '@/hooks/use-study'
 
 export default function CardDetailScreen() {
   const { t } = useTolgee(['language'])
@@ -62,6 +64,7 @@ export default function CardDetailScreen() {
 
   const list = useList(id)
   const cards = useCardsByListId(id)
+  const studySummary = useListStudySummary(id)
   const { speak } = useSpeech()
 
   const comparators = {
@@ -81,6 +84,7 @@ export default function CardDetailScreen() {
   const listName = list.name
 
   function confirmDeleteList() {
+    studyActions.removeListProgress(id)
     cardActions.removeAllCardsByListId(id)
     listActions.removeList(id)
     router.back()
@@ -109,6 +113,7 @@ export default function CardDetailScreen() {
 
   function confirmDeleteCard() {
     if (cardToDelete) {
+      studyActions.removeCardProgress(cardToDelete)
       cardActions.removeCard(cardToDelete)
       setCardToDelete(null)
     }
@@ -189,11 +194,23 @@ export default function CardDetailScreen() {
         </View>
 
         <View className="gap-3 mb-8">
+          <View className="flex-row gap-3 mb-1">
+            <StudyMetric label={t('progress.due')} value={studySummary.due} />
+            <StudyMetric label={t('progress.new')} value={studySummary.new} />
+            <StudyMetric label={t('progress.mastered')} value={studySummary.mastered} />
+          </View>
+          <Text selectable className="text-xs font-manrope-regular text-muted-foreground">
+            {t('progress.nextReview', {
+              date: studySummary.nextDueAt
+                ? new Date(studySummary.nextDueAt).toLocaleDateString()
+                : t('progress.noReviewScheduled'),
+            })}
+          </Text>
           {data.map((item) => (
             <TouchableOpacity
               key={item.title}
               className="flex-row gap-4 items-center px-5 py-3.5 bg-card rounded-2xl"
-              onPress={() => router.push({ pathname: `/study/${item.slug}`, params: { id } })}
+              onPress={() => router.push({ pathname: '/study/setup', params: { id, mode: item.slug } })}
             >
               <item.icon size={24} className="text-foreground" />
 
@@ -288,5 +305,18 @@ export default function CardDetailScreen() {
         onSelectSort={handleSelectSort}
       />
     </>
+  )
+}
+
+function StudyMetric({ label, value }: { label: string; value: number }) {
+  return (
+    <View className="flex-1 items-center gap-1 rounded-xl bg-card p-3">
+      <Text selectable className="text-xl font-manrope-bold text-foreground" style={{ fontVariant: ['tabular-nums'] }}>
+        {value}
+      </Text>
+      <Text selectable className="text-center text-xs font-manrope-regular text-muted-foreground">
+        {label}
+      </Text>
+    </View>
   )
 }

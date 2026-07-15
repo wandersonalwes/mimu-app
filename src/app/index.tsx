@@ -17,6 +17,7 @@ import { BooksIcon, GearSixIcon, MimuIcon, PlusIcon } from '@/icons'
 import { cardActions } from '@/state/card'
 import { listStore$ } from '@/state/list'
 import { useUniwind } from 'uniwind'
+import { StudyOverviewCard } from '@/components/study/study-overview-card'
 
 export default function HomeScreen() {
   const router = useRouter()
@@ -102,6 +103,8 @@ export default function HomeScreen() {
               keyExtractor={(item) => item.id}
               renderItem={renderItem}
               ItemSeparatorComponent={() => <View className="h-3" />}
+              ListHeaderComponent={<StudyOverviewCard />}
+              contentInsetAdjustmentBehavior="automatic"
             />
           )}
         </View>

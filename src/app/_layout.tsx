@@ -59,6 +59,8 @@ function RootLayoutNav() {
       <Stack.Screen name="language" options={{ title: t('common.language') }} />
       <Stack.Screen name="theme" options={{ title: t('common.theme') }} />
       <Stack.Screen name="subscription" options={{ title: t('common.subscription') }} />
+      <Stack.Screen name="progress" options={{ title: t('progress.title') }} />
+      <Stack.Screen name="study/setup" options={{ title: t('studySetup.title') }} />
       <Stack.Screen name="card/[id]" options={{ title: '' }} />
       <Stack.Screen name="card/create" options={{ title: t('common.createList') }} />
       <Stack.Screen name="card/import" options={{ title: t('csvImport.title') }} />

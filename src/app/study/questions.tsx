@@ -1,56 +1,46 @@
+import { useMemo, useState } from 'react'
+import { Text, TouchableOpacity, View } from 'react-native'
+
+import { useTolgee } from '@tolgee/react'
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
+import { SafeAreaView } from 'react-native-safe-area-context'
+
 import { EmptyState } from '@/components/empty-state'
 import { Progress } from '@/components/progress'
 import { StudySuccess } from '@/components/study/study-success'
 import { useCardsByListId } from '@/hooks/use-cards'
+import { useStudySession } from '@/hooks/use-study'
 import { SealQuestionIcon } from '@/icons'
 import { cn } from '@/libs/cn'
-import { useTolgee } from '@tolgee/react'
-import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
-import { useState } from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { studyActions } from '@/state/study'
 
-interface QA {
-  front: string
-  back: string
-  options: string[]
+function shuffle<T>(items: T[]) {
+  return [...items].sort(() => Math.random() - 0.5)
 }
 
 export default function QuestionsScreen() {
   const router = useRouter()
-  const { id } = useLocalSearchParams<{ id?: string }>()
-  const cards = useCardsByListId(id!)
   const { t } = useTolgee(['language'])
-
-  // Gerar perguntas baseadas nos cartões reais
-  // Usar useState ao invés de useMemo para não recalcular quando cards mudar
-  const [questions] = useState<QA[]>(() => {
-    if (!cards || cards.length === 0) return []
-
-    return cards.map((card, i) => {
-      // Pegar 3 opções incorretas aleatórias
-      const distractors = cards
-        .filter((_, di) => di !== i)
-        .slice(0, 3)
-        .map((d) => d.back)
-
-      // Embaralhar as opções
-      const shuffled = [...distractors, card.back].sort(() => Math.random() - 0.5)
-
-      return {
-        front: card.front,
-        back: card.back,
-        options: shuffled,
-      }
-    })
-  })
-
-  const [qIndex, setQIndex] = useState(0)
+  const { id = '', sessionId = '' } = useLocalSearchParams<{ id: string; sessionId: string }>()
+  const cards = useCardsByListId(id)
+  const session = useStudySession(sessionId)
   const [selected, setSelected] = useState<string | null>(null)
-  const [correctCount, setCorrectCount] = useState(0)
+  const sessionCards = session?.cardIds
+    .map((cardId) => cards.find((card) => card.id === cardId))
+    .filter((card) => card !== undefined) ?? []
+  const card = sessionCards[session?.currentIndex ?? 0]
+  const optionsByCard = useMemo(() => {
+    const pool = [...new Set([...sessionCards, ...cards.slice(0, 100)].map((item) => item.back))]
+    return Object.fromEntries(
+      sessionCards.map((item) => [
+        item.id,
+        shuffle([item.back, ...shuffle(pool.filter((value) => value !== item.back)).slice(0, 3)]),
+      ])
+    )
+  }, [cards, session?.id])
+  const completed = Boolean(session?.completedAt) || Boolean(session && session.currentIndex >= sessionCards.length)
 
-  // Se não há cartões, mostrar mensagem
-  if (!cards || cards.length === 0) {
+  if (!session || (!card && !completed)) {
     return (
       <View className="flex-1 bg-background">
         <EmptyState
@@ -64,66 +54,37 @@ export default function QuestionsScreen() {
     )
   }
 
-  const q = questions[qIndex]
-  const answered = selected !== null
-
-  const select = (opt: string) => {
-    if (answered) return
-    setSelected(opt)
-    if (opt === q.back) setCorrectCount((c) => c + 1)
+  function select(option: string) {
+    if (!card || !session || selected) return
+    setSelected(option)
+    studyActions.recordAnswer(session.id, card.id, option === card.back ? 'good' : 'again')
   }
 
-  const next = () => {
+  function next() {
+    if (!session) return
+    studyActions.advanceSession(session.id)
+    if (session.currentIndex + 1 >= sessionCards.length) studyActions.completeSession(session.id)
     setSelected(null)
-    setQIndex((i) => i + 1)
   }
 
-  const handleRestart = () => {
-    setQIndex(0)
-    setSelected(null)
-    setCorrectCount(0)
-  }
-
-  const handleGoBack = () => {
-    router.back()
-  }
-
-  const finished = qIndex >= questions.length
-  const wrongCount = finished ? questions.length - correctCount : 0
-  const successRate = finished ? Math.round((correctCount / questions.length) * 100) : 0
-
-  if (finished) {
+  if (completed) {
+    const total = session.correct + session.incorrect
+    const accuracy = total ? Math.round((session.correct / total) * 100) : 0
     return (
       <>
         <Stack.Screen options={{ title: t('questions.title') }} />
         <StudySuccess
           title={t('studySuccess.title')}
-          description={t('questions.summary.description')}
-          highlight={{
-            value: `${successRate}%`,
-            label: t('questions.summary.successRate'),
-          }}
+          description={session.practice ? t('studySuccess.practiceDescription') : t('questions.summary.description')}
+          highlight={{ value: `${accuracy}%`, label: t('questions.summary.successRate') }}
           metrics={[
-            {
-              label: t('questions.summary.correct'),
-              value: correctCount,
-              tone: 'success',
-            },
-            {
-              label: t('questions.summary.wrong'),
-              value: wrongCount,
-              tone: 'danger',
-            },
-            {
-              label: t('studySuccess.total'),
-              value: questions.length,
-              tone: 'neutral',
-            },
+            { label: t('questions.summary.correct'), value: session.correct, tone: 'success' },
+            { label: t('questions.summary.wrong'), value: session.incorrect, tone: 'danger' },
           ]}
-          restartLabel={t('questions.summary.restart')}
+          restartLabel={t('studySuccess.continue')}
           backLabel={t('common.back')}
-          onRestart={handleRestart}
-          onBack={handleGoBack}
+          onRestart={() => router.replace({ pathname: '/study/setup', params: { id, mode: 'questions' } })}
+          onBack={() => router.replace(`/card/${id}`)}
         />
       </>
     )
@@ -132,74 +93,42 @@ export default function QuestionsScreen() {
   return (
     <View className="flex-1 bg-background">
       <SafeAreaView style={{ flex: 1 }} edges={['bottom']}>
-        <Stack.Screen options={{ title: `${qIndex + 1}/${questions.length}` }} />
-
-        <View className="flex-1">
-          <View className="flex-1 px-5 pt-5 gap-6">
-            {/* Barra de progresso */}
-            <Progress progress={(qIndex + 1) / questions.length} />
-
-            {/* Palavra a ser traduzida */}
-            <Text className="text-foreground text-xl font-manrope-bold">{q.front}</Text>
-
-            {/* Instrução */}
-            <Text className="text-foreground text-base font-manrope-regular">
-              {t('questions.instruction')}
-            </Text>
-
-            {/* Opções de resposta */}
-            <View className="gap-3">
-              {q.options.map((opt) => {
-                const isSelected = opt === selected
-                const isCorrect = answered && opt === q.back
-                const isWrong = answered && isSelected && opt !== q.back
-                return (
-                  <TouchableOpacity
-                    key={opt}
-                    onPress={() => select(opt)}
-                    className={cn(
-                      'px-5 py-3.5 rounded-xl flex-row items-center',
-                      isCorrect
-                        ? 'bg-green-600/20'
-                        : isWrong
-                        ? 'bg-red-600/20'
-                        : 'bg-card'
-                    )}
-                    accessibilityRole="button"
-                    accessibilityState={{ selected: isSelected }}
-                    accessibilityLabel={`Opção ${opt}`}
-                  >
-                    <Text
-                      className={cn(
-                        'text-sm font-manrope-regular flex-1',
-                        isCorrect
-                          ? 'text-green-600'
-                          : isWrong
-                          ? 'text-red-600'
-                          : 'text-foreground'
-                      )}
-                    >
-                      {opt}
-                    </Text>
-                    {isCorrect && <Text className="text-xs text-green-600">✓</Text>}
-                    {isWrong && <Text className="text-xs text-red-600">✗</Text>}
-                  </TouchableOpacity>
-                )
-              })}
-            </View>
+        <Stack.Screen options={{ title: `${session.currentIndex + 1} / ${sessionCards.length}` }} />
+        <View className="flex-1 p-5 gap-6">
+          <Progress progress={(session.currentIndex + 1) / sessionCards.length} />
+          <Text selectable className="text-xl font-manrope-bold text-foreground">{card.front}</Text>
+          <Text selectable className="text-base font-manrope-regular text-foreground">
+            {t('questions.instruction')}
+          </Text>
+          <View className="gap-3">
+            {(optionsByCard[card.id] ?? []).map((option) => {
+              const correct = selected !== null && option === card.back
+              const wrong = selected === option && option !== card.back
+              return (
+                <TouchableOpacity
+                  key={option}
+                  onPress={() => select(option)}
+                  className={cn(
+                    'flex-row items-center rounded-xl px-5 py-4',
+                    correct ? 'bg-green-500/15' : wrong ? 'bg-red-500/15' : 'bg-card'
+                  )}
+                >
+                  <Text selectable className={cn(
+                    'flex-1 text-sm font-manrope-regular',
+                    correct ? 'text-green-600 dark:text-green-400' : wrong ? 'text-red-600 dark:text-red-400' : 'text-foreground'
+                  )}>
+                    {option}
+                  </Text>
+                  {correct && <Text className="text-green-600">✓</Text>}
+                  {wrong && <Text className="text-red-600">✗</Text>}
+                </TouchableOpacity>
+              )
+            })}
           </View>
-
-          {answered && (
-            <View className="px-5 pb-5">
-              <TouchableOpacity
-                onPress={next}
-                className="h-14 rounded-xl items-center justify-center bg-primary"
-              >
-                <Text className="text-white text-base font-manrope-semibold">
-                  {t('common.next')}
-                </Text>
-              </TouchableOpacity>
-            </View>
+          {selected && (
+            <TouchableOpacity onPress={next} className="mt-auto h-14 items-center justify-center rounded-xl bg-primary">
+              <Text className="text-base font-manrope-semibold text-white">{t('common.next')}</Text>
+            </TouchableOpacity>
           )}
         </View>
       </SafeAreaView>
